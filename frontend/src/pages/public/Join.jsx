@@ -17,6 +17,7 @@ export default function Join() {
 
   const submit = async (e) => {
     e.preventDefault();
+    if (busy) return;
     setBusy(true);
     try {
       setSession(await api("/register/", { method: "POST", body: form }));

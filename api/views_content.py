@@ -8,14 +8,12 @@ import re
 from django.db import transaction
 from django.db.models import Count, Max
 from django.shortcuts import get_object_or_404
-from django.utils import timezone
 from django.utils.text import slugify
 
 from content.models import (
     GrammarExample, GrammarTopic, Level, QuizOption, QuizQuestion, SpeakingLine, SpeakingTask, Topic,
     VocabularyItem,
 )
-from learning.models import QuizAttempt
 
 from .utils import body, fail, methods, ok, teacher_required
 
@@ -366,17 +364,7 @@ def question_create(request):
 def question_detail(request, pk):
     q = get_object_or_404(QuizQuestion.objects.select_related("level"), pk=pk)
     if request.method == "DELETE":
-        # Take it out of quizzes students are still in the middle of, so they can carry on.
-        for att in QuizAttempt.objects.filter(finished_at__isnull=True):
-            if q.pk in att.question_ids:
-                att.question_ids = [i for i in att.question_ids if i != q.pk]
-                if not att.question_ids:
-                    att.delete()
-                    continue
-                if att.next_question_id() is None:
-                    att.finished_at = timezone.now()
-                att.save(update_fields=["question_ids", "finished_at"])
-        q.delete()
+        q.delete()  # learning.signals takes it out of quizzes students are in the middle of
         return ok({"message": "Question deleted."})
     if request.method == "PUT":
         errors = {}

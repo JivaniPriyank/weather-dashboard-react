@@ -4,7 +4,6 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 from django.db import models
-from django.urls import reverse
 from django.utils.text import slugify
 
 
@@ -52,7 +51,7 @@ class Topic(OrderedSlugModel):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("learning:deck", args=[self.level.code, self.slug])
+        return f"/words/{self.level.code}/{self.slug}"
 
 
 class VocabularyItem(models.Model):
@@ -119,7 +118,7 @@ class GrammarTopic(OrderedSlugModel):
             raise ValidationError({"table": "Every row needs exactly one cell per header."})
 
     def get_absolute_url(self):
-        return reverse("learning:grammar_detail", args=[self.level.code, self.slug])
+        return f"/grammar/{self.level.code}/{self.slug}"
 
 
 class GrammarExample(models.Model):
@@ -216,7 +215,7 @@ class SpeakingTask(OrderedSlugModel):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("learning:speaking_detail", args=[self.level.code, self.slug])
+        return f"/speaking/{self.level.code}/{self.slug}"
 
 
 class SpeakingLine(models.Model):
@@ -290,4 +289,4 @@ class Video(models.Model):
         return embed_url(self.external_url) if self.external_url else ""
 
     def get_absolute_url(self):
-        return reverse("learning:video_detail", args=[self.pk])
+        return f"/videos/{self.pk}"

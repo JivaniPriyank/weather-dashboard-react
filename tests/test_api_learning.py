@@ -11,6 +11,7 @@ from .test_api_accounts import ApiCase
 
 class FlashcardTests(ApiCase):
     def setUp(self):
+        super().setUp()
         self.client.force_login(self.student)
         self.topic = Topic.objects.get(name="Familie")
 
@@ -44,6 +45,7 @@ class FlashcardTests(ApiCase):
 
 class QuizTests(ApiCase):
     def setUp(self):
+        super().setUp()
         self.client.force_login(self.student)
 
     def start(self, **data):
@@ -105,6 +107,7 @@ class QuizTests(ApiCase):
 
 class OtherStudentTests(ApiCase):
     def setUp(self):
+        super().setUp()
         self.client.force_login(self.student)
 
     def test_grammar_and_speaking_pages(self):

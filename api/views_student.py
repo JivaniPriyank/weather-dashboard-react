@@ -1,8 +1,11 @@
 """Everything a student does: Today, words, quizzes, speaking, grammar, videos, progress."""
+from datetime import timedelta
+
 from django.conf import settings
 from django.db.models import Count
 from django.http import Http404
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 
 from content.models import GrammarTopic, Level, QuizOption, QuizQuestion, SpeakingTask, Topic, VocabularyItem
 from learning import services
@@ -262,7 +265,10 @@ def speaking_submit(request, level, slug):
 def speaking_practised(request, level, slug):
     task = get_object_or_404(SpeakingTask.objects.select_related("level"), level__code=level, slug=slug)
     _allowed(request, task.level)
-    SpeakingPractice.objects.create(user=request.user, task=task)
+    # Pressing the button again within a minute (double-click, retry) counts as the same practice.
+    last = SpeakingPractice.objects.filter(user=request.user, task=task).first()
+    if last is None or timezone.now() - last.practised_at > timedelta(minutes=1):
+        SpeakingPractice.objects.create(user=request.user, task=task)
     return ok({"practised": SpeakingPractice.objects.filter(user=request.user, task=task).count()})
 
 

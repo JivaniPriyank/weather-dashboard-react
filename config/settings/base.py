@@ -149,3 +149,15 @@ SPEAKING_MAX_UPLOAD_MB = int(env("SPEAKING_MAX_UPLOAD_MB", "20"))
 SPEAKING_MAX_RECORD_MINUTES = int(env("SPEAKING_MAX_RECORD_MINUTES", "10"))
 # Recordings are deleted this many days after the teacher gives feedback (scores and text stay).
 SPEAKING_KEEP_DAYS_AFTER_FEEDBACK = int(env("SPEAKING_KEEP_DAYS_AFTER_FEEDBACK", "3"))
+
+# Set in prod.py; empty means no Content-Security-Policy header.
+CONTENT_SECURITY_POLICY = ""
+
+# Limits against password guessing and email flooding (see api/throttle.py).
+# Counted per email address and per IP address within the window.
+THROTTLE_WINDOW_SECONDS = int(env("THROTTLE_WINDOW_SECONDS", "900"))
+SIGN_IN_MAX_FAILURES_PER_EMAIL = 5
+SIGN_IN_MAX_FAILURES_PER_IP = 20
+REGISTER_MAX_PER_IP = 10
+PASSWORD_RESET_MAX_PER_EMAIL = 3
+PASSWORD_RESET_MAX_PER_IP = 10

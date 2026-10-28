@@ -49,7 +49,7 @@ function NotFound() {
     <div className="error-page">
       <div className="code" aria-hidden="true">404</div>
       <h1>This page doesn't exist</h1>
-      <p className="lead" style={{ margin: "12px auto 24px" }}>The link may be old or mistyped.</p>
+      <p className="lead error-lead">The link may be old or mistyped.</p>
       <Link className="btn btn-primary" to="/">Go to the start page</Link>
     </div>
   );

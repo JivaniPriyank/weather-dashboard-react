@@ -134,12 +134,12 @@ export default function Recorder({ task, limits, sendUrl, onSent }) {
             <button className="btn btn-secondary" type="button" aria-disabled={sending} onClick={() => { audioRef.current?.pause(); start(); }}><Icon name="again" />Try again</button>
             <button className="btn btn-primary" type="button" aria-disabled={sending} onClick={() => send(rec.current.blob, `answer.${format[1]}`)}>{sending ? "Sending…" : "Send to teacher"}</button>
           </div>
-          <p className="muted small" style={{ margin: "var(--s3) 0 0" }}>You can send only one answer, and it can't be changed after sending.</p>
+          <p className="muted small mt-3 mb-0">You can send only one answer, and it can't be changed after sending.</p>
           <div className="after-send"><b>After you send:</b> your teacher listens and gives you points and feedback. You'll see it on this page.</div>
         </div>
       )}
 
-      {error && <p className="form-errors small" role="alert" style={{ marginTop: "var(--s3)" }}>{error}</p>}
+      {error && <p className="form-errors small mt-3" role="alert">{error}</p>}
 
       {stage === "idle" && <UploadAlt open={uploadOpen} setOpen={setUploadOpen} maxMb={limits.max_upload_mb} sending={sending}
         onUpload={(file) => send(file, file.name)} />}

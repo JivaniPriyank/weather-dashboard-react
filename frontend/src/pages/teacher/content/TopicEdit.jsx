@@ -168,13 +168,13 @@ function TopicEditor({ topic: initial }) {
       </section>
 
       <section className="panel word-table-wrap">
-        <div className="word-table" role="table" aria-label="Words">
-          <div className="word-row word-head" role="row">
-            <span role="columnheader">Article</span><span role="columnheader">German</span><span role="columnheader">English</span>
-            <span role="columnheader">Example sentence</span><span role="columnheader"><span className="visually-hidden">Actions</span></span>
+        {/* A list of rows: every field has its own label, so screen readers don't need table semantics. */}
+        <div className="word-table" role="list" aria-label="Words">
+          <div className="word-row word-head" aria-hidden="true">
+            <span>Article</span><span>German</span><span>English</span><span>Example sentence</span><span />
           </div>
           {rows.map((r) => (
-            <div key={r.key} className={`word-row${r.status === "error" ? " has-error" : ""}`} role="row" onBlur={leaveRow(r.key)}>
+            <div key={r.key} className={`word-row${r.status === "error" ? " has-error" : ""}`} role="listitem" onBlur={leaveRow(r.key)}>
               <span className="art-pick" role="group" aria-label="Article">
                 {ARTICLES.map((a) => (
                   <button key={a.value} type="button" className={`art-btn art-btn-${a.value || "none"}`} title={a.title}
@@ -197,9 +197,9 @@ function TopicEditor({ topic: initial }) {
               {r.error && <p className="word-error" role="alert">{r.error}</p>}
             </div>
           ))}
-          {!rows.length && <p className="muted" style={{ padding: "var(--s4) var(--s5)", margin: 0 }}>No words yet. Add the first one below, or paste a whole list.</p>}
         </div>
-        <div style={{ padding: "var(--s4) var(--s5)" }}>
+        {!rows.length && <p className="muted pad-row m-0">No words yet. Add the first one below, or paste a whole list.</p>}
+        <div className="pad-row">
           <button className="btn btn-soft" type="button" onClick={addRow}><Icon name="plus" />Add a word</button>
         </div>
       </section>

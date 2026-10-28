@@ -7,7 +7,7 @@
   --surface: #FFFFFF;
   --ink: #18203A;
   --ink-soft: #4B556B;
-  --ink-faint: #7A8396;
+  --ink-faint: #626B7E;    /* the palest text colour: still 4.5:1 contrast on every background */
   --line: #DDE2EA;
   --line-strong: #C5CCD8;
   --grid: rgba(39, 66, 168, 0.075);

@@ -78,9 +78,9 @@ function Session({ cards, onAgain }) {
     return (
       <div className="panel study-done">
         <div className="big">{knew} / {cards.length}</div>
-        <h2 style={{ margin: "var(--s3) 0" }}>Session finished</h2>
+        <h2 className="my-3">Session finished</h2>
         <p className="muted">{missed === 0 ? "You knew every word. They'll come back in a few days to make sure they stick." : `${missed} word${missed === 1 ? "" : "s"} will come back in your next session.`}</p>
-        <div className="actions" style={{ justifyContent: "center", marginTop: "var(--s5)" }}>
+        <div className="actions justify-center mt-5">
           <button className="btn btn-primary" type="button" onClick={onAgain}>Study again</button>
           <Link className="btn btn-secondary" to="/words">Choose another deck</Link>
         </div>

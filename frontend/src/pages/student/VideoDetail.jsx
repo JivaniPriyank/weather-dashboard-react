@@ -44,15 +44,15 @@ export default function VideoDetail() {
                 allowFullScreen referrerPolicy="strict-origin-when-cross-origin" loading="lazy" />
             )}
           </div>
-          <div className="split" style={{ marginTop: "var(--s5)" }}>
-            <div>{video.description && <p style={{ whiteSpace: "pre-line" }}>{video.description}</p>}</div>
+          <div className="split mt-5">
+            <div>{video.description && <p className="pre-line">{video.description}</p>}</div>
             {!user.is_teacher && (
               <div className="panel">
                 {video.watched ? <span className="badge badge-good">Watched</span> : (
                   <>
-                    <p style={{ marginBottom: "var(--s3)" }}><span className="badge">Not watched yet</span></p>
+                    <p className="mb-3"><span className="badge">Not watched yet</span></p>
                     <button className="btn btn-secondary btn-block" type="button" onClick={() => markWatched(false)}><Icon name="check" />Mark as watched</button>
-                    {video.stream_url && <p className="help small muted" style={{ marginTop: "var(--s2)" }}>It's marked automatically when the video finishes.</p>}
+                    {video.stream_url && <p className="help small muted mt-2">It's marked automatically when the video finishes.</p>}
                   </>
                 )}
               </div>

@@ -24,7 +24,7 @@ export default function GrammarTopic() {
           <p className="rule">{topic.rule}</p>
 
           {topic.table?.headers && (
-            <div className="table-wrap" style={{ margin: "var(--s5) 0" }}>
+            <div className="table-wrap my-5">
               <table className="grammar-table" lang="de">
                 <thead><tr>{topic.table.headers.map((h) => <th scope="col" key={h}>{h}</th>)}</tr></thead>
                 <tbody>{topic.table.rows.map((row, i) => <tr key={i}>{row.map((cell, j) => <td key={j}>{cell}</td>)}</tr>)}</tbody>

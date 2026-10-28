@@ -30,7 +30,7 @@ export default function Waiting() {
             <h1>Waiting for your teacher</h1>
             <p>Your request for <b>{user.email}</b> has been sent. Your teacher will approve it soon.</p>
             <p className="muted">Check back later. Once you're approved, this page leads straight to your practice.</p>
-            <div className="actions" style={{ marginTop: "var(--s5)" }}>
+            <div className="actions mt-5">
               <button className="btn btn-primary" type="button" onClick={check} aria-disabled={checking}>{checking ? "Checking…" : "Check again"}</button>
             </div>
           </>

@@ -58,7 +58,8 @@
 .nav a[aria-current="page"] { background: var(--royal-wash); color: var(--royal-deep); font-weight: 600; box-shadow: inset 3px 0 0 var(--royal); }
 .nav .count { margin-left: auto; }
 .sidebar-foot { margin-top: auto; display: flex; flex-direction: column; gap: var(--s3); font-size: 0.9rem; }
-.who { display: flex; align-items: center; gap: var(--s3); }
+.who { display: flex; align-items: center; gap: var(--s3); color: inherit; text-decoration: none; }
+.who:hover { color: var(--royal-deep); }
 .avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; font-weight: 700; flex: none; }
 
 /* level switch */
@@ -93,6 +94,7 @@
 .toolbar select { width: auto; }
 
 .error-page { text-align: center; padding: var(--s8) var(--s4); }
+.error-lead { margin: 12px auto 24px; }
 .error-page .code { font-family: var(--font-hand); font-size: 4rem; color: var(--die); }
 
 /* ---------- motion ---------- */

@@ -22,8 +22,9 @@
 @media (min-width: 640px) { .deck-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .deck { display: flex; flex-direction: column; gap: var(--s3); padding: var(--s5); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); color: inherit; text-decoration: none; }
 .deck:hover, .deck:focus-visible { border-color: var(--royal); background: var(--hover-wash); color: inherit; box-shadow: 0 0 0 1px var(--royal), var(--shadow-card); }
-.deck:hover h3, .deck:focus-visible h3 { color: var(--royal-deep); }
-.deck h3 { font-size: 1.25rem; }
+.deck:hover h2, .deck:focus-visible h2 { color: var(--royal-deep); }
+.deck h2 { font-size: 1.25rem; font-weight: 600; }
+.video-body h2 { font-size: 1.1rem; font-weight: 600; }
 .deck .meta { display: flex; justify-content: space-between; font-size: 0.875rem; color: var(--ink-soft); }
 .word-list .row { align-items: flex-start; }
 .word-de { font-size: 1.1rem; font-weight: 600; }
@@ -131,7 +132,7 @@ kbd { font-family: var(--font-ui); font-size: 0.8rem; border: 1px solid var(--li
 .deck:active, .quick a:active, .video-card:active { transform: scale(.985); background: var(--royal-wash); }
 .deck, .quick a, .video-card { transition: border-color var(--t-fast) var(--ease-out), background-color var(--t-fast) var(--ease-out),
   box-shadow var(--t-med) var(--ease-out), color var(--t-fast) var(--ease-out), transform var(--t-med) var(--ease-out); }
-.deck h3, .quick svg { transition: color var(--t-fast) var(--ease-out), background-color var(--t-fast) var(--ease-out), transform var(--t-med) var(--ease-spring); }
+.deck h2, .quick svg { transition: color var(--t-fast) var(--ease-out), background-color var(--t-fast) var(--ease-out), transform var(--t-med) var(--ease-spring); }
 .card-stage:hover .face { border-color: var(--line-strong); }
 .video-thumb svg { transition: transform var(--t-med) var(--ease-spring), opacity var(--t-fast); }
 .quick svg { transition: transform var(--t-med) var(--ease-spring); }

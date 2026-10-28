@@ -13,7 +13,7 @@ fieldset.field { border: 0; padding: 0; margin: 0; min-width: 0; }
 .seg { display: inline-flex; gap: 4px; padding: 4px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); }
 .seg button { min-height: 40px; padding: 0 16px; border: 0; border-radius: 999px; background: none; font: inherit; font-weight: 600; color: var(--ink-soft); cursor: pointer; transition: background-color var(--t-fast) var(--ease-out), color var(--t-fast) var(--ease-out), box-shadow var(--t-med) var(--ease-out); }
 .seg button[aria-pressed="true"] { background: var(--ink); color: #fff; }
-.seg-sub { font-weight: 500; opacity: .75; }
+.seg-sub { font-weight: 500; opacity: .85; }
 .seg-wide { display: flex; border-radius: 12px; background: #F1F3F7; border: 0; }
 .seg-wide button { flex: 1; border-radius: 9px; min-height: 44px; }
 .seg-wide button[aria-pressed="true"] { background: var(--surface); color: var(--royal); box-shadow: 0 1px 3px rgba(24,32,58,.12); }

@@ -49,6 +49,7 @@
 
 /* ---------- forms ---------- */
 .form { display: grid; gap: var(--s4); max-width: 520px; }
+.form-wide { max-width: none; }
 .field { display: grid; gap: 6px; }
 .field > label, .field legend { font-weight: 600; font-size: 0.95rem; }
 .field .help { font-size: 0.85rem; color: var(--ink-faint); margin: 0; }
@@ -105,6 +106,8 @@ a.row:active { background: var(--royal-wash); }
 .count { min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: var(--die); color: #fff; font-size: 0.72rem; font-weight: 700; display: inline-grid; place-items: center; }
 
 .meter { height: 6px; border-radius: 999px; background: var(--line); overflow: hidden; }
+.meter-mini { display: block; width: 80px; }
+.deck-meter { margin-top: 6px; max-width: 280px; }
 .meter > span { display: block; height: 100%; background: var(--royal); border-radius: inherit; }
 .meter-good > span { background: var(--good); }
 .meter > span { transition: width .5s var(--ease-out); }
@@ -163,6 +166,7 @@ table.data { width: 100%; border-collapse: collapse; background: var(--surface);
 table.data th, table.data td { text-align: left; padding: var(--s3) var(--s4); border-bottom: 1px solid var(--line); vertical-align: top; }
 table.data th { font-weight: 600; color: var(--ink-soft); font-size: 0.85rem; background: #FAFBFD; }
 table.data tr:last-child td { border-bottom: 0; }
+th.col-icon { width: 44px; }
 .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-lg); }
 
 /* ---------- messages ---------- */

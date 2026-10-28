@@ -62,7 +62,7 @@ export default function SpeakingTask() {
           <details className="reveal speaking-block">
             <summary>Model answer</summary>
             <div className="reveal-body" lang="de">
-              <p style={{ whiteSpace: "pre-line" }}>{task.model_answer}</p>
+              <p className="pre-line">{task.model_answer}</p>
               <SayModelAnswer text={task.model_answer} />
             </div>
           </details>
@@ -86,7 +86,7 @@ function SayModelAnswer({ text }) {
 function SentAnswer({ submission: s }) {
   return (
     <section className="panel answer-panel" id="answer">
-      <div className="section-head" style={{ marginBottom: "var(--s3)" }}>
+      <div className="section-head mb-3">
         <h2>Your answer</h2>
         {s.reviewed ? <span className="badge badge-good">Feedback received</span> : <span className="badge badge-note">Sent, waiting for feedback</span>}
       </div>
@@ -97,13 +97,13 @@ function SentAnswer({ submission: s }) {
         <>
           <div className="score-line"><span className="score-big">{s.total_score}</span><span className="muted">/ {s.max_score} points</span></div>
           <dl className="criteria">
-            {s.scores.map((c) => <div key={c.field} style={{ display: "contents" }}><dt>{c.label}</dt><dd>{c.value} / 5</dd></div>)}
+            {s.scores.map((c) => <div className="contents" key={c.field}><dt>{c.label}</dt><dd>{c.value} / 5</dd></div>)}
           </dl>
-          <div className="teacher-feedback"><b>Your teacher wrote:</b><p style={{ whiteSpace: "pre-line" }}>{s.feedback}</p></div>
-          {s.has_audio && <p className="muted small" style={{ margin: "var(--s3) 0 0" }}>The recording is deleted on {formatDate(s.audio_delete_on)}. Your score and feedback stay.</p>}
+          <div className="teacher-feedback"><b>Your teacher wrote:</b><p className="pre-line">{s.feedback}</p></div>
+          {s.has_audio && <p className="muted small mt-3 mb-0">The recording is deleted on {formatDate(s.audio_delete_on)}. Your score and feedback stay.</p>}
         </>
       ) : (
-        <p className="muted small" style={{ margin: "var(--s3) 0 0" }}>Sent on {formatDate(s.submitted_at, true)}. Your teacher will listen and give you points and feedback here.</p>
+        <p className="muted small mt-3 mb-0">Sent on {formatDate(s.submitted_at, true)}. Your teacher will listen and give you points and feedback here.</p>
       )}
     </section>
   );

@@ -23,7 +23,7 @@
 .features { max-width: 1120px; margin: 0 auto; padding: var(--s7) var(--s5); display: grid; gap: var(--s6); border-top: 1px solid var(--line); }
 @media (min-width: 760px) { .features { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1040px) { .features { grid-template-columns: repeat(4, 1fr); } }
-.feature h3 { margin-bottom: var(--s2); }
+.feature h2 { margin-bottom: var(--s2); font-size: 1.1rem; font-weight: 600; }
 .feature p { color: var(--ink-soft); margin: 0; }
 .feature svg { width: 28px; height: 28px; color: var(--royal); margin-bottom: var(--s3); }
 .how { max-width: 1120px; margin: 0 auto; padding: var(--s7) var(--s5) var(--s8); border-top: 1px solid var(--line); }

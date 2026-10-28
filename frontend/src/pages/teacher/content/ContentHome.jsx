@@ -55,7 +55,7 @@ export default function ContentHome() {
           </>
         )}
       </Async>
-      <p className="muted small" style={{ marginTop: "var(--s7)" }}>
+      <p className="muted small mt-7">
         Need something not on these pages, like adding a new level? Use the <a href="/admin/">advanced editor</a>.
       </p>
     </>

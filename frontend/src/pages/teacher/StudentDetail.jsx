@@ -6,7 +6,7 @@ import { Async, Checkbox, Field, PageHead, scoreClass } from "../../components/u
 import { api } from "../../lib/api";
 import { useApi, useTitle } from "../../lib/hooks";
 import { useReloadWhileOpen } from "../../lib/live";
-import { formatDate } from "../../lib/speech";
+import { formatDate, plural } from "../../lib/speech";
 
 const ACTIVITY_ICON = { words: "words", quiz: "practice", speaking: "speaking", answer: "speaking", video: "videos" };
 
@@ -77,15 +77,15 @@ function Detail({ d, reload, setData, setLevel }) {
       </div>
 
       <div className="stats">
-        <div className="stat"><b>{summary.words_seen}<small className="muted" style={{ fontSize: "1rem" }}> / {summary.words_total}</small></b><span>{d.level.code} words practised, {summary.words_learned} learned for good</span></div>
-        <div className="stat"><b>{summary.quiz_accuracy != null ? `${summary.quiz_accuracy}%` : "–"}</b><span>quiz answers correct ({summary.quizzes_done} quizzes)</span></div>
+        <div className="stat"><b>{summary.words_seen}<small className="stat-of"> / {summary.words_total}</small></b><span>{d.level.code} words practised, {summary.words_learned} learned for good</span></div>
+        <div className="stat"><b>{summary.quiz_accuracy != null ? `${summary.quiz_accuracy}%` : "–"}</b><span>quiz answers correct ({plural(summary.quizzes_done, "quiz", "quizzes")})</span></div>
         <div className="stat"><b>{summary.speaking_done}</b><span>speaking tasks practised</span></div>
         <div className="stat"><b>{summary.videos_watched}</b><span>videos watched</span></div>
       </div>
 
       <div className="split section">
         <div>
-          <h2 style={{ marginBottom: "var(--s4)" }}>Recent {d.level.code} activity</h2>
+          <h2 className="mb-4">Recent {d.level.code} activity</h2>
           {d.activity.length ? (
             <ul className="list activity-list">
               {d.activity.map((e, i) => {
@@ -106,7 +106,7 @@ function Detail({ d, reload, setData, setLevel }) {
             </ul>
           ) : <p className="muted">Nothing at {d.level.code} yet. As soon as {st.full_name.split(" ")[0]} studies {d.level.code} words, takes a quiz, practises speaking or watches a video, it shows up here.</p>}
 
-          <h2 style={{ margin: "var(--s6) 0 var(--s4)" }}>{d.level.code} word decks</h2>
+          <h2 className="mt-6 mb-4">{d.level.code} word decks</h2>
           {d.decks.length ? (
             <div className="table-wrap">
               <table className="data">
@@ -117,7 +117,7 @@ function Detail({ d, reload, setData, setLevel }) {
                       <td><span lang="de">{k.name}</span> <span className="muted small">{k.level}</span></td>
                       <td>
                         <span className="deck-progress">
-                          <span className="meter" style={{ width: 80 }}><span style={{ width: `${(k.practised / Math.max(k.total, 1)) * 100}%` }} /></span>
+                          <span className="meter meter-mini"><span style={{ width: `${(k.practised / Math.max(k.total, 1)) * 100}%` }} /></span>
                           {k.practised} of {k.total}
                         </span>
                       </td>
@@ -129,9 +129,9 @@ function Detail({ d, reload, setData, setLevel }) {
               </table>
             </div>
           ) : <p className="muted">Hasn't studied any {d.level.code} word decks yet.</p>}
-          <p className="muted small" style={{ marginTop: "var(--s2)" }}>A word counts as learned for good once {st.full_name.split(" ")[0]} has known it several times over a few days.</p>
+          <p className="muted small mt-2">A word counts as learned for good once {st.full_name.split(" ")[0]} has known it several times over a few days.</p>
 
-          <h2 style={{ margin: "var(--s6) 0 var(--s4)" }}>{d.level.code} quiz results</h2>
+          <h2 className="mt-6 mb-4">{d.level.code} quiz results</h2>
           {d.attempts.length ? (
             <ul className="list">
               {d.attempts.map((a) => (
@@ -141,7 +141,7 @@ function Detail({ d, reload, setData, setLevel }) {
             </ul>
           ) : <p className="muted">No {d.level.code} quizzes finished yet.</p>}
 
-          <h2 style={{ margin: "var(--s6) 0 var(--s4)" }}>{d.level.code} speaking answers</h2>
+          <h2 className="mt-6 mb-4">{d.level.code} speaking answers</h2>
           {d.speaking.length ? (
             <ul className="list">
               {d.speaking.map((x) => (
@@ -154,7 +154,7 @@ function Detail({ d, reload, setData, setLevel }) {
             </ul>
           ) : <p className="muted">Hasn't sent an {d.level.code} speaking answer yet.</p>}
 
-          <h2 style={{ margin: "var(--s6) 0 var(--s4)" }}>{d.level.code} videos</h2>
+          <h2 className="mt-6 mb-4">{d.level.code} videos</h2>
           {d.videos.length ? (
             <ul className="list">
               {d.videos.map((v, i) => (
@@ -166,7 +166,7 @@ function Detail({ d, reload, setData, setLevel }) {
         </div>
 
         <aside className="panel">
-          <h2 style={{ marginBottom: "var(--s4)" }}>Details</h2>
+          <h2 className="mb-4">Details</h2>
           <form className="form" onSubmit={save} noValidate>
             <Field label="Name" name="full_name" errors={errors} value={form.full_name} onChange={(e) => setForm({ ...form, full_name: e.target.value })} />
             <Field as="select" label="Level" name="level" errors={errors} value={form.level} onChange={(e) => chooseLevel(e.target.value)}
@@ -184,7 +184,7 @@ function Detail({ d, reload, setData, setLevel }) {
             <button className="btn btn-primary" type="submit">Save</button>
           </form>
           {d.access_request && st.status === "approved" && (
-            <details className="danger" style={{ marginTop: "var(--s5)" }}>
+            <details className="danger mt-5">
               <summary>Remove access</summary>
               <p>{st.full_name} won't be able to open any practice pages. Their progress is kept and you can approve them again later.</p>
               <button className="btn btn-danger btn-small" type="button" onClick={removeAccess}>Remove access</button>

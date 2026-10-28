@@ -52,7 +52,7 @@ function Question({ data, onNext }) {
   return (
     <>
       <Link className="crumb" to="/practice">Practice</Link>
-      <h1 style={{ marginBottom: "var(--s5)" }}>{attempt.title}</h1>
+      <h1 className="mb-5">{attempt.title}</h1>
       <div className="quiz-top">
         <span className="nowrap">Question {position} of {attempt.total}</span>
         <div className="meter" role="progressbar" aria-label="Quiz progress" aria-valuemin={0} aria-valuemax={attempt.total} aria-valuenow={position}>
@@ -90,7 +90,7 @@ function Question({ data, onNext }) {
               <b>{feedback.is_correct ? "Richtig! That's correct." : "Not quite."}</b>
               {feedback.explanation && <p>{feedback.explanation}</p>}
             </div>
-            <div className="actions" style={{ marginTop: "var(--s5)" }}>
+            <div className="actions mt-5">
               {isLast
                 ? <Link ref={nextRef} className="btn btn-primary" to={`/practice/${attempt.id}/results`}>See your results</Link>
                 : <button ref={nextRef} className="btn btn-primary" type="button" onClick={onNext}>Next question</button>}
@@ -118,8 +118,8 @@ function Question({ data, onNext }) {
                 <p className="help">Spelling counts, capital letters don't. Ä, Ö, Ü and ß matter.</p>
               </div>
             )}
-            {error && <p className="form-errors" role="alert" style={{ marginTop: "var(--s4)" }}>{error}</p>}
-            <div className="actions" style={{ marginTop: "var(--s5)" }}>
+            {error && <p className="form-errors mt-4" role="alert">{error}</p>}
+            <div className="actions mt-5">
               <button className="btn btn-primary" type="submit" aria-disabled={busy}>Check answer</button>
             </div>
           </form>

@@ -28,7 +28,7 @@ export function SessionProvider({ children }) {
     return (
       <div className="error-page">
         <h1>The German Lab can't load</h1>
-        <p className="lead" style={{ margin: "12px auto 24px" }}>{error.message}</p>
+        <p className="lead error-lead">{error.message}</p>
         <button className="btn btn-primary" onClick={refresh}>Try again</button>
       </div>
     );

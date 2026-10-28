@@ -1,0 +1,13 @@
+/* Small helpers for one-off spacing and alignment, used as class names in the
+   React pages instead of inline styles. Loaded last and marked !important so that,
+   like the inline styles they replace, they always win over page rules. */
+.m-0 { margin: 0 !important; } .mb-0 { margin-bottom: 0 !important; }
+.mt-2 { margin-top: var(--s2) !important; } .mt-3 { margin-top: var(--s3) !important; } .mt-4 { margin-top: var(--s4) !important; }
+.mt-5 { margin-top: var(--s5) !important; } .mt-6 { margin-top: var(--s6) !important; } .mt-7 { margin-top: var(--s7) !important; }
+.mb-2 { margin-bottom: var(--s2) !important; } .mb-3 { margin-bottom: var(--s3) !important; } .mb-4 { margin-bottom: var(--s4) !important; } .mb-5 { margin-bottom: var(--s5) !important; }
+.my-3 { margin-block: var(--s3) !important; } .my-5 { margin-block: var(--s5) !important; }
+.stack-4 { display: grid !important; gap: var(--s4) !important; } .stack-5 { display: grid !important; gap: var(--s5) !important; }
+.pad-row { padding: var(--s4) var(--s5) !important; }
+.text-center { text-align: center !important; } .justify-center { justify-content: center !important; }
+.pre-line { white-space: pre-line !important; } .fw-normal { font-weight: 400 !important; } .contents { display: contents !important; }
+

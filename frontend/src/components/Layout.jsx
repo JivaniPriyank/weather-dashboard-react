@@ -131,7 +131,7 @@ export function AppLayout() {
           {!t && <NavLink to="/progress"><Icon name="progress" />Progress</NavLink>}
         </nav>
         <div className="sidebar-foot">
-          <Link className="who" to="/account" style={{ textDecoration: "none", color: "inherit" }}>
+          <Link className="who" to="/account">
             <span className="avatar" aria-hidden="true">{(user.full_name || "?")[0].toUpperCase()}</span>
             <span><b>{user.full_name}</b><br /><span className="muted small">{t ? "Teacher" : user.classroom?.name || "Student"}</span></span>
           </Link>
@@ -185,7 +185,7 @@ export function PublicLayout() {
           )}
         </nav>
       </header>
-      <main id="main" style={{ display: "contents" }}><Outlet /></main>
+      <main className="contents" id="main"><Outlet /></main>
       <footer className="public-foot">German practice between lessons, for A1 and A2 learners.</footer>
     </div>
   );
@@ -207,7 +207,7 @@ export function RequireTeacher() {
       <div className="error-page">
         <div className="code" aria-hidden="true">403</div>
         <h1>This page is for the teacher</h1>
-        <p className="lead" style={{ margin: "12px auto 24px" }}>Your account can't open it. Go back to your own pages from the menu.</p>
+        <p className="lead error-lead">Your account can't open it. Go back to your own pages from the menu.</p>
         <Link className="btn btn-primary" to="/today">Go to Today</Link>
       </div>
     );

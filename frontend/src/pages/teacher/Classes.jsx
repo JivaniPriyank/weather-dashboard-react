@@ -44,7 +44,7 @@ export function Classes() {
           </Async>
         </div>
         <aside className="panel">
-          <h2 style={{ marginBottom: "var(--s4)" }}>New class</h2>
+          <h2 className="mb-4">New class</h2>
           <form className="form" onSubmit={create} noValidate>
             <Field label="Class name" name="name" errors={errors} placeholder="e.g. Tuesday A1" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
             <Field as="select" label="Level" name="level" errors={errors} help="Only students of this level can join the class."
@@ -101,7 +101,7 @@ export function ClassEdit() {
           </PageHead>
           <div className="split">
             <div>
-              <h2 style={{ marginBottom: "var(--s4)" }}>Students in this class</h2>
+              <h2 className="mb-4">Students in this class</h2>
               {classroom.students.length ? (
                 <ul className="list">{classroom.students.map((s) => <RowLink key={s.id} to={`/teacher/students/${s.id}`} title={s.full_name} sub={s.email} />)}</ul>
               ) : <p className="muted">No students yet. Choose this class when you approve a request, or from a student's page.</p>}
@@ -116,7 +116,7 @@ export function ClassEdit() {
                 <Field label="Description (optional)" name="description" errors={errors} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
                 <button className="btn btn-primary" type="submit">Save</button>
               </form>
-              <details className="danger" style={{ marginTop: "var(--s5)" }}>
+              <details className="danger mt-5">
                 <summary>Delete class</summary>
                 <p>The students stay, just without a class. Videos for this class become visible to everyone.</p>
                 <button className="btn btn-danger btn-small" type="button" onClick={remove}>Delete “{classroom.name}”</button>

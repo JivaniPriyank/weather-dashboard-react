@@ -31,7 +31,7 @@ export default function Videos() {
                   {v.watched ? <span className="badge badge-good">Watched</span> : !v.is_published && <span className="badge badge-note">Hidden</span>}
                 </div>
                 <div className="video-body">
-                  <h3>{v.title}</h3>
+                  <h2>{v.title}</h2>
                   <span className="muted small">{v.grammar_topic ? v.grammar_topic.title : v.level || "All levels"}{v.classroom ? `, class ${v.classroom}` : ""}</span>
                 </div>
               </Link>

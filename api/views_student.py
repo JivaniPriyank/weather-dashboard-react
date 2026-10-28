@@ -48,7 +48,7 @@ def today(request):
     next_deck = max(topics, key=lambda t: (stats[t.id]["due"] > 0, stats[t.id]["seen"] > 0, stats[t.id]["due"]), default=None)
     if next_deck and stats[next_deck.id]["due"] == 0:
         next_deck = None
-    unfinished = QuizAttempt.objects.filter(user=user, finished_at__isnull=True, level=level).first()
+    unfinished = QuizAttempt.objects.filter(user=user, finished_at__isnull=True, level=level).with_score().select_related("grammar_topic", "level").first()
     watched = VideoView.objects.filter(user=user, watched_at__isnull=False).values_list("video_id", flat=True)
     new_videos = services.visible_videos(user).filter(level=level).exclude(pk__in=list(watched))[:3]
     return ok({
@@ -68,7 +68,7 @@ def progress(request):
     topics, stats = _decks_with_stats(user, lv)
     summary = services.student_summary(user, lv)
     levels = [{"level": s.level(lv), "summary": summary, "decks": [s.topic(t, stats[t.id]) for t in topics]}]
-    attempts = user.quiz_attempts.filter(finished_at__isnull=False, level=lv).select_related("grammar_topic", "level")[:10]
+    attempts = user.quiz_attempts.filter(finished_at__isnull=False, level=lv).with_score().select_related("grammar_topic", "level")[:10]
     return ok({"level": s.level(lv), "summary": summary, "levels": levels,
                "attempts": [s.attempt_summary(a) for a in attempts]})
 
@@ -124,8 +124,8 @@ def review(request):
 def practice(request):
     level = _level(request)
     topics = level.grammar_topics.select_related("level").annotate(n=Count("questions")).filter(n__gt=0)
-    recent = request.user.quiz_attempts.filter(finished_at__isnull=False, level=level).select_related("grammar_topic", "level")[:5]
-    unfinished = request.user.quiz_attempts.filter(finished_at__isnull=True, level=level).first()
+    recent = request.user.quiz_attempts.filter(finished_at__isnull=False, level=level).with_score().select_related("grammar_topic", "level")[:5]
+    unfinished = request.user.quiz_attempts.filter(finished_at__isnull=True, level=level).with_score().select_related("grammar_topic", "level").first()
     return ok({
         "level": s.level(level), "total": QuizQuestion.objects.filter(level=level).count(),
         "topics": [{**s.grammar_topic(t), "id": t.pk, "questions": t.n} for t in topics],

@@ -4,6 +4,7 @@ from datetime import timedelta
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.db.models.functions import Coalesce
 from django.utils import timezone
 
 USER = settings.AUTH_USER_MODEL
@@ -45,6 +46,15 @@ class CardReview(models.Model):
         return self.box >= 4
 
 
+class QuizAttemptQuerySet(models.QuerySet):
+    def with_score(self):
+        """Count the right answers in the same query, for lists of attempts. A subquery, not
+        a GROUP BY: Django drops Meta.ordering (newest first) from grouped queries."""
+        right = (QuizAnswer.objects.filter(attempt=models.OuterRef("pk"), is_correct=True)
+                 .order_by().values("attempt").annotate(n=models.Count("id")).values("n"))
+        return self.annotate(right_answers=Coalesce(models.Subquery(right), 0))
+
+
 class QuizAttempt(models.Model):
     user = models.ForeignKey(USER, on_delete=models.CASCADE, related_name="quiz_attempts")
     level = models.ForeignKey("content.Level", on_delete=models.CASCADE, related_name="+")
@@ -54,6 +64,8 @@ class QuizAttempt(models.Model):
     question_ids = models.JSONField(default=list, help_text="The questions in this attempt, in order.")
     started_at = models.DateTimeField(auto_now_add=True)
     finished_at = models.DateTimeField(null=True, blank=True)
+
+    objects = QuizAttemptQuerySet.as_manager()
 
     class Meta:
         ordering = ["-started_at"]
@@ -71,6 +83,8 @@ class QuizAttempt(models.Model):
 
     @property
     def score(self):
+        if hasattr(self, "right_answers"):  # from QuizAttempt.objects.with_score()
+            return self.right_answers
         return self.answers.filter(is_correct=True).count()
 
     @property

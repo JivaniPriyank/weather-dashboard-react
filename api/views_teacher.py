@@ -10,7 +10,7 @@ from accounts.models import AccessRequest, Classroom
 from content.models import GrammarTopic, Level, QuizQuestion, SpeakingTask, Video, VocabularyItem
 from dashboard.forms import FeedbackForm, VideoForm
 from learning import services
-from learning.models import CardReview, QuizAttempt, SpeakingSubmission, VideoView
+from learning.models import CardReview, QuizAttempt, SpeakingPractice, SpeakingSubmission, VideoView
 
 from . import serializers as s
 from .utils import body, fail, form_errors, methods, ok, page_info, teacher_required
@@ -39,7 +39,7 @@ def _classrooms():
 def overview(request):
     pending = AccessRequest.objects.filter(status=AccessRequest.Status.PENDING).select_related("user", "user__level")
     approved = _students().filter(access_request__status=AccessRequest.Status.APPROVED)
-    recent = QuizAttempt.objects.filter(finished_at__isnull=False).select_related("user", "grammar_topic", "level")[:8]
+    recent = QuizAttempt.objects.filter(finished_at__isnull=False).with_score().select_related("user", "grammar_topic", "level")[:8]
     return ok({
         "pending": [_request(r) for r in pending[:5]], "pending_count": pending.count(),
         "student_count": approved.count(), "class_count": Classroom.objects.count(),
@@ -94,28 +94,34 @@ def students(request):
         qs = qs.filter(classroom__isnull=True)
     elif classroom.isdigit():
         qs = qs.filter(classroom_id=int(classroom))
-    qs = qs.annotate(
-        practised=Count("card_reviews", distinct=True),
-        learned=Count("card_reviews", filter=Q(card_reviews__box__gte=4), distinct=True),
-        quizzes=Count("quiz_attempts", filter=Q(quiz_attempts__finished_at__isnull=False), distinct=True),
-        last_words=Max("card_reviews__last_reviewed_at"), last_quiz=Max("quiz_attempts__finished_at"),
-        last_speaking=Max("speaking_practice__practised_at"), last_video=Max("video_views__watched_at"),
-    ).order_by("full_name", "pk")
-    page = Paginator(qs, 25).get_page(request.GET.get("page"))
+    page = Paginator(qs.order_by("full_name", "pk"), 25).get_page(request.GET.get("page"))
+    rows = list(page.object_list)
+    # One grouped query per kind of activity. (Counting them all in one query joins every
+    # review with every quiz, practice and video of a student: millions of rows.)
+    ids = [u.pk for u in rows]
+    words = {r["user"]: r for r in CardReview.objects.filter(user__in=ids).values("user").annotate(
+        practised=Count("id"), learned=Count("id", filter=Q(box__gte=4)), last=Max("last_reviewed_at"))}
+    quizzes = {r["user"]: r for r in QuizAttempt.objects.filter(user__in=ids, finished_at__isnull=False)
+               .values("user").annotate(n=Count("id"), last=Max("finished_at"))}
+    last_speaking = dict(SpeakingPractice.objects.filter(user__in=ids).values("user")
+                         .annotate(last=Max("practised_at")).values_list("user", "last"))
+    last_video = dict(VideoView.objects.filter(user__in=ids, watched_at__isnull=False).values("user")
+                      .annotate(last=Max("watched_at")).values_list("user", "last"))
     levels = list(Level.objects.filter(is_active=True).annotate(total=Count("topics__items")))
     per_level = {}
-    for row in (CardReview.objects.filter(user__in=page.object_list)
+    for row in (CardReview.objects.filter(user__in=ids)
                 .values("user", "item__topic__level").annotate(n=Count("id"))):
         per_level[(row["user"], row["item__topic__level"])] = row["n"]
-    return ok({
-        "students": [{**s.user(u), "practised": u.practised, "learned": u.learned, "quizzes": u.quizzes,
-                      "words_by_level": [{"code": lv.code, "practised": per_level.get((u.pk, lv.pk), 0), "total": lv.total}
-                                         for lv in levels],
-                      "is_active": u.is_active, "last_login": s.dt(u.last_login),
-                      "last_active": s.dt(max([d for d in (u.last_words, u.last_quiz, u.last_speaking, u.last_video) if d],
-                                              default=None))} for u in page.object_list],
-        "page": page_info(page), "classrooms": _classrooms(),
-    })
+
+    def student_row(u):
+        w, q = words.get(u.pk, {}), quizzes.get(u.pk, {})
+        last = [d for d in (w.get("last"), q.get("last"), last_speaking.get(u.pk), last_video.get(u.pk)) if d]
+        return {**s.user(u), "practised": w.get("practised", 0), "learned": w.get("learned", 0), "quizzes": q.get("n", 0),
+                "words_by_level": [{"code": lv.code, "practised": per_level.get((u.pk, lv.pk), 0), "total": lv.total}
+                                   for lv in levels],
+                "is_active": u.is_active, "last_login": s.dt(u.last_login), "last_active": s.dt(max(last, default=None))}
+
+    return ok({"students": [student_row(u) for u in rows], "page": page_info(page), "classrooms": _classrooms()})
 
 
 @teacher_required
@@ -135,18 +141,20 @@ def student_detail(request, pk):
         student.refresh_from_db()
     # A1 and A2 are separate courses: everything below is for one level.
     level = Level.objects.filter(code=request.GET.get("level")).first() or services.current_level(student)
-    attempts = student.quiz_attempts.filter(finished_at__isnull=False, level=level).select_related("grammar_topic", "level")[:10]
+    attempts = student.quiz_attempts.filter(finished_at__isnull=False, level=level).with_score().select_related("grammar_topic", "level")[:10]
     views = VideoView.objects.filter(user=student, video__level=level).select_related("video")
     speaking = SpeakingSubmission.objects.filter(user=student, task__level=level).select_related("task", "task__level")
     access = getattr(student, "access_request", None)
+    active_levels = list(Level.objects.filter(is_active=True))
+    seen_by_level = dict(CardReview.objects.filter(user=student).values("item__topic__level")
+                         .annotate(n=Count("id")).values_list("item__topic__level", "n"))
     return ok({
         "student": {**s.user(student), "is_active": student.is_active, "date_joined": s.dt(student.date_joined)},
-        "all_levels": [s.level(lv) for lv in Level.objects.filter(is_active=True)],
+        "all_levels": [s.level(lv) for lv in active_levels],
         "access_request": access.pk if access else None,
         "level": s.level(level),
         "studying": s.level(services.current_level(student)),
-        "levels": [{**s.level(lv), "practised": services.student_summary(student, lv)["words_seen"]}
-                   for lv in Level.objects.filter(is_active=True)],
+        "levels": [{**s.level(lv), "practised": seen_by_level.get(lv.pk, 0)} for lv in active_levels],
         "summary": services.student_summary(student, level),
         "decks": [{**d, "last_studied": s.dt(d["last_studied"])} for d in services.student_decks(student, level)],
         "activity": [{**e, "at": s.dt(e["at"])} for e in services.student_activity(student, level)],

@@ -14,5 +14,6 @@
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
   }
-  .card-stage:hover, .deck:hover, .quick a:hover, .video-card:hover, .btn:hover { transform: none !important; }
+  .card-stage:hover, .deck:hover, .quick a:hover, .video-card:hover, .btn:hover,
+  .quick a:hover svg, .video-card:hover .video-thumb svg { transform: none !important; }
 }

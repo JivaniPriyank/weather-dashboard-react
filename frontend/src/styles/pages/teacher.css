@@ -49,7 +49,9 @@
 .teach-card:hover b, .teach-card:focus-visible b { color: var(--royal); }
 .teach-card:hover .teach-card-go, .teach-card:focus-visible .teach-card-go { background: var(--royal-wash); color: var(--royal); }
 .teach-card:active { transform: scale(.97); background: var(--hover-wash); }
-/* and with a mouse: the card lifts, the icon pops and wiggles, the arrow slides */
+/* the card lifts, the icon pops and wiggles, the arrow slides. Not limited to
+   @media (any-hover: hover): some Windows laptops report no hover even with a mouse.
+   Tapping a card opens its page, so this never sticks on touch screens. */
 @keyframes icon-wiggle {
   0% { transform: none; }
   35% { transform: scale(1.18) rotate(-12deg); }
@@ -57,12 +59,10 @@
   80% { transform: scale(1.12) rotate(-3deg); }
   100% { transform: scale(1.1) rotate(0); }
 }
-@media (any-hover: hover) {
-  .teach-card:hover { transform: translateY(-6px); }
-  .teach-card:hover .teach-card-icon { animation: icon-wiggle .55s var(--ease-out) both; }
-  .teach-card:hover .teach-card-go { transform: translateX(4px); }
-  .teach-card:active { transform: translateY(-2px) scale(.98); }
-}
+.teach-card:hover { transform: translateY(-6px); }
+.teach-card:hover .teach-card-icon { animation: icon-wiggle .55s var(--ease-out) both; }
+.teach-card:hover .teach-card-go { transform: translateX(4px); }
+.teach-card:active { transform: translateY(-2px) scale(.98); }
 @media (prefers-reduced-motion: reduce) {
   .teach-card { animation: none; }
   .teach-card:hover, .teach-card:active, .teach-card:hover .teach-card-icon, .teach-card:hover .teach-card-go { transform: none; }

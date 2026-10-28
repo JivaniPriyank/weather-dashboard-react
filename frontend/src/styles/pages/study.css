@@ -181,10 +181,12 @@ kbd { font-family: var(--font-ui); font-size: 0.8rem; border: 1px solid var(--li
 .card-stage:active { transform: scale(.99); }
 .study-actions .btn, .study-flip .btn { animation: rise .28s var(--ease-out); }
 .study-done .big { animation: right-pop .5s var(--ease-spring); }
+/* Cards lift on hover. Not inside @media (any-hover: hover): some Windows laptops
+   report no hover even with a mouse, and tapping a card opens its page anyway. */
+.deck:hover, .quick a:hover, .video-card:hover { transform: translateY(-3px); }
+.quick a:hover svg { transform: scale(1.12) rotate(-4deg); }
+.video-card:hover .video-thumb svg { transform: scale(1.14); }
 @media (any-hover: hover) {
-  .deck:hover, .quick a:hover, .video-card:hover { transform: translateY(-3px); }
-  .quick a:hover svg { transform: scale(1.12) rotate(-4deg); }
-  .video-card:hover .video-thumb svg { transform: scale(1.14); }
   .option > span:hover { transform: translateX(3px); box-shadow: 0 4px 12px -8px rgba(24, 32, 58, .4); }
   .option.is-right > span:hover, .option.is-wrong > span:hover { transform: none; box-shadow: none; }
   .card-stage:hover { transform: translateY(-3px); }

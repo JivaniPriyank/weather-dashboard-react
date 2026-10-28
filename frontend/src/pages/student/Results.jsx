@@ -22,7 +22,13 @@ export default function Results() {
               <h2>{attempt.percent >= 90 ? "Sehr gut!" : attempt.percent >= 70 ? "Gut gemacht!" : attempt.percent >= 50 ? "Good progress" : "Keep practising"}</h2>
               <p className="muted">{attempt.percent}% correct{missed.length ? `. Go over the ${missed.length} question${missed.length === 1 ? "" : "s"} you missed below.` : ". You didn't miss a single one."}</p>
               <div className="actions justify-center mt-4">
-                <button className="btn btn-primary" type="button" aria-disabled={busy} onClick={() => start(attempt.level, attempt.topic_id || undefined)}>Try again</button>
+                <button className="btn btn-primary" type="button" aria-disabled={busy}
+                  onClick={() => start(attempt.level, attempt.topic_id || undefined, attempt.kind === "mistakes" ? "mistakes" : undefined)}>
+                  {attempt.kind === "mistakes" ? "Practise mistakes again" : "Try again"}
+                </button>
+                {missed.length > 0 && attempt.kind !== "mistakes" && (
+                  <button className="btn btn-secondary" type="button" aria-disabled={busy} onClick={() => start(attempt.level, undefined, "mistakes")}>Practise my mistakes</button>
+                )}
                 {topic && <Link className="btn btn-secondary" to={`/grammar/${topic.level}/${topic.slug}`}>Read the rule</Link>}
               </div>
             </div>

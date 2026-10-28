@@ -56,7 +56,12 @@ class QuizAttemptQuerySet(models.QuerySet):
 
 
 class QuizAttempt(models.Model):
+    class Kind(models.TextChoices):
+        PRACTICE = "practice", "Practice (mixed or one grammar topic)"
+        MISTAKES = "mistakes", "My mistakes"
+
     user = models.ForeignKey(USER, on_delete=models.CASCADE, related_name="quiz_attempts")
+    kind = models.CharField(max_length=10, choices=Kind.choices, default=Kind.PRACTICE)
     level = models.ForeignKey("content.Level", on_delete=models.CASCADE, related_name="+")
     grammar_topic = models.ForeignKey(
         "content.GrammarTopic", null=True, blank=True, on_delete=models.SET_NULL, related_name="+"
@@ -75,6 +80,8 @@ class QuizAttempt(models.Model):
 
     @property
     def title(self):
+        if self.kind == self.Kind.MISTAKES:
+            return f"{self.level} mistakes"
         return self.grammar_topic.title if self.grammar_topic else f"{self.level} mixed practice"
 
     @property

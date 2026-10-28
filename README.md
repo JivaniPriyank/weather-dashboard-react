@@ -90,7 +90,7 @@ germanlab-react/
 │   └── spa.py                   serves the built React app for every page address
 ├── accounts/ content/ learning/ the database models and learning logic (same as before)
 ├── static/app/                  the built React app (made by `npm run build`)
-├── tests/                       86 automated API tests
+├── tests/                       91 automated API tests
 └── notebooks/                   Jupyter notebook (progress tables, CSV word import)
 ```
 
@@ -116,7 +116,7 @@ germanlab-react/
 python manage.py test tests --settings=config.settings.test
 ```
 
-86 tests cover sign-in and CSRF protection, limits on sign-in, registration and password-reset attempts, request access and approval, teacher-only access, flashcard rules, quiz marking (answers are never sent to the browser before you answer), speaking answers (one per task, file checks, who can listen, scoring, deletion 3 days after feedback), video uploads and private streaming, classes, students, password reset, the content editor (teacher only, word import, question rules, grammar tables, speaking tasks, deleting a question while students are in a quiz), that the admin's "View on site" links open the right page, the production security headers, that pages stay fast as students practise more (no extra database queries per quiz or word), and that every page address serves the app.
+91 tests cover sign-in and CSRF protection, limits on sign-in, registration and password-reset attempts, request access and approval, teacher-only access, flashcard rules, quiz marking (answers are never sent to the browser before you answer), speaking answers (one per task, file checks, who can listen, scoring, deletion 3 days after feedback), video uploads and private streaming, classes, students, password reset, the content editor (teacher only, word import, question rules, grammar tables, speaking tasks, deleting a question while students are in a quiz), that the admin's "View on site" links open the right page, the production security headers, the "practise my mistakes" quiz, the progress calendar and grammar-topic scores, that pages stay fast as students practise more (no extra database queries per quiz or word), and that every page address serves the app.
 
 ---
 

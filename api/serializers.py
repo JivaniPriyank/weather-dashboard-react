@@ -52,7 +52,7 @@ def grammar_topic(g, full=False):
 
 def attempt_summary(a):
     return {
-        "id": a.pk, "title": a.title, "level": a.level.code, "topic_id": a.grammar_topic_id,
+        "id": a.pk, "title": a.title, "level": a.level.code, "topic_id": a.grammar_topic_id, "kind": a.kind,
         "score": a.score, "total": a.total, "percent": a.percent,
         "finished_at": dt(a.finished_at), "started_at": dt(a.started_at),
     }

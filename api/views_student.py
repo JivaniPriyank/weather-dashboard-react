@@ -69,8 +69,15 @@ def progress(request):
     summary = services.student_summary(user, lv)
     levels = [{"level": s.level(lv), "summary": summary, "decks": [s.topic(t, stats[t.id]) for t in topics]}]
     attempts = user.quiz_attempts.filter(finished_at__isnull=False, level=lv).with_score().select_related("grammar_topic", "level")[:10]
+    # The last 12 weeks, oldest first, ending today: one entry per day for the calendar.
+    by_day = services.activity_by_day(user, days=84)
+    today = timezone.localdate()
+    calendar = [{"date": d.isoformat(), "count": by_day.get(d, 0)}
+                for d in (today - timedelta(days=i) for i in range(83, -1, -1))]
     return ok({"level": s.level(lv), "summary": summary, "levels": levels,
-               "attempts": [s.attempt_summary(a) for a in attempts]})
+               "attempts": [s.attempt_summary(a) for a in attempts], "calendar": calendar,
+               "topics": [{**s.grammar_topic(r["topic"]), "id": r["topic"].pk, "answered": r["answered"],
+                           "right": r["right"], "percent": r["percent"]} for r in services.topic_accuracy(user, lv)]})
 
 
 # ---------------- words ----------------
@@ -131,6 +138,7 @@ def practice(request):
         "topics": [{**s.grammar_topic(t), "id": t.pk, "questions": t.n} for t in topics],
         "recent": [s.attempt_summary(a) for a in recent],
         "unfinished": s.attempt_summary(unfinished) if unfinished else None,
+        "mistakes": len(services.mistake_question_ids(request.user, level)),
     })
 
 
@@ -140,11 +148,14 @@ def practice_start(request):
     data = body(request)
     level = _level(request, data.get("level") or None)
     topic = None
-    if data.get("topic"):
+    mistakes = data.get("mode") == "mistakes"
+    if data.get("topic") and not mistakes:
         topic = get_object_or_404(GrammarTopic, pk=data["topic"], level=level)
-    attempt = services.start_attempt(request.user, level, topic)
+    attempt = services.start_attempt(request.user, level, topic, mistakes=mistakes)
     if not attempt.question_ids:
         attempt.delete()
+        if mistakes:
+            return fail("No mistakes to practise: you got every question right the last time you answered it.")
         return fail("There are no questions for that choice yet.")
     return ok({"attempt": attempt.pk}, status=201)
 

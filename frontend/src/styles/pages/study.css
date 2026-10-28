@@ -17,7 +17,31 @@
 .quick svg { box-sizing: content-box; width: 22px; height: 22px; padding: 7px; border-radius: 10px; background: var(--royal-wash); color: var(--royal); }
 .quick a:hover svg, .quick a:focus-visible svg { background: var(--royal); color: #fff; }
 
+/* ---------- progress: activity calendar, word stages, grammar topics ---------- */
+.calendar-wrap { display: grid; gap: var(--s3); justify-items: start; padding: var(--s5); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); }
+.calendar { display: grid; grid-template-rows: repeat(7, 14px); grid-auto-flow: column; grid-auto-columns: 14px; gap: 4px; }
+.cal-day { width: 14px; height: 14px; border-radius: 4px; background: #ECEFF4; }
+.cal-1 { background: #C9D3F5; } .cal-2 { background: #8EA2E8; } .cal-3 { background: #4E68C9; } .cal-4 { background: var(--royal-deep); }
+.calendar-legend { display: flex; align-items: center; gap: 4px; font-size: .8rem; color: var(--ink-soft); }
+.calendar-legend span:first-child { margin-right: 4px; } .calendar-legend span:last-child { margin-left: 4px; }
+.stages { display: grid; gap: var(--s3); margin-bottom: var(--s4); }
+.stages-bar { display: flex; height: 12px; border-radius: 999px; overflow: hidden; background: var(--line); gap: 2px; }
+.stages-bar > span { display: block; min-width: 4px; }
+.stage-learned { background: var(--good); } .stage-learning { background: #A9B8EE; } .stage-new { background: var(--line-strong); }
+.stages-legend { display: flex; flex-wrap: wrap; gap: var(--s2) var(--s5); list-style: none; margin: 0; padding: 0; font-size: .9rem; color: var(--ink-soft); }
+.stages-legend b { color: var(--ink); }
+.stage-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+.topic-score { flex-wrap: wrap; }
+@media (max-width: 520px) { .topic-score .btn { margin-left: auto; } }
+.mistakes-card { display: grid; gap: var(--s4); margin-top: var(--s4); padding: var(--s5); border-radius: var(--radius-lg); background: var(--note-wash); border: 1px solid #F0DDA8; }
+@media (min-width: 720px) { .mistakes-card { grid-template-columns: 1fr auto; align-items: center; } }
+.mistakes-card h2 { margin-bottom: var(--s2); }
+.mistakes-card p { margin: 0; color: #5E3E00; }
+
 /* ---------- decks & words ---------- */
+.deck-filters { display: grid; gap: var(--s3); margin-bottom: var(--s5); }
+.deck-filters input[type=search] { max-width: 360px; }
+.deck-filters .chips { margin-bottom: 0; }
 .deck-grid { display: grid; gap: var(--s3); }
 @media (min-width: 640px) { .deck-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .deck { display: flex; flex-direction: column; gap: var(--s3); padding: var(--s5); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); color: inherit; text-decoration: none; }

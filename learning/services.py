@@ -78,13 +78,26 @@ def check_typed_answer(question, given):
     return bool(given) and any(given == _normalise(a) for a in question.answers_list())
 
 
-def start_attempt(user, level, grammar_topic=None, size=10):
-    qs = QuizQuestion.objects.filter(level=level)
-    if grammar_topic:
-        qs = qs.filter(grammar_topic=grammar_topic)
-    ids = list(qs.values_list("id", flat=True))
+def mistake_question_ids(user, level):
+    """Questions at this level whose latest answer by the student was wrong."""
+    latest = dict(QuizAnswer.objects.filter(attempt__user=user, question__level=level)
+                  .order_by("answered_at", "pk").values_list("question_id", "is_correct"))
+    return [qid for qid, right in latest.items() if not right]
+
+
+def start_attempt(user, level, grammar_topic=None, size=10, mistakes=False):
+    if mistakes:
+        ids = mistake_question_ids(user, level)
+        kind = QuizAttempt.Kind.MISTAKES
+    else:
+        qs = QuizQuestion.objects.filter(level=level)
+        if grammar_topic:
+            qs = qs.filter(grammar_topic=grammar_topic)
+        ids = list(qs.values_list("id", flat=True))
+        kind = QuizAttempt.Kind.PRACTICE
     random.shuffle(ids)
-    return QuizAttempt.objects.create(user=user, level=level, grammar_topic=grammar_topic, question_ids=ids[:size])
+    return QuizAttempt.objects.create(user=user, level=level, grammar_topic=grammar_topic, kind=kind,
+                                      question_ids=ids[:size])
 
 
 def answer_question(attempt, question, option=None, typed=""):
@@ -140,6 +153,33 @@ def activity_dates(user, days=400):
         dates.update(qs.filter(**{f"{field}__gte": since})
                      .annotate(day=TruncDate(field, tzinfo=tz)).order_by().values_list("day", flat=True).distinct())
     return dates
+
+
+def activity_by_day(user, days=84):
+    """{local date: number of things practised} for the last `days` days. Word reviews count
+    on the day a word was last reviewed (only the latest review of each word is stored)."""
+    since = timezone.now() - timedelta(days=days)
+    tz = timezone.get_current_timezone()
+    counts = {}
+    for qs, field in _activity(user):
+        rows = (qs.filter(**{f"{field}__gte": since}).annotate(day=TruncDate(field, tzinfo=tz))
+                .order_by().values("day").annotate(n=Count("pk")).values_list("day", "n"))
+        for day, n in rows:
+            counts[day] = counts.get(day, 0) + n
+    return counts
+
+
+def topic_accuracy(user, level):
+    """How often the student answered each grammar topic's questions right, weakest first."""
+    from content.models import GrammarTopic
+
+    rows = (QuizAnswer.objects.filter(attempt__user=user, question__level=level, question__grammar_topic__isnull=False)
+            .values("question__grammar_topic").annotate(n=Count("id"), right=Count("id", filter=Q(is_correct=True))))
+    by_topic = {r["question__grammar_topic"]: r for r in rows}
+    topics = GrammarTopic.objects.filter(pk__in=by_topic).select_related("level")
+    result = [{"topic": t, "answered": by_topic[t.pk]["n"], "right": by_topic[t.pk]["right"],
+               "percent": round(by_topic[t.pk]["right"] / by_topic[t.pk]["n"] * 100)} for t in topics]
+    return sorted(result, key=lambda r: (r["percent"], -r["answered"], r["topic"].title))
 
 
 def streak(user, dates=None):

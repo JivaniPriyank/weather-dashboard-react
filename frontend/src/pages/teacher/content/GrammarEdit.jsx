@@ -119,7 +119,7 @@ function GrammarForm({ initial }) {
                       </span>
                     </th>
                   ))}
-                  <th aria-hidden="true" style={{ width: 44 }} />
+                  <th className="col-icon" aria-hidden="true" />
                 </tr>
               </thead>
               <tbody>

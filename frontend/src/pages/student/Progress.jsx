@@ -32,7 +32,7 @@ export default function Progress() {
                       <Link className="row" to={`/words/${d.level}/${d.slug}`}>
                         <span className="row-main"><span className="row-title">{d.name}</span>
                           <Meter percent={d.stats.percent} practised={d.stats.practised_percent}
-                            label={`${d.stats.seen} of ${d.stats.total} practised, ${d.stats.learned} learned for good`} style={{ marginTop: 6, maxWidth: 280 }} />
+                            label={`${d.stats.seen} of ${d.stats.total} practised, ${d.stats.learned} learned for good`} className="deck-meter" />
                           <span className="row-sub">{d.stats.seen} of {d.stats.total} practised{d.stats.learned ? `, ${d.stats.learned} learned for good` : ""}</span></span>
                         <span className="row-end">{d.stats.seen}/{d.stats.total}</span>
                       </Link>

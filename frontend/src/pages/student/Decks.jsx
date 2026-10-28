@@ -14,7 +14,7 @@ export default function Decks() {
             <div className="deck-grid">
               {decks.map((d) => (
                 <Link key={d.slug} className="deck" to={`/words/${d.level}/${d.slug}`}>
-                  <h3>{d.name}</h3>
+                  <h2>{d.name}</h2>
                   <span className="muted small">{d.description}</span>
                   <Meter percent={d.stats.percent} practised={d.stats.practised_percent}
                     label={`${d.stats.seen} of ${d.stats.total} practised, ${d.stats.learned} learned for good`} />

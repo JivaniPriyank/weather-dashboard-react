@@ -29,10 +29,10 @@ export default function Landing() {
       </section>
 
       <section className="features" aria-label="What you can practise">
-        <div className="feature"><Icon name="words" /><h3>Words that come back</h3><p>{data?.words ?? "Your"} words in topic decks. The ones you miss return sooner, the ones you know wait longer.</p></div>
-        <div className="feature"><Icon name="practice" /><h3>Quizzes with reasons</h3><p>{data?.questions ?? "Many"} questions by grammar topic. Every answer explains why, and you see your mistakes at the end.</p></div>
-        <div className="feature"><Icon name="speaking" /><h3>Speaking exam tasks</h3><p>{data?.speaking ?? "Several"} tasks in the Goethe format. Record your answer and get points and feedback from your teacher.</p></div>
-        <div className="feature"><Icon name="videos" /><h3>Your teacher's videos</h3><p>Lessons recorded for your class, next to the grammar they explain.</p></div>
+        <div className="feature"><Icon name="words" /><h2>Words that come back</h2><p>{data?.words ?? "Your"} words in topic decks. The ones you miss return sooner, the ones you know wait longer.</p></div>
+        <div className="feature"><Icon name="practice" /><h2>Quizzes with reasons</h2><p>{data?.questions ?? "Many"} questions by grammar topic. Every answer explains why, and you see your mistakes at the end.</p></div>
+        <div className="feature"><Icon name="speaking" /><h2>Speaking exam tasks</h2><p>{data?.speaking ?? "Several"} tasks in the Goethe format. Record your answer and get points and feedback from your teacher.</p></div>
+        <div className="feature"><Icon name="videos" /><h2>Your teacher's videos</h2><p>Lessons recorded for your class, next to the grammar they explain.</p></div>
       </section>
 
       <section className="how">

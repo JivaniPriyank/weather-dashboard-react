@@ -1,6 +1,6 @@
 import { Link, Navigate, useSearchParams } from "react-router-dom";
 import Icon from "../../components/Icon";
-import { Async, RowLink } from "../../components/ui";
+import { Async, Meter, RowLink } from "../../components/ui";
 import { useApi, useLevelKey, useTitle } from "../../lib/hooks";
 import { plural } from "../../lib/speech";
 import { useSession } from "../../lib/session";
@@ -35,6 +35,8 @@ export default function Today() {
               <div>
                 <h2>Study {next_deck.name}</h2>
                 <p>{next_deck.description}. {plural(next_deck.stats.due, "card")} ready, {next_deck.stats.learned} of {next_deck.stats.total} learned so far.</p>
+                <Meter className="focus-meter" percent={next_deck.stats.percent} practised={next_deck.stats.practised_percent}
+                  label={`${next_deck.stats.seen} of ${next_deck.stats.total} practised, ${next_deck.stats.learned} learned for good`} />
               </div>
               <div className="actions"><Link className="btn btn-primary" to={`/words/${next_deck.level}/${next_deck.slug}/study`}>Start studying</Link></div>
             </section>
@@ -61,10 +63,10 @@ export default function Today() {
           <section className="section">
             <div className="section-head"><h2>Your {level.code} progress</h2><Link to="/progress">See all progress</Link></div>
             <div className="stats">
-              <div className="stat"><b>{summary.words_seen}<small className="muted" style={{ fontSize: "1rem" }}> / {summary.words_total}</small></b><span>words practised, {summary.words_learned} learned for good</span></div>
-              <div className="stat"><b>{summary.quizzes_done}</b><span>quizzes finished</span></div>
-              <div className="stat"><b>{summary.speaking_done}</b><span>speaking tasks practised</span></div>
-              <div className="stat"><b>{summary.videos_watched}</b><span>videos watched</span></div>
+              <Link className="stat" to="/words"><b>{summary.words_seen}<small className="stat-of"> / {summary.words_total}</small></b><span>words practised, {summary.words_learned} learned for good</span></Link>
+              <Link className="stat" to="/practice"><b>{summary.quizzes_done}</b><span>quizzes finished</span></Link>
+              <Link className="stat" to="/speaking"><b>{summary.speaking_done}</b><span>speaking tasks practised</span></Link>
+              <Link className="stat" to="/videos"><b>{summary.videos_watched}</b><span>videos watched</span></Link>
             </div>
           </section>
 

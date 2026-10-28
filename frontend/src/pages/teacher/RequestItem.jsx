@@ -47,7 +47,7 @@ export default function RequestItem({ request: r, classrooms, onDone }) {
         <span className="row-sub">{r.student.email}, asked {timeAgo(r.created_at)}</span>
         <span className="row-sub">{r.student.level ? <>Chose level <b>{r.student.level}</b></> : "No level chosen"}</span>
         {r.note && <p className="note-quote">“{r.note}”</p>}
-        {r.status !== "pending" && <p className="row-sub" style={{ margin: "var(--s2) 0 0" }}>{r.status_label}{r.reviewed_at ? ` on ${formatDate(r.reviewed_at)}` : ""}</p>}
+        {r.status !== "pending" && <p className="row-sub mt-2 mb-0">{r.status_label}{r.reviewed_at ? ` on ${formatDate(r.reviewed_at)}` : ""}</p>}
       </div>
       <div className="request-actions">
         {r.status !== "approved" && (

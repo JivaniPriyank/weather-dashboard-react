@@ -120,7 +120,7 @@ function QuestionForm({ topics, initial }) {
 
           {choice ? (
             <fieldset className={`field${errors.options ? " has-error" : ""}`}>
-              <legend>Answers <span className="muted" style={{ fontWeight: 400 }}>· mark the one that's right</span></legend>
+              <legend>Answers <span className="muted fw-normal">· mark the one that's right</span></legend>
               <div className="option-edit-list">
                 {form.options.map((o, i) => (
                   <div key={o.key} className={`option-edit${o.is_correct ? " is-right" : ""}`}>
@@ -186,7 +186,7 @@ function QuestionForm({ topics, initial }) {
               <div className="field"><label>Type your answer</label><input type="text" disabled aria-label="Answer box" /></div>
             )}
             {(choice ? right?.text : form.answers[0]) && (
-              <div className="feedback good" style={{ marginTop: "var(--s4)" }}>
+              <div className="feedback good mt-4">
                 <b>Richtig! That's correct.</b>
                 {form.explanation && <p lang="de">{form.explanation}</p>}
               </div>

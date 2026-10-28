@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { Link, NavLink, Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import Icon, { BrandMark } from "./Icon";
-import { Loading } from "./ui";
+import { Skeleton } from "./ui";
 import { api } from "../lib/api";
 import { useSession } from "../lib/session";
 import { useToast } from "./Toasts";
@@ -107,7 +107,7 @@ export function AppLayout() {
         <nav className="nav">
           {t ? (
             <>
-              <NavLink className="nav-home" to="/teacher" end><Icon name="today" />Home</NavLink>
+              <NavLink to="/teacher" end><Icon name="today" />Home</NavLink>
               <span className="nav-sep" aria-hidden="true" />
               <NavLink to="/teacher/requests"><Icon name="inbox" />Access requests<Count n={counts.pending_requests} label="waiting" /></NavLink>
               <NavLink to="/teacher/speaking"><Icon name="speaking" />Speaking answers<Count n={counts.speaking_waiting} label="waiting" /></NavLink>
@@ -119,7 +119,7 @@ export function AppLayout() {
             </>
           ) : (
             <>
-              <NavLink className="nav-home" to="/today"><Icon name="today" />Home</NavLink>
+              <NavLink to="/today"><Icon name="today" />Home</NavLink>
               <span className="nav-sep" aria-hidden="true" />
             </>
           )}
@@ -131,7 +131,7 @@ export function AppLayout() {
           {!t && <NavLink to="/progress"><Icon name="progress" />Progress</NavLink>}
         </nav>
         <div className="sidebar-foot">
-          <Link className="who" to="/account" style={{ textDecoration: "none", color: "inherit" }}>
+          <Link className="who" to="/account">
             <span className="avatar" aria-hidden="true">{(user.full_name || "?")[0].toUpperCase()}</span>
             <span><b>{user.full_name}</b><br /><span className="muted small">{t ? "Teacher" : user.classroom?.name || "Student"}</span></span>
           </Link>
@@ -141,20 +141,20 @@ export function AppLayout() {
 
       <div>
         <header className="topbar"><Brand /><LevelSwitch /></header>
-        <main className="main" id="main"><Suspense fallback={<Loading />}><Outlet /></Suspense></main>
+        <main className="main" id="main"><Suspense fallback={<Skeleton />}><Outlet /></Suspense></main>
       </div>
 
       <nav className="tabbar" aria-label="Main menu">
         {t ? (
           <>
-            <NavLink className="tab tab-home" to="/teacher" end><Icon name="today" />Home</NavLink>
+            <NavLink className="tab" to="/teacher" end><Icon name="today" />Home</NavLink>
             <NavLink className="tab" to="/teacher/requests"><Icon name="inbox" />Requests<Count n={counts.pending_requests} /></NavLink>
             <NavLink className="tab" to="/teacher/speaking"><Icon name="speaking" />Speaking<Count n={counts.speaking_waiting} /></NavLink>
             <NavLink className="tab" to="/teacher/students"><Icon name="users" />Students</NavLink>
           </>
         ) : (
           <>
-            <NavLink className="tab tab-home" to="/today"><Icon name="today" />Home</NavLink>
+            <NavLink className="tab" to="/today"><Icon name="today" />Home</NavLink>
             <NavLink className="tab" to="/words"><Icon name="words" />Words</NavLink>
             <NavLink className="tab" to="/practice"><Icon name="practice" />Practice</NavLink>
             <NavLink className="tab" to="/speaking"><Icon name="speaking" />Speaking</NavLink>
@@ -185,7 +185,7 @@ export function PublicLayout() {
           )}
         </nav>
       </header>
-      <main id="main" style={{ display: "contents" }}><Outlet /></main>
+      <main className="contents" id="main"><Outlet /></main>
       <footer className="public-foot">German practice between lessons, for A1 and A2 learners.</footer>
     </div>
   );
@@ -207,7 +207,7 @@ export function RequireTeacher() {
       <div className="error-page">
         <div className="code" aria-hidden="true">403</div>
         <h1>This page is for the teacher</h1>
-        <p className="lead" style={{ margin: "12px auto 24px" }}>Your account can't open it. Go back to your own pages from the menu.</p>
+        <p className="lead error-lead">Your account can't open it. Go back to your own pages from the menu.</p>
         <Link className="btn btn-primary" to="/today">Go to Today</Link>
       </div>
     );

@@ -34,7 +34,7 @@ export function SpeakingInbox() {
                     <Link className="row" to={`/teacher/speaking/${a.id}`}>
                       <Icon name="speaking" />
                       <span className="row-main">
-                        <span className="row-title">{a.student.full_name}<span className="muted" style={{ fontWeight: 400 }}>: </span><span lang="de">{a.task.title}</span></span>
+                        <span className="row-title">{a.student.full_name}<span className="muted fw-normal">: </span><span lang="de">{a.task.title}</span></span>
                         <span className="row-sub">{a.task.level} {a.task.part_label}{a.student.classroom ? `, ${a.student.classroom}` : ""}. Sent {formatDate(a.submitted_at, true)}</span>
                       </span>
                       <span className="row-end">
@@ -103,19 +103,19 @@ function Review({ d, setData }) {
       </PageHead>
 
       <div className="split">
-        <div style={{ display: "grid", gap: "var(--s5)" }}>
+        <div className="stack-5">
           <section className="panel">
-            <h2 style={{ marginBottom: "var(--s3)" }}>Recording</h2>
+            <h2 className="mb-3">Recording</h2>
             {a.has_audio ? (
               <>
                 <audio className="audio" controls preload="metadata" src={a.audio_url}>Your browser can't play this recording.</audio>
-                <p className="muted small" style={{ margin: "var(--s3) 0 0" }}>{a.reviewed ? `Deleted automatically on ${formatDate(a.audio_delete_on)}.` : `Kept until ${a.keep_days} days after you send feedback.`}</p>
+                <p className="muted small mt-3 mb-0">{a.reviewed ? `Deleted automatically on ${formatDate(a.audio_delete_on)}.` : `Kept until ${a.keep_days} days after you send feedback.`}</p>
               </>
             ) : <p className="muted">The recording was deleted on {formatDate(a.audio_deleted_at)}, {a.keep_days} days after feedback.</p>}
           </section>
 
           <section className="panel">
-            <form className="form" style={{ maxWidth: "none" }} noValidate onSubmit={(e) => { e.preventDefault(); submit(false); }}>
+            <form className="form form-wide" noValidate onSubmit={(e) => { e.preventDefault(); submit(false); }}>
               <FormError error={error} />
               <div className="score-grid">
                 {a.scores.map((c) => (
@@ -133,33 +133,33 @@ function Review({ d, setData }) {
                   </fieldset>
                 ))}
               </div>
-              <p className="muted small" style={{ margin: 0 }}>1 = not yet, 3 = good, 5 = excellent. {total != null ? `Total: ${total} of 20.` : "Total out of 20."}</p>
+              <p className="muted small m-0">1 = not yet, 3 = good, 5 = excellent. {total != null ? `Total: ${total} of 20.` : "Total out of 20."}</p>
               <Field as="textarea" rows={5} label={`Feedback for ${a.student.first_name}`} name="feedback" errors={errors}
                 placeholder="What went well, and one thing to work on…" value={feedback} onChange={(e) => setFeedback(e.target.value)} />
               <div className="actions">
                 <button className="btn btn-primary" type="submit" aria-disabled={busy}>{a.reviewed ? "Update feedback" : "Send feedback"}</button>
                 {d.waiting_after > 0 && <button className="btn btn-secondary" type="button" aria-disabled={busy} onClick={() => submit(true)}>Send and open next ({d.waiting_after} waiting)</button>}
               </div>
-              {a.reviewed && <p className="muted small" style={{ margin: 0 }}>Feedback sent {formatDate(a.reviewed_at, true)}. The student already sees it; updating changes what they see.</p>}
+              {a.reviewed && <p className="muted small m-0">Feedback sent {formatDate(a.reviewed_at, true)}. The student already sees it; updating changes what they see.</p>}
             </form>
           </section>
         </div>
 
-        <aside style={{ display: "grid", gap: "var(--s4)" }}>
+        <aside className="stack-4">
           <section className="panel">
-            <h2 style={{ marginBottom: "var(--s2)" }}>The task</h2>
+            <h2 className="mb-2">The task</h2>
             <p className="muted small">{task.brief}</p>
             <div className="prompt-sheet paper small" lang="de">{task.prompt}</div>
             {task.questions.length > 0 && (
               <>
-                <h3 style={{ margin: "var(--s4) 0 var(--s2)" }}>Questions</h3>
+                <h3 className="mt-4 mb-2">Questions</h3>
                 <ul className="plain-list" lang="de">{task.questions.map((q) => <li key={q}>{q}</li>)}</ul>
               </>
             )}
           </section>
           <details className="reveal">
             <summary>Model answer</summary>
-            <div className="reveal-body" lang="de" style={{ whiteSpace: "pre-line" }}>{task.model_answer}</div>
+            <div className="reveal-body pre-line" lang="de">{task.model_answer}</div>
           </details>
         </aside>
       </div>

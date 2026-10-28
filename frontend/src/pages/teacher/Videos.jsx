@@ -165,7 +165,7 @@ export function VideoEdit() {
           )}
         </form>
         {!isNew && (
-          <details className="danger" style={{ marginTop: "var(--s5)" }}>
+          <details className="danger mt-5">
             <summary>Delete video</summary>
             <p>This removes the video{v.kind === "file" ? " file" : ""} and who watched it. It can't be undone.</p>
             <button className="btn btn-danger btn-small" type="button" onClick={remove}>Delete video</button>

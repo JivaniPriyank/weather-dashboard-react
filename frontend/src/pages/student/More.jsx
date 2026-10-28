@@ -27,7 +27,7 @@ export default function More() {
         {!user.is_teacher && <RowLink to="/progress" icon="progress" title="Progress" />}
         <RowLink to="/account" icon="account" title="Your account" sub={user.email} />
       </ul>
-      <button className="btn btn-secondary btn-block" style={{ marginTop: "var(--s5)" }} type="button" onClick={signOut}><Icon name="out" />Sign out</button>
+      <button className="btn btn-secondary btn-block mt-5" type="button" onClick={signOut}><Icon name="out" />Sign out</button>
     </>
   );
 }

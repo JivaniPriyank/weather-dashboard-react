@@ -34,7 +34,8 @@ fieldset.field { border: 0; padding: 0; margin: 0; min-width: 0; }
   box-shadow: 0 1px 3px rgba(24,32,58,.06), 0 6px 16px -8px rgba(24,32,58,.16);
   transition: transform var(--t-med) var(--ease-out), box-shadow var(--t-med) var(--ease-out); animation: rise .4s var(--ease-out) both; }
 .topic-card:hover { color: var(--ink); text-decoration: none; }
-.topic-card:hover, .topic-card:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--royal), 0 18px 36px -12px rgba(39,66,168,.40), 0 6px 14px -6px rgba(24,32,58,.18); }
+.topic-card:hover, .topic-card:focus-visible { outline: none; box-shadow: 0 14px 30px -14px rgba(24,32,58,.22), 0 4px 10px -6px rgba(24,32,58,.10); }
+.topic-card:focus-visible { box-shadow: var(--focus), 0 14px 30px -14px rgba(24,32,58,.22); }
 .topic-card:hover .topic-card-name, .topic-card:focus-visible .topic-card-name { color: var(--royal-deep); }
 .topic-card:active { transform: scale(.98); }
 .topic-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--s2); }

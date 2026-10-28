@@ -39,25 +39,34 @@
   transition: transform var(--t-med) var(--ease-out), background-color var(--t-fast), color var(--t-fast);
 }
 .teach-card-go svg { width: 18px; height: 18px; }
-/* hover and keyboard focus: blue ring, deeper shadow, blue icon and number (visible without animation) */
+/* hover and keyboard focus: a soft, deeper shadow and a blue icon and number (visible without animation) */
 .teach-card:hover, .teach-card:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--royal), 0 18px 36px -12px rgba(39, 66, 168, .40), 0 6px 14px -6px rgba(24, 32, 58, .18);
+  box-shadow: 0 14px 30px -14px rgba(24, 32, 58, .22), 0 4px 10px -6px rgba(24, 32, 58, .10);
 }
+.teach-card:focus-visible { box-shadow: var(--focus), 0 14px 30px -14px rgba(24, 32, 58, .22); }
 .teach-card:hover .teach-card-icon, .teach-card:focus-visible .teach-card-icon { background: var(--royal); color: #fff; }
 .teach-card:hover b, .teach-card:focus-visible b { color: var(--royal); }
 .teach-card:hover .teach-card-go, .teach-card:focus-visible .teach-card-go { background: var(--royal-wash); color: var(--royal); }
 .teach-card:active { transform: scale(.97); background: var(--hover-wash); }
-/* and with a mouse: the card lifts, the icon tilts, the arrow slides */
+/* and with a mouse: the card lifts, the icon pops and wiggles, the arrow slides */
+@keyframes icon-wiggle {
+  0% { transform: none; }
+  35% { transform: scale(1.18) rotate(-12deg); }
+  60% { transform: scale(1.12) rotate(8deg); }
+  80% { transform: scale(1.12) rotate(-3deg); }
+  100% { transform: scale(1.1) rotate(0); }
+}
 @media (any-hover: hover) {
   .teach-card:hover { transform: translateY(-6px); }
-  .teach-card:hover .teach-card-icon { transform: scale(1.1) rotate(-6deg); }
+  .teach-card:hover .teach-card-icon { animation: icon-wiggle .55s var(--ease-out) both; }
   .teach-card:hover .teach-card-go { transform: translateX(4px); }
   .teach-card:active { transform: translateY(-2px) scale(.98); }
 }
 @media (prefers-reduced-motion: reduce) {
   .teach-card { animation: none; }
   .teach-card:hover, .teach-card:active, .teach-card:hover .teach-card-icon, .teach-card:hover .teach-card-go { transform: none; }
+  .teach-card:hover .teach-card-icon { animation: none; }
 }
 
 /* ---------- student page: recent activity and word decks ---------- */

@@ -14,6 +14,7 @@ export function PasswordReset() {
 
   const submit = async (e) => {
     e.preventDefault();
+    if (busy) return;
     setBusy(true);
     try {
       await api("/password/reset/", { method: "POST", body: { email } });

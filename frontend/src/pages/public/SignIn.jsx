@@ -5,6 +5,12 @@ import { api } from "../../lib/api";
 import { useTitle } from "../../lib/hooks";
 import { useSession } from "../../lib/session";
 
+// Only go back to a page on this website: "/words" yes; "//evil.com", "/\evil.com" or "https://…" no.
+export function safeNext(next) {
+  if (!next || !next.startsWith("/") || next.startsWith("//") || /[\\\u0000-\u001f]/.test(next)) return null;
+  return next;
+}
+
 export default function SignIn() {
   useTitle("Sign in");
   const { setSession } = useSession();
@@ -16,14 +22,15 @@ export default function SignIn() {
 
   const submit = async (e) => {
     e.preventDefault();
+    if (busy) return;
     setBusy(true);
     setError(null);
     try {
       const data = await api("/sign-in/", { method: "POST", body: form });
       setSession(data);
-      const next = params.get("next");
+      const next = safeNext(params.get("next"));
       const u = data.user;
-      navigate(u.status !== "approved" ? "/waiting" : next && next.startsWith("/") && !next.startsWith("//") ? next : u.is_teacher ? "/teacher" : "/today", { replace: true });
+      navigate(u.status !== "approved" ? "/waiting" : next || (u.is_teacher ? "/teacher" : "/today"), { replace: true });
     } catch (err) {
       setError(err.message);
       setBusy(false);

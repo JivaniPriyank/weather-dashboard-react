@@ -6,6 +6,7 @@ from .test_api_accounts import ApiCase
 
 class ContentCase(ApiCase):
     def setUp(self):
+        super().setUp()
         self.client.force_login(self.teacher)
 
     def put(self, url, data):

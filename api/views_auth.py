@@ -7,6 +7,8 @@ from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from django.views.decorators.csrf import ensure_csrf_cookie
 
+from django.conf import settings
+
 from accounts.forms import ProfileForm, RegisterForm
 from accounts.models import AccessRequest
 from content.models import Level, QuizQuestion, SpeakingTask, VocabularyItem
@@ -14,6 +16,7 @@ from learning.models import SpeakingSubmission
 from learning.services import current_level
 
 from . import serializers as s
+from . import throttle
 from .utils import body, fail, form_errors, login_required, methods, ok
 
 User = get_user_model()
@@ -57,12 +60,20 @@ def sign_in(request):
     password = str(data.get("password", ""))
     if not email or not password:
         return fail("Enter your email and password.")
+    ip = throttle.client_ip(request)
+    if (throttle.over("sign-in-email", email, settings.SIGN_IN_MAX_FAILURES_PER_EMAIL)
+            or throttle.over("sign-in-ip", ip, settings.SIGN_IN_MAX_FAILURES_PER_IP)):
+        return fail(throttle.wait_message("sign-in attempts") + " Forgot it? Reset your password.",
+                    status=429, code="throttled")
     user = authenticate(request, username=email, password=password)
     if user is None:
+        throttle.hit("sign-in-email", email)
+        throttle.hit("sign-in-ip", ip)
         inactive = User.objects.filter(email__iexact=email, is_active=False).first()
         if inactive and inactive.check_password(password):
             return fail("This account has been switched off. Ask your teacher.")
         return fail("That email and password don't match an account. Check both and try again.")
+    throttle.reset("sign-in-email", email)
     login(request, user)
     return ok(session_payload(request))
 
@@ -77,6 +88,10 @@ def sign_out(request):
 def register(request):
     if request.user.is_authenticated:
         return fail("You're already signed in.")
+    ip = throttle.client_ip(request)
+    if throttle.over("register-ip", ip, settings.REGISTER_MAX_PER_IP):
+        return fail(throttle.wait_message("accounts requested from this connection"), status=429, code="throttled")
+    throttle.hit("register-ip", ip)
     form = RegisterForm(body(request))
     if not form.is_valid():
         return form_errors(form)
@@ -115,6 +130,13 @@ def password_reset(request):
     form = PasswordResetForm({"email": body(request).get("email", "")})
     if not form.is_valid():
         return form_errors(form)
+    ip = throttle.client_ip(request)
+    if throttle.over("reset-ip", ip, settings.PASSWORD_RESET_MAX_PER_IP):
+        return fail(throttle.wait_message("password reset requests"), status=429, code="throttled")
+    throttle.hit("reset-ip", ip)
+    email = form.cleaned_data["email"].strip().lower()
+    if throttle.hit("reset-email", email) > settings.PASSWORD_RESET_MAX_PER_EMAIL:
+        return ok()  # enough emails sent to this address for now; same answer as always
     form.save(
         request=request, use_https=request.is_secure(),
         subject_template_name="accounts/email/password_reset_subject.txt",

@@ -1,5 +1,6 @@
 import io
 
+from django.core.cache import cache
 from django.core.management import call_command
 from django.test import TestCase
 
@@ -18,6 +19,10 @@ class BaseTestCase(TestCase):
         cls.classroom = Classroom.objects.create(name="Dienstag A1", level=cls.a1)
         cls.student = cls.make_student("anna@test.de", "Anna Muster", AccessRequest.Status.APPROVED, cls.classroom, level=cls.a1)
         cls.waiting = cls.make_student("ben@test.de", "Ben Wartend", AccessRequest.Status.PENDING)
+
+    def setUp(self):
+        super().setUp()
+        cache.clear()  # sign-in and reset limits are counted in the cache (api/throttle.py)
 
     @classmethod
     def make_student(cls, email, name, status, classroom=None, level=None):

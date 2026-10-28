@@ -9,6 +9,7 @@ from .test_api_accounts import ApiCase
 
 class A1StudentTests(ApiCase):
     def setUp(self):
+        super().setUp()
         self.client.force_login(self.student)  # Anna, A1
         self.a2_topic = Topic.objects.filter(level=self.a2).first()
         self.a2_task = SpeakingTask.objects.filter(level=self.a2).first()
@@ -64,6 +65,7 @@ class OtherStudentsTests(ApiCase):
 
 class TeacherLevelTests(ApiCase):
     def setUp(self):
+        super().setUp()
         self.client.force_login(self.teacher)
         self.url = f"/teacher/students/{self.student.pk}/"
 

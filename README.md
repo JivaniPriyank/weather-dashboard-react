@@ -90,7 +90,7 @@ germanlab-react/
 │   └── spa.py                   serves the built React app for every page address
 ├── accounts/ content/ learning/ the database models and learning logic (same as before)
 ├── static/app/                  the built React app (made by `npm run build`)
-├── tests/                       68 automated API tests
+├── tests/                       81 automated API tests
 └── notebooks/                   Jupyter notebook (progress tables, CSV word import)
 ```
 
@@ -116,7 +116,7 @@ germanlab-react/
 python manage.py test tests --settings=config.settings.test
 ```
 
-68 tests cover sign-in and CSRF protection, request access and approval, teacher-only access, flashcard rules, quiz marking (answers are never sent to the browser before you answer), speaking answers (one per task, file checks, who can listen, scoring, deletion 3 days after feedback), video uploads and private streaming, classes, students, password reset, the content editor (teacher only, word import, question rules, grammar tables, speaking tasks, deleting a question while students are in a quiz), and that every page address serves the app.
+81 tests cover sign-in and CSRF protection, limits on sign-in, registration and password-reset attempts, request access and approval, teacher-only access, flashcard rules, quiz marking (answers are never sent to the browser before you answer), speaking answers (one per task, file checks, who can listen, scoring, deletion 3 days after feedback), video uploads and private streaming, classes, students, password reset, the content editor (teacher only, word import, question rules, grammar tables, speaking tasks, deleting a question while students are in a quiz), that the admin's "View on site" links open the right page, the production security headers, and that every page address serves the app.
 
 ---
 
@@ -138,4 +138,6 @@ Run `npm run build` before uploading if you changed the React code.
 - No real email yet: password-reset links appear in the `runserver` window.
 - Pronunciation uses the browser's German voice, which varies by device.
 - Recording in the browser needs microphone permission, and HTTPS once online.
-- No limit on sign-in attempts yet. Add one before going online.
+- Sign-in is limited: after 5 wrong passwords for one email (or 20 from one connection) sign-in waits 15 minutes. Registration and password-reset requests are limited the same way. The counters live in Django's cache, which is per process: with several gunicorn workers, configure a shared cache (for example Django's database cache) so the limits are counted together.
+- Fonts are part of the built app (no requests to Google). Online, the site sends a Content-Security-Policy (see `config/settings/prod.py`); if you embed something new, add its address there.
+- HSTS is off until you set `DJANGO_HSTS_SECONDS` (e.g. `31536000`). Turn it on once HTTPS works, because browsers remember it.

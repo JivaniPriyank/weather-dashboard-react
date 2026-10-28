@@ -86,6 +86,7 @@ class VideoTests(ApiCase):
 
 class SpeakingTests(ApiCase):
     def setUp(self):
+        super().setUp()
         self.task = SpeakingTask.objects.get(title="Sich vorstellen")
         self.url = f"/api/speaking/A1/{self.task.slug}/send/"
         self.client.force_login(self.student)

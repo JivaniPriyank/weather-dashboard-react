@@ -30,7 +30,7 @@
 .tab svg { width: 22px; height: 22px; }
 .tab[aria-current="page"] { color: var(--royal); }
 .tab[aria-current="page"]::before { content: ""; position: absolute; top: 0; left: 28%; right: 28%; height: 3px; border-radius: 0 0 3px 3px; background: var(--royal); }
-.tab:hover { color: var(--ink); }
+.tab:hover, .tab:focus-visible { color: var(--royal-deep); }
 .tab .count { position: absolute; top: 8px; left: calc(50% + 6px); }
 
 @media (min-width: 960px) {
@@ -53,8 +53,9 @@
   color: var(--ink-soft); text-decoration: none; font-weight: 500;
 }
 .nav a svg { width: 20px; height: 20px; flex: none; }
-.nav a:hover { background: var(--paper); color: var(--ink); }
-.nav a[aria-current="page"] { background: var(--royal-wash); color: var(--royal-deep); font-weight: 600; }
+.nav a:hover, .nav a:focus-visible { background: var(--hover-wash); color: var(--royal-deep); }
+.nav a:active { background: var(--royal-wash); }
+.nav a[aria-current="page"] { background: var(--royal-wash); color: var(--royal-deep); font-weight: 600; box-shadow: inset 3px 0 0 var(--royal); }
 .nav .count { margin-left: auto; }
 .sidebar-foot { margin-top: auto; display: flex; flex-direction: column; gap: var(--s3); font-size: 0.9rem; }
 .who { display: flex; align-items: center; gap: var(--s3); }
@@ -67,7 +68,7 @@
   padding: 4px 12px; border-radius: 999px; color: var(--ink-faint);
 }
 .level-switch button[aria-pressed="true"] { background: var(--ink); color: #fff; }
-.level-switch button:hover:not([aria-pressed="true"]) { color: var(--ink); }
+.level-switch button:hover:not([aria-pressed="true"]), .level-switch button:focus-visible:not([aria-pressed="true"]) { background: var(--royal-wash); color: var(--royal-deep); }
 .level-only span { padding: 4px 12px; border-radius: 999px; background: var(--ink); color: #fff; font-weight: 700; font-size: 0.85rem; }
 
 .sidebar .level-switch { align-self: flex-start; }
@@ -111,18 +112,6 @@
   .tab:hover svg { transform: translateY(-2px); }
 }
 
-/* ---------- Home button (top of the menu, first tab on phones) ---------- */
+/* ---------- Home (top of the menu, first tab on phones) ----------
+   Looks like the other menu items, so only the page you're on is highlighted. */
 .nav-sep { height: 1px; background: #EEF0F4; margin: var(--s2) 4px; }
-.nav a.nav-home {
-  padding: 12px 14px; border-radius: 12px; background: var(--ink); color: #fff; font-weight: 600;
-  transition: background-color var(--t-fast) var(--ease-out), transform var(--t-med) var(--ease-out), box-shadow var(--t-med) var(--ease-out);
-}
-.nav a.nav-home[aria-current="page"] { background: var(--ink); color: #fff; box-shadow: 0 0 0 3px var(--royal-wash); }
-.nav a.nav-home:active { transform: scale(.97); }
-.tab-home { color: var(--ink); }
-.tab-home svg { box-sizing: content-box; padding: 3px 9px; border-radius: 999px; background: var(--royal-wash); color: var(--royal-deep); }
-.tab-home[aria-current="page"]::before { display: none; }
-.tab-home[aria-current="page"] svg { background: var(--ink); color: #fff; }
-@media (any-hover: hover) {
-  .nav a.nav-home:hover { background: var(--royal-deep); color: #fff; transform: translateY(-1px); box-shadow: 0 8px 18px -10px rgba(24, 32, 58, .6); }
-}

@@ -1,6 +1,13 @@
 /* Components: the pieces used on many pages. Buttons, form fields, panels,
    lists and rows, badges, chips, stat tiles, tables, messages, speaker buttons,
-   the danger box and loading spinners. Each part has its own hover effects next to it. */
+   the danger box and loading spinners.
+
+   Interaction states, next to each part:
+   - hover and keyboard focus show the same change of colour, border or shadow,
+     so they are visible even when the device turns animations off;
+   - :active (pressing, also on touch screens) darkens or presses in;
+   - movement (lifting, sliding) is only an extra, inside @media (any-hover: hover),
+     and motion.css removes it when the device asks for reduced motion. */
 
 /* ---------- buttons ---------- */
 .btn {
@@ -13,17 +20,19 @@
 }
 .btn:active { transform: translateY(1px) scale(.97); box-shadow: none; }
 .btn-primary { background: var(--ink); color: #fff; }
-.btn-primary:hover { background: var(--royal-deep); color: #fff; }
+.btn:focus-visible { box-shadow: var(--focus); }
+.btn-primary:hover, .btn-primary:focus-visible { background: var(--royal); color: #fff; }
+.btn-primary:active { background: var(--royal-deep); }
 .btn-secondary { background: var(--surface); color: var(--ink); border-color: var(--line-strong); }
-.btn-secondary:hover { border-color: var(--ink); color: var(--ink); }
+.btn-secondary:hover, .btn-secondary:focus-visible { background: var(--royal-wash); border-color: var(--royal); color: var(--royal-deep); }
 .btn-quiet { background: none; color: var(--royal); padding-inline: var(--s3); }
-.btn-quiet:hover { background: var(--royal-wash); }
+.btn-quiet:hover, .btn-quiet:focus-visible { background: var(--royal-wash); color: var(--royal-deep); }
 .btn-danger { background: var(--surface); color: var(--bad); border-color: #E7B9C0; }
-.btn-danger:hover { background: var(--bad); color: #fff; border-color: var(--bad); }
+.btn-danger:hover, .btn-danger:focus-visible { background: var(--bad); color: #fff; border-color: var(--bad); }
 .btn-good { background: var(--good); color: #fff; }
-.btn-good:hover { background: #17623D; color: #fff; }
+.btn-good:hover, .btn-good:focus-visible { background: #17623D; color: #fff; }
 .btn-bad { background: var(--surface); color: var(--bad); border-color: #E7B9C0; }
-.btn-bad:hover { background: var(--bad-wash); }
+.btn-bad:hover, .btn-bad:focus-visible { background: var(--bad-wash); border-color: var(--bad); }
 .btn-block { width: 100%; }
 .btn-small { min-height: 36px; padding: 6px 14px; font-size: 0.9rem; }
 .btn[disabled], .btn[aria-disabled="true"] { opacity: .5; pointer-events: none; }
@@ -69,7 +78,9 @@ input, select, textarea { transition: border-color var(--t-fast) var(--ease-out)
 .list > li { border-top: 1px solid var(--line); }
 .list > li:first-child { border-top: 0; }
 .row { display: flex; align-items: center; gap: var(--s4); padding: var(--s4) var(--s5); color: inherit; text-decoration: none; }
-a.row:hover { background: #FAFBFD; color: inherit; }
+a.row:hover, a.row:focus-visible { background: var(--hover-wash); color: inherit; box-shadow: inset 3px 0 0 var(--royal); }
+a.row:hover .row-title, a.row:focus-visible .row-title { color: var(--royal-deep); }
+a.row:hover .chev, a.row:focus-visible .chev { color: var(--royal); }
 .row-main { flex: 1; min-width: 0; }
 .row-title { font-weight: 600; display: block; }
 .row-sub { font-size: 0.9rem; color: var(--ink-soft); }
@@ -77,11 +88,12 @@ a.row:hover { background: #FAFBFD; color: inherit; }
 .chev { width: 18px; height: 18px; color: var(--ink-faint); flex: none; }
 .row > svg { width: 22px; height: 22px; flex: none; color: var(--royal); }
 .chev svg, .mark svg { width: 100%; height: 100%; display: block; }
-a.row { transition: background-color var(--t-fast) var(--ease-out); }
+a.row { transition: background-color var(--t-fast) var(--ease-out), box-shadow var(--t-fast) var(--ease-out); }
+a.row .row-title { transition: color var(--t-fast) var(--ease-out); }
 a.row .chev, a.row > svg { transition: transform var(--t-med) var(--ease-out), color var(--t-fast); }
 a.row:active { background: var(--royal-wash); }
 @media (any-hover: hover) {
-  a.row:hover .chev { transform: translateX(4px); color: var(--royal); }
+  a.row:hover .chev { transform: translateX(4px); }
   a.row:hover > svg { transform: scale(1.1); }
 }
 
@@ -104,8 +116,8 @@ a.row:active { background: var(--royal-wash); }
 
 .chips { display: flex; flex-wrap: wrap; gap: var(--s2); margin-bottom: var(--s5); }
 .chip { padding: 6px 14px; border-radius: 999px; border: 1.5px solid var(--line-strong); background: var(--surface); color: var(--ink-soft); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
-.chip:hover { border-color: var(--ink); color: var(--ink); }
-.chip[aria-current="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+.chip:hover, .chip:focus-visible { border-color: var(--royal); color: var(--royal-deep); background: var(--royal-wash); }
+.chip[aria-current="true"], .chip[aria-current="true"]:hover { background: var(--ink); border-color: var(--ink); color: #fff; }
 button.chip { font: inherit; font-weight: 600; font-size: 0.9rem; cursor: pointer; }
 .chip { transition: background-color var(--t-fast) var(--ease-out), border-color var(--t-fast), color var(--t-fast), transform var(--t-fast) var(--ease-out); }
 .chip:active { transform: scale(.95); }
@@ -118,6 +130,7 @@ button.chip { font: inherit; font-weight: 600; font-size: 0.9rem; cursor: pointe
 .stat { background: var(--surface); padding: var(--s4) var(--s5); }
 .stat b { display: block; font-family: var(--font-head); font-size: 1.75rem; line-height: 1.1; }
 .stat span { font-size: 0.875rem; color: var(--ink-soft); }
+.stat .stat-of { font-size: 1rem; color: var(--ink-soft); }
 @media (min-width: 640px) { .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 /* clickable stat tiles: a blue border drawn inside the tile, so nothing shifts */
 .stat[href] { position: relative; transition: box-shadow var(--t-med) var(--ease-out), background-color var(--t-fast) var(--ease-out); }
@@ -135,9 +148,11 @@ button.chip { font: inherit; font-weight: 600; font-size: 0.9rem; cursor: pointe
   .stats > .stat:nth-child(1) { border-bottom-left-radius: calc(var(--radius-lg) - 1px); }
   .stats > .stat:nth-child(4) { border-top-right-radius: calc(var(--radius-lg) - 1px); }
 }
+a.stat { color: inherit; text-decoration: none; }
+.stat[href]:hover { background: var(--royal-wash); box-shadow: inset 0 0 0 2px var(--royal); }
+.stat[href]:hover b, .stat[href]:focus-visible b { color: var(--royal); }
 @media (any-hover: hover) {
-  .stat[href]:hover { background: var(--royal-wash); box-shadow: inset 0 0 0 2px var(--royal); }
-  .stat[href]:hover b { color: var(--royal); transform: scale(1.06); }
+  .stat[href]:hover b { transform: scale(1.06); }
 }
 
 .empty { text-align: center; padding: var(--s7) var(--s5); background: var(--surface); border: 1.5px dashed var(--line-strong); border-radius: var(--radius-lg); }
@@ -178,14 +193,14 @@ table.data tr:last-child td { border-bottom: 0; }
 
 /* ---------- speaker buttons ---------- */
 .say { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid var(--line-strong); background: var(--surface); color: var(--ink-soft); cursor: pointer; flex: none; padding: 0; }
-.say:hover { border-color: var(--royal); color: var(--royal); }
+.say:hover, .say:focus-visible { border-color: var(--royal); color: var(--royal); background: var(--royal-wash); }
 .say svg { width: 18px; height: 18px; }
 .say[hidden] { display: none; }
 .phrase .say { width: 28px; height: 28px; border: 0; background: rgba(255,255,255,.7); }  /* inside a phrase chip on the speaking page */
 .say { transition: transform var(--t-fast) var(--ease-spring), border-color var(--t-fast), color var(--t-fast), background-color var(--t-fast); }
 .say:active { transform: scale(.88); }
 @media (any-hover: hover) {
-  .say:hover { transform: scale(1.08); background: var(--royal-wash); }
+  .say:hover { transform: scale(1.08); }
 }
 
 /* ---------- danger box (delete) ---------- */
@@ -201,3 +216,16 @@ details.danger[open] > :not(summary) { animation: rise .26s var(--ease-out); }
 .spinner { width: 20px; height: 20px; border-radius: 50%; border: 2.5px solid var(--line); border-top-color: var(--royal); animation: spin .8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 2.4s; } }
+
+.skeleton { display: grid; gap: var(--s5); animation: skeleton-in .2s .15s both; }
+.skeleton-cards { display: grid; gap: var(--s3); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 720px) { .skeleton-cards { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.skeleton-rows { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; }
+.skeleton i { display: block; border-radius: var(--radius); }
+.skeleton-cards i { height: 108px; background: var(--surface); border: 1px solid var(--line); }
+.skeleton-rows i { height: 64px; border-radius: 0; background: var(--surface); }
+.skeleton i { background-image: linear-gradient(90deg, transparent 0, rgba(39, 66, 168, .06) 50%, transparent 100%);
+  background-size: 200% 100%; background-repeat: no-repeat; animation: shimmer 1.4s linear infinite; }
+@keyframes skeleton-in { from { opacity: 0; } }
+@keyframes shimmer { from { background-position: 150% 0; } to { background-position: -50% 0; } }
+@media (prefers-reduced-motion: reduce) { .skeleton i { animation: none; } }

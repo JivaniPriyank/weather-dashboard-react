@@ -15,6 +15,7 @@
   --royal: #2742A8;        /* Königsblau: links, focus, highlights */
   --royal-deep: #1C3185;
   --royal-wash: #EAEEFB;
+  --hover-wash: #F3F6FE;   /* background of a card or row under the mouse */
 
   --der: #2A5BD7;
   --die: #CF3348;
@@ -58,7 +59,7 @@ body {
 img, video, iframe { max-width: 100%; display: block; }
 a { color: var(--royal); text-underline-offset: 3px; text-decoration-thickness: 1px; }
 a:hover { color: var(--royal-deep); text-decoration-thickness: 2px; }
-:focus-visible { outline: none; box-shadow: var(--focus); border-radius: var(--radius-sm); }
+:focus-visible { outline: none; box-shadow: var(--focus); }
 [hidden] { display: none !important; }
 .visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .skip-link { position: absolute; left: var(--s4); top: -60px; background: var(--ink); color: #fff; padding: var(--s2) var(--s4); border-radius: var(--radius-sm); z-index: 100; }

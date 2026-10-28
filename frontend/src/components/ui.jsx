@@ -39,6 +39,18 @@ export function Loading({ label = "Loading…" }) {
   return <div className="loading" aria-busy="true"><span className="spinner" aria-hidden="true" />{label}</div>;
 }
 
+// Grey placeholder shapes while a page loads. They fade in after a short moment,
+// so pages that load quickly never flash them.
+export function Skeleton({ label = "Loading…" }) {
+  return (
+    <div className="skeleton" role="status">
+      <span className="visually-hidden">{label}</span>
+      <div className="skeleton-cards" aria-hidden="true"><i /><i /><i /><i /></div>
+      <div className="skeleton-rows" aria-hidden="true"><i /><i /><i /></div>
+    </div>
+  );
+}
+
 export function ErrorState({ error, onRetry }) {
   return (
     <div className="empty" role="alert">
@@ -51,7 +63,7 @@ export function ErrorState({ error, onRetry }) {
 
 // Show loading / error / content for a useApi() result.
 export function Async({ state, children }) {
-  if (state.loading && !state.data) return <Loading />;
+  if (state.loading && !state.data) return <Skeleton />;
   if (state.error) return <ErrorState error={state.error} onRetry={state.reload} />;
   if (!state.data) return null;
   return children(state.data);
@@ -115,18 +127,18 @@ export function Article({ article }) {
   return <><span className={`art art-${article}`}>{article}</span>{" "}</>;
 }
 
-export function Meter({ percent, good, label, style, practised }) {
+export function Meter({ percent, good, label, style, practised, className = "" }) {
   if (practised != null) {
     // two layers: words practised (light blue) with words learned for good (green) on top
     return (
-      <div className="meter meter-two" role="img" aria-label={label} style={style}>
+      <div className={`meter meter-two ${className}`} role="img" aria-label={label} style={style}>
         <span className="meter-practised" style={{ width: `${practised}%` }} />
         <span className="meter-learned" style={{ width: `${percent}%` }} />
       </div>
     );
   }
   return (
-    <div className={`meter${good ? " meter-good" : ""}`} role="img" aria-label={label} style={style}>
+    <div className={`meter${good ? " meter-good" : ""} ${className}`} role="img" aria-label={label} style={style}>
       <span style={{ width: `${percent}%` }} />
     </div>
   );

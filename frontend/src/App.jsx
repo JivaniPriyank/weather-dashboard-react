@@ -1,3 +1,4 @@
+import { lazy } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import { AppLayout, GuestOnly, PublicLayout, RequireApproved, RequireTeacher } from "./components/Layout";
 
@@ -24,18 +25,24 @@ import GrammarTopic from "./pages/student/GrammarTopic";
 import Videos from "./pages/student/Videos";
 import VideoDetail from "./pages/student/VideoDetail";
 
-import Overview from "./pages/teacher/Overview";
-import Requests from "./pages/teacher/Requests";
-import Students from "./pages/teacher/Students";
-import StudentDetail from "./pages/teacher/StudentDetail";
-import { ClassEdit, Classes } from "./pages/teacher/Classes";
-import { TeacherVideos, VideoEdit } from "./pages/teacher/Videos";
-import { SpeakingInbox, SpeakingReview } from "./pages/teacher/SpeakingAnswers";
-import ContentHome from "./pages/teacher/content/ContentHome";
-import { TopicEdit, TopicNew } from "./pages/teacher/content/TopicEdit";
-import QuestionEdit from "./pages/teacher/content/QuestionEdit";
-import GrammarEdit from "./pages/teacher/content/GrammarEdit";
-import SpeakingEdit from "./pages/teacher/content/SpeakingEdit";
+// Teacher pages load only when a teacher opens them, so students never download them.
+const teacherPage = (load, name = "default") => lazy(() => load().then((m) => ({ default: m[name] })));
+const Overview = teacherPage(() => import("./pages/teacher/Overview"));
+const Requests = teacherPage(() => import("./pages/teacher/Requests"));
+const Students = teacherPage(() => import("./pages/teacher/Students"));
+const StudentDetail = teacherPage(() => import("./pages/teacher/StudentDetail"));
+const Classes = teacherPage(() => import("./pages/teacher/Classes"), "Classes");
+const ClassEdit = teacherPage(() => import("./pages/teacher/Classes"), "ClassEdit");
+const TeacherVideos = teacherPage(() => import("./pages/teacher/Videos"), "TeacherVideos");
+const VideoEdit = teacherPage(() => import("./pages/teacher/Videos"), "VideoEdit");
+const SpeakingInbox = teacherPage(() => import("./pages/teacher/SpeakingAnswers"), "SpeakingInbox");
+const SpeakingReview = teacherPage(() => import("./pages/teacher/SpeakingAnswers"), "SpeakingReview");
+const ContentHome = teacherPage(() => import("./pages/teacher/content/ContentHome"));
+const TopicEdit = teacherPage(() => import("./pages/teacher/content/TopicEdit"), "TopicEdit");
+const TopicNew = teacherPage(() => import("./pages/teacher/content/TopicEdit"), "TopicNew");
+const QuestionEdit = teacherPage(() => import("./pages/teacher/content/QuestionEdit"));
+const GrammarEdit = teacherPage(() => import("./pages/teacher/content/GrammarEdit"));
+const SpeakingEdit = teacherPage(() => import("./pages/teacher/content/SpeakingEdit"));
 
 function NotFound() {
   return (

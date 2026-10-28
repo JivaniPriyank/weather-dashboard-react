@@ -112,7 +112,7 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# Uploaded videos. They are NOT served publicly: content.views.video_stream
+# Uploaded videos. They are NOT served publicly: api.views_student.video_stream
 # checks that the viewer is an approved student or the teacher first.
 MEDIA_ROOT = Path(env("MEDIA_ROOT", BASE_DIR / "media"))
 VIDEO_MAX_UPLOAD_MB = int(env("VIDEO_MAX_UPLOAD_MB", "500"))

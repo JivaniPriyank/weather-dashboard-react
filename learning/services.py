@@ -5,7 +5,8 @@ import unicodedata
 from datetime import timedelta
 
 from django.conf import settings
-from django.db.models import Count, Q
+from django.db.models import Count, Max, Q
+from django.db.models.functions import TruncDate
 from django.utils import timezone
 
 from content.models import Level, QuizQuestion, Video, VocabularyItem
@@ -119,22 +120,31 @@ def mark_video_watched(user, video):
 
 
 # ---------- progress ----------
-def activity_dates(user, days=60):
+def _activity(user):
+    """Every kind of practice a student does, as (queryset, time field)."""
+    return (
+        (CardReview.objects.filter(user=user), "last_reviewed_at"),
+        (QuizAnswer.objects.filter(attempt__user=user), "answered_at"),
+        (SpeakingPractice.objects.filter(user=user), "practised_at"),
+        (VideoView.objects.filter(user=user), "watched_at"),
+    )
+
+
+def activity_dates(user, days=400):
+    """The local dates with any practice. The database groups by day, so only one
+    row per day comes back however much the student practised."""
     since = timezone.now() - timedelta(days=days)
+    tz = timezone.get_current_timezone()
     dates = set()
-    for qs, field in (
-        (CardReview.objects.filter(user=user, last_reviewed_at__gte=since), "last_reviewed_at"),
-        (QuizAnswer.objects.filter(attempt__user=user, answered_at__gte=since), "answered_at"),
-        (SpeakingPractice.objects.filter(user=user, practised_at__gte=since), "practised_at"),
-        (VideoView.objects.filter(user=user, watched_at__gte=since), "watched_at"),
-    ):
-        dates.update(timezone.localtime(v).date() for v in qs.values_list(field, flat=True))
+    for qs, field in _activity(user):
+        dates.update(qs.filter(**{f"{field}__gte": since})
+                     .annotate(day=TruncDate(field, tzinfo=tz)).order_by().values_list("day", flat=True).distinct())
     return dates
 
 
-def streak(user):
+def streak(user, dates=None):
     """Consecutive days with any practice, counting today or yesterday as the start."""
-    dates = activity_dates(user)
+    dates = activity_dates(user) if dates is None else dates
     day = timezone.localdate()
     if day not in dates:
         day -= timedelta(days=1)
@@ -145,30 +155,42 @@ def streak(user):
     return count
 
 
+def last_active(user):
+    """The local date of the student's latest practice, or None."""
+    times = [qs.aggregate(m=Max(field))["m"] for qs, field in _activity(user)]
+    latest = max((t for t in times if t), default=None)
+    return timezone.localtime(latest).date() if latest else None
+
+
 def student_summary(user, level=None):
+    """What the student has done (at one level, or all levels). The streak and the last
+    active day count practice at every level."""
     reviews = CardReview.objects.filter(user=user)
     attempts = QuizAttempt.objects.filter(user=user, finished_at__isnull=False)
     words_total = VocabularyItem.objects.all()
     speaking = SpeakingPractice.objects.filter(user=user)
-    videos = VideoView.objects.filter(user=user)
+    videos = VideoView.objects.filter(user=user, watched_at__isnull=False)
     if level:
         reviews = reviews.filter(item__topic__level=level)
         attempts = attempts.filter(level=level)
         words_total = words_total.filter(topic__level=level)
         speaking = speaking.filter(task__level=level)
         videos = videos.filter(video__level=level)
-    answers = QuizAnswer.objects.filter(attempt__in=attempts)
-    answered = answers.count()
+    words = reviews.aggregate(seen=Count("id"), learned=Count("id", filter=Q(box__gte=4)))
+    answers = QuizAnswer.objects.filter(attempt__in=attempts).aggregate(
+        n=Count("id"), right=Count("id", filter=Q(is_correct=True)))
+    dates = activity_dates(user)
     return {
         "words_total": words_total.count(),
-        "words_seen": reviews.count(),
-        "words_learned": reviews.filter(box__gte=4).count(),
+        "words_seen": words["seen"],
+        "words_learned": words["learned"],
         "quizzes_done": attempts.count(),
-        "quiz_accuracy": round(answers.filter(is_correct=True).count() / answered * 100) if answered else None,
+        "quiz_accuracy": round(answers["right"] / answers["n"] * 100) if answers["n"] else None,
         "speaking_done": speaking.values("task").distinct().count(),
-        "videos_watched": videos.filter(watched_at__isnull=False).count(),
-        "streak": streak(user),
-        "last_active": max(activity_dates(user, days=3650), default=None),
+        "videos_watched": videos.count(),
+        "streak": streak(user, dates),
+        # The latest practice day is usually among the recent dates; only look further back if not.
+        "last_active": max(dates) if dates else last_active(user),
     }
 
 
@@ -232,8 +254,6 @@ def purge_old_recordings(now=None):
 # ---------- what a student has done (for the teacher) ----------
 def student_decks(user, level=None):
     """Every word deck the student has practised: words practised and learned, last studied."""
-    from django.db.models import Max
-
     from content.models import Topic
 
     reviews = CardReview.objects.filter(user=user)
@@ -252,8 +272,6 @@ def student_decks(user, level=None):
 
 def student_activity(user, level=None, limit=15):
     """The student's most recent actions at one level (or all levels), newest first."""
-    from django.db.models import Max
-
     from .models import SpeakingSubmission
 
     events = []
@@ -267,7 +285,7 @@ def student_activity(user, level=None, limit=15):
     for x in sessions:
         events.append({"kind": "words", "at": x["at"], "title": f"Practised words: {x['item__topic__name']}",
                        "sub": f"{x['item__topic__level__code']} · {x['n']} word{'s' if x['n'] != 1 else ''}"})
-    for a in at_level(QuizAttempt.objects.filter(user=user, finished_at__isnull=False), "level").select_related("level", "grammar_topic")[:limit]:
+    for a in at_level(QuizAttempt.objects.filter(user=user, finished_at__isnull=False), "level").with_score().select_related("level", "grammar_topic")[:limit]:
         events.append({"kind": "quiz", "at": a.finished_at, "title": f"Finished quiz: {a.title}",
                        "sub": f"{a.score} of {a.total} right", "score": a.score, "total": a.total})
     for p in at_level(SpeakingPractice.objects.filter(user=user), "task__level").select_related("task", "task__level")[:limit]:

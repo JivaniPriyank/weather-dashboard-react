@@ -1,5 +1,7 @@
+import { Suspense } from "react";
 import { Link, NavLink, Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import Icon, { BrandMark } from "./Icon";
+import { Loading } from "./ui";
 import { api } from "../lib/api";
 import { useSession } from "../lib/session";
 import { useToast } from "./Toasts";
@@ -139,7 +141,7 @@ export function AppLayout() {
 
       <div>
         <header className="topbar"><Brand /><LevelSwitch /></header>
-        <main className="main" id="main"><Outlet /></main>
+        <main className="main" id="main"><Suspense fallback={<Loading />}><Outlet /></Suspense></main>
       </div>
 
       <nav className="tabbar" aria-label="Main menu">

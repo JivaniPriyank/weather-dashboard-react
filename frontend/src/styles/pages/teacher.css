@@ -1,0 +1,72 @@
+/* Teacher pages: access requests and the four Overview cards. */
+
+/* ---------- teacher ---------- */
+.request { display: grid; gap: var(--s4); padding: var(--s5); }
+@media (min-width: 760px) { .request { grid-template-columns: 1fr auto; align-items: center; } }
+.request form { display: flex; flex-wrap: wrap; gap: var(--s2); align-items: center; }
+.request select { width: auto; min-width: 150px; }
+.note-quote { margin-top: var(--s2); padding-left: var(--s3); border-left: 3px solid var(--line-strong); color: var(--ink-soft); font-style: italic; }
+.request-actions { display: flex; flex-wrap: wrap; gap: var(--s2); align-items: center; }
+.request-actions select { width: auto; min-width: 150px; }
+
+/* ---- teacher overview: four separate cards ---- */
+.teach-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (min-width: 640px) { .teach-cards { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; } }
+.teach-card {
+  position: relative; display: flex; flex-direction: column; gap: 2px;
+  padding: var(--s4) var(--s5) var(--s5); border-radius: var(--radius-lg);
+  background: var(--surface); border: 0;
+  color: var(--ink); text-decoration: none;
+  box-shadow: 0 1px 3px rgba(24, 32, 58, .06), 0 6px 16px -8px rgba(24, 32, 58, .16);
+  animation: rise .45s var(--ease-out) both;
+  transition: transform var(--t-med) var(--ease-out), box-shadow var(--t-med) var(--ease-out), border-color var(--t-fast) var(--ease-out), background-color var(--t-fast) var(--ease-out);
+}
+.teach-card:nth-child(2) { animation-delay: .06s; }
+.teach-card:nth-child(3) { animation-delay: .12s; }
+.teach-card:nth-child(4) { animation-delay: .18s; }
+.teach-card:hover { color: var(--ink); text-decoration: none; }
+.teach-card-icon {
+  display: grid; place-items: center; width: 40px; height: 40px; margin-bottom: var(--s3);
+  border-radius: 12px; background: var(--royal-wash); color: var(--royal);
+  transition: background-color var(--t-fast) var(--ease-out), color var(--t-fast) var(--ease-out), transform var(--t-med) var(--ease-spring);
+}
+.teach-card-icon svg { width: 22px; height: 22px; }
+.teach-card b { font-family: var(--font-head); font-size: 2rem; line-height: 1.05; transition: color var(--t-fast) var(--ease-out); }
+.teach-card-label { font-size: .875rem; color: var(--ink-soft); }
+.teach-card-go {
+  position: absolute; top: var(--s4); right: var(--s4); display: grid; place-items: center;
+  width: 30px; height: 30px; border-radius: 50%; color: var(--ink-soft);
+  transition: transform var(--t-med) var(--ease-out), background-color var(--t-fast), color var(--t-fast);
+}
+.teach-card-go svg { width: 18px; height: 18px; }
+.teach-card:focus-visible { outline: 2px solid var(--royal); outline-offset: 3px; }
+.teach-card:active { transform: scale(.97); }
+@media (any-hover: hover) {
+  .teach-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 36px -12px rgba(39, 66, 168, .40), 0 6px 14px -6px rgba(24, 32, 58, .18);
+  }
+  .teach-card:hover .teach-card-icon { background: var(--royal); color: #fff; transform: scale(1.08) rotate(-6deg); }
+  .teach-card:hover b { color: var(--royal); }
+  .teach-card:hover .teach-card-go { background: var(--royal-wash); color: var(--royal); transform: translateX(3px); }
+  .teach-card:active { transform: translateY(-1px) scale(.98); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .teach-card { animation: none; }
+  .teach-card:hover, .teach-card:active, .teach-card:hover .teach-card-icon, .teach-card:hover .teach-card-go { transform: none; }
+}
+
+/* ---------- student page: recent activity and word decks ---------- */
+.activity-list .row { padding-block: var(--s3); }
+.activity-icon { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: var(--royal-wash); color: var(--royal); }
+.activity-icon svg { width: 18px; height: 18px; }
+.activity-quiz { background: var(--note-wash); color: var(--note); }
+.activity-speaking, .activity-answer { background: var(--good-wash); color: var(--good); }
+.activity-video { background: #F1F3F7; color: var(--ink-soft); }
+.deck-progress { display: inline-flex; align-items: center; gap: var(--s2); white-space: nowrap; }
+.student-level { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3) var(--s4); margin-bottom: var(--s5); }
+.words-by-level { white-space: nowrap; }
+.words-by-level span { display: block; }
+.words-by-level b { display: inline-block; min-width: 26px; color: var(--ink-soft); font-size: .85rem; }
+.request-actions .level-select { min-width: 84px; }
+.request .row-title, .request .row-sub { display: block; }

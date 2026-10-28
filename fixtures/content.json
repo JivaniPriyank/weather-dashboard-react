@@ -1,0 +1,1832 @@
+{
+ "levels": [
+  {
+   "code": "A1",
+   "name": "Beginner",
+   "order": 1
+  },
+  {
+   "code": "A2",
+   "name": "Elementary",
+   "order": 2
+  }
+ ],
+ "topics": [
+  {
+   "level": "A1",
+   "name": "Begrüßung",
+   "description": "Greetings and polite words",
+   "order": 1,
+   "items": [
+    {
+     "article": "",
+     "german": "Hallo",
+     "english": "Hello",
+     "example": "Hallo! Wie heißt du?"
+    },
+    {
+     "article": "",
+     "german": "Guten Morgen",
+     "english": "Good morning",
+     "example": "Guten Morgen! Wie geht es Ihnen?"
+    },
+    {
+     "article": "",
+     "german": "Auf Wiedersehen",
+     "english": "Goodbye",
+     "example": "Auf Wiedersehen und einen schönen Tag!"
+    },
+    {
+     "article": "",
+     "german": "Bitte",
+     "english": "Please / You're welcome",
+     "example": "Kannst du mir bitte helfen?"
+    },
+    {
+     "article": "",
+     "german": "Danke",
+     "english": "Thank you",
+     "example": "Danke sehr für Ihre Hilfe!"
+    },
+    {
+     "article": "",
+     "german": "Entschuldigung",
+     "english": "Excuse me / Sorry",
+     "example": "Entschuldigung, wo ist der Bahnhof?"
+    }
+   ]
+  },
+  {
+   "level": "A1",
+   "name": "Familie",
+   "description": "Family",
+   "order": 2,
+   "items": [
+    {
+     "article": "die",
+     "german": "Mutter",
+     "english": "the mother",
+     "example": "Meine Mutter kocht sehr gut."
+    },
+    {
+     "article": "der",
+     "german": "Vater",
+     "english": "the father",
+     "example": "Mein Vater arbeitet als Ingenieur."
+    },
+    {
+     "article": "der",
+     "german": "Bruder",
+     "english": "the brother",
+     "example": "Ich habe einen älteren Bruder."
+    },
+    {
+     "article": "die",
+     "german": "Schwester",
+     "english": "the sister",
+     "example": "Meine Schwester wohnt in München."
+    },
+    {
+     "article": "das",
+     "german": "Kind",
+     "english": "the child",
+     "example": "Das Kind spielt im Garten."
+    },
+    {
+     "article": "die",
+     "german": "Familie",
+     "english": "the family",
+     "example": "Meine Familie ist sehr groß."
+    }
+   ]
+  },
+  {
+   "level": "A1",
+   "name": "Wohnen",
+   "description": "Home and rooms",
+   "order": 3,
+   "items": [
+    {
+     "article": "das",
+     "german": "Haus",
+     "english": "the house",
+     "example": "Das Haus ist sehr groß und hell."
+    },
+    {
+     "article": "die",
+     "german": "Wohnung",
+     "english": "the apartment",
+     "example": "Ich wohne in einer kleinen Wohnung."
+    },
+    {
+     "article": "das",
+     "german": "Zimmer",
+     "english": "the room",
+     "example": "Das Zimmer hat zwei Fenster."
+    },
+    {
+     "article": "die",
+     "german": "Küche",
+     "english": "the kitchen",
+     "example": "Die Küche ist modern und praktisch."
+    },
+    {
+     "article": "das",
+     "german": "Schlafzimmer",
+     "english": "the bedroom",
+     "example": "Das Schlafzimmer ist sehr ruhig."
+    },
+    {
+     "article": "das",
+     "german": "Bad",
+     "english": "the bathroom",
+     "example": "Das Bad hat eine Badewanne."
+    }
+   ]
+  },
+  {
+   "level": "A1",
+   "name": "Essen",
+   "description": "Food and drink",
+   "order": 4,
+   "items": [
+    {
+     "article": "das",
+     "german": "Brot",
+     "english": "the bread",
+     "example": "Ich esse jeden Morgen Brot."
+    },
+    {
+     "article": "der",
+     "german": "Käse",
+     "english": "the cheese",
+     "example": "Der Käse schmeckt sehr lecker."
+    },
+    {
+     "article": "das",
+     "german": "Fleisch",
+     "english": "the meat",
+     "example": "Ich esse kein Fleisch — ich bin Vegetarier."
+    },
+    {
+     "article": "das",
+     "german": "Gemüse",
+     "english": "the vegetables",
+     "example": "Gemüse ist sehr gesund."
+    },
+    {
+     "article": "das",
+     "german": "Wasser",
+     "english": "the water",
+     "example": "Ich trinke jeden Tag viel Wasser."
+    },
+    {
+     "article": "der",
+     "german": "Kaffee",
+     "english": "the coffee",
+     "example": "Morgens trinke ich immer Kaffee."
+    }
+   ]
+  },
+  {
+   "level": "A1",
+   "name": "Zahlen",
+   "description": "Numbers",
+   "order": 5,
+   "items": [
+    {
+     "article": "",
+     "german": "eins",
+     "english": "one (1)",
+     "example": "Ich habe einen Bruder."
+    },
+    {
+     "article": "",
+     "german": "zwei",
+     "english": "two (2)",
+     "example": "Wir haben zwei Katzen."
+    },
+    {
+     "article": "",
+     "german": "zehn",
+     "english": "ten (10)",
+     "example": "Das kostet zehn Euro."
+    },
+    {
+     "article": "",
+     "german": "zwanzig",
+     "english": "twenty (20)",
+     "example": "Sie ist zwanzig Jahre alt."
+    },
+    {
+     "article": "",
+     "german": "hundert",
+     "english": "one hundred (100)",
+     "example": "Das Buch kostet hundert Euro."
+    }
+   ]
+  },
+  {
+   "level": "A1",
+   "name": "Verben",
+   "description": "Everyday verbs",
+   "order": 6,
+   "items": [
+    {
+     "article": "",
+     "german": "sein",
+     "english": "to be",
+     "example": "Ich bin Studentin. Er ist Arzt."
+    },
+    {
+     "article": "",
+     "german": "haben",
+     "english": "to have",
+     "example": "Wir haben eine große Wohnung."
+    },
+    {
+     "article": "",
+     "german": "kommen",
+     "english": "to come",
+     "example": "Woher kommen Sie?"
+    },
+    {
+     "article": "",
+     "german": "wohnen",
+     "english": "to live / reside",
+     "example": "Ich wohne seit zwei Jahren in Berlin."
+    },
+    {
+     "article": "",
+     "german": "arbeiten",
+     "english": "to work",
+     "example": "Mein Vater arbeitet in einer Firma."
+    },
+    {
+     "article": "",
+     "german": "lernen",
+     "english": "to learn",
+     "example": "Ich lerne seit sechs Monaten Deutsch."
+    },
+    {
+     "article": "",
+     "german": "essen",
+     "english": "to eat",
+     "example": "Was isst du gern zum Frühstück?"
+    },
+    {
+     "article": "",
+     "german": "trinken",
+     "english": "to drink",
+     "example": "Trinkst du lieber Kaffee oder Tee?"
+    },
+    {
+     "article": "",
+     "german": "sprechen",
+     "english": "to speak",
+     "example": "Ich spreche Englisch und Deutsch."
+    },
+    {
+     "article": "",
+     "german": "verstehen",
+     "english": "to understand",
+     "example": "Entschuldigung, ich verstehe das nicht."
+    }
+   ]
+  },
+  {
+   "level": "A1",
+   "name": "Adjektive",
+   "description": "Describing things",
+   "order": 7,
+   "items": [
+    {
+     "article": "",
+     "german": "groß",
+     "english": "big / tall",
+     "example": "Die Stadt ist sehr groß."
+    },
+    {
+     "article": "",
+     "german": "klein",
+     "english": "small / short",
+     "example": "Das ist eine kleine Wohnung."
+    },
+    {
+     "article": "",
+     "german": "gut",
+     "english": "good",
+     "example": "Das Essen ist sehr gut hier."
+    },
+    {
+     "article": "",
+     "german": "schlecht",
+     "english": "bad",
+     "example": "Das Wetter ist heute schlecht."
+    },
+    {
+     "article": "",
+     "german": "schön",
+     "english": "beautiful / nice",
+     "example": "Das ist ein sehr schönes Bild."
+    },
+    {
+     "article": "",
+     "german": "interessant",
+     "english": "interesting",
+     "example": "Der Film war sehr interessant."
+    },
+    {
+     "article": "",
+     "german": "müde",
+     "english": "tired",
+     "example": "Ich bin heute sehr müde."
+    },
+    {
+     "article": "",
+     "german": "krank",
+     "english": "sick / ill",
+     "example": "Er ist krank und bleibt zu Hause."
+    }
+   ]
+  },
+  {
+   "level": "A2",
+   "name": "Konjunktionen",
+   "description": "Linking words",
+   "order": 1,
+   "items": [
+    {
+     "article": "",
+     "german": "weil",
+     "english": "because (verb-end!)",
+     "example": "Ich lerne Deutsch, weil ich in Deutschland arbeiten möchte."
+    },
+    {
+     "article": "",
+     "german": "obwohl",
+     "english": "although / even though",
+     "example": "Ich gehe spazieren, obwohl es regnet."
+    },
+    {
+     "article": "",
+     "german": "dass",
+     "english": "that (conjunction)",
+     "example": "Ich denke, dass Deutsch interessant ist."
+    },
+    {
+     "article": "",
+     "german": "wenn",
+     "english": "when / if (present)",
+     "example": "Wenn ich Zeit habe, lese ich gern."
+    },
+    {
+     "article": "",
+     "german": "als",
+     "english": "when (past, one-time)",
+     "example": "Als ich jung war, wohnte ich in Rom."
+    },
+    {
+     "article": "",
+     "german": "damit",
+     "english": "so that",
+     "example": "Ich lerne Deutsch, damit ich hier arbeiten kann."
+    },
+    {
+     "article": "",
+     "german": "deshalb",
+     "english": "therefore / that's why",
+     "example": "Es regnet, deshalb bleibe ich zu Hause."
+    },
+    {
+     "article": "",
+     "german": "trotzdem",
+     "english": "nevertheless",
+     "example": "Es war spät, trotzdem bin ich gegangen."
+    }
+   ]
+  },
+  {
+   "level": "A2",
+   "name": "Vergangenheit",
+   "description": "Talking about the past",
+   "order": 2,
+   "items": [
+    {
+     "article": "",
+     "german": "gemacht (machen)",
+     "english": "made / done: Perfekt with haben",
+     "example": "Ich habe gestern Sport gemacht."
+    },
+    {
+     "article": "",
+     "german": "gegangen (gehen)",
+     "english": "gone: Perfekt with sein",
+     "example": "Wir sind gestern ins Kino gegangen."
+    },
+    {
+     "article": "",
+     "german": "damals",
+     "english": "back then / at that time",
+     "example": "Damals hatten wir kein Internet."
+    },
+    {
+     "article": "",
+     "german": "früher",
+     "english": "in the past / before",
+     "example": "Früher habe ich viel Sport gemacht."
+    },
+    {
+     "article": "",
+     "german": "seitdem",
+     "english": "since then",
+     "example": "Seitdem habe ich viel gelernt."
+    },
+    {
+     "article": "",
+     "german": "plötzlich",
+     "english": "suddenly",
+     "example": "Plötzlich hat es angefangen zu regnen."
+    }
+   ]
+  },
+  {
+   "level": "A2",
+   "name": "Meinung",
+   "description": "Giving your opinion",
+   "order": 3,
+   "items": [
+    {
+     "article": "",
+     "german": "einerseits",
+     "english": "on the one hand",
+     "example": "Einerseits ist das praktisch, andererseits teuer."
+    },
+    {
+     "article": "",
+     "german": "andererseits",
+     "english": "on the other hand",
+     "example": "Andererseits hat es auch Vorteile."
+    },
+    {
+     "article": "der",
+     "german": "Vorteil",
+     "english": "the advantage",
+     "example": "Der große Vorteil ist die Flexibilität."
+    },
+    {
+     "article": "der",
+     "german": "Nachteil",
+     "english": "the disadvantage",
+     "example": "Der einzige Nachteil ist der Preis."
+    },
+    {
+     "article": "",
+     "german": "meiner Meinung nach",
+     "english": "in my opinion",
+     "example": "Meiner Meinung nach ist das zu teuer."
+    },
+    {
+     "article": "",
+     "german": "ich stimme zu",
+     "english": "I agree",
+     "example": "Ich stimme dir zu — das ist richtig."
+    }
+   ]
+  },
+  {
+   "level": "A2",
+   "name": "Vergleich",
+   "description": "Comparing",
+   "order": 4,
+   "items": [
+    {
+     "article": "",
+     "german": "größer als",
+     "english": "bigger than",
+     "example": "Berlin ist größer als München."
+    },
+    {
+     "article": "",
+     "german": "besser als",
+     "english": "better than",
+     "example": "Das ist viel besser als vorher."
+    },
+    {
+     "article": "",
+     "german": "genauso ... wie",
+     "english": "just as ... as",
+     "example": "Er ist genauso alt wie ich."
+    },
+    {
+     "article": "",
+     "german": "im Vergleich zu",
+     "english": "compared to",
+     "example": "Im Vergleich zu Berlin ist Wien kleiner."
+    },
+    {
+     "article": "",
+     "german": "am besten",
+     "english": "the best (superlative)",
+     "example": "Sie spricht am besten Deutsch."
+    }
+   ]
+  },
+  {
+   "level": "A2",
+   "name": "Formell",
+   "description": "Formal letters and emails",
+   "order": 5,
+   "items": [
+    {
+     "article": "",
+     "german": "Sehr geehrte Damen und Herren",
+     "english": "Dear Sir or Madam",
+     "example": "Sehr geehrte Damen und Herren, ich schreibe Ihnen..."
+    },
+    {
+     "article": "",
+     "german": "Mit freundlichen Grüßen",
+     "english": "Yours sincerely / Best regards",
+     "example": "Mit freundlichen Grüßen, Maria Müller"
+    },
+    {
+     "article": "",
+     "german": "bezüglich",
+     "english": "regarding / concerning",
+     "example": "Bezüglich Ihrer Anfrage vom 5. März..."
+    },
+    {
+     "article": "",
+     "german": "hiermit",
+     "english": "hereby",
+     "example": "Hiermit bewerbe ich mich für die Stelle."
+    },
+    {
+     "article": "",
+     "german": "anbei",
+     "english": "attached / enclosed",
+     "example": "Anbei finden Sie meine Unterlagen."
+    },
+    {
+     "article": "",
+     "german": "sich bewerben",
+     "english": "to apply (for a job)",
+     "example": "Ich bewerbe mich für die Stelle als Kellnerin."
+    }
+   ]
+  },
+  {
+   "level": "A2",
+   "name": "Adverbien",
+   "description": "Useful adverbs",
+   "order": 6,
+   "items": [
+    {
+     "article": "",
+     "german": "eigentlich",
+     "english": "actually / basically",
+     "example": "Ich wollte eigentlich früher kommen."
+    },
+    {
+     "article": "",
+     "german": "nämlich",
+     "english": "namely / you see",
+     "example": "Ich kann nicht — ich bin nämlich krank."
+    },
+    {
+     "article": "",
+     "german": "zumindest",
+     "english": "at least",
+     "example": "Das war zumindest ein guter Versuch."
+    },
+    {
+     "article": "",
+     "german": "sofort",
+     "english": "immediately / right away",
+     "example": "Ich komme sofort!"
+    },
+    {
+     "article": "",
+     "german": "außerdem",
+     "english": "furthermore / besides",
+     "example": "Außerdem spreche ich auch Spanisch."
+    },
+    {
+     "article": "",
+     "german": "ungefähr",
+     "english": "approximately / about",
+     "example": "Ich bin ungefähr 30 Minuten gefahren."
+    }
+   ]
+  }
+ ],
+ "grammar": [
+  {
+   "level": "A1",
+   "title": "Präsens: regular verbs",
+   "order": 1,
+   "rule": "Regular verbs follow: verb stem + ending. Remove -en from infinitive to get the stem.",
+   "table": {
+    "headers": [
+     "Person",
+     "Ending",
+     "lernen"
+    ],
+    "rows": [
+     [
+      "ich",
+      "-e",
+      "lerne"
+     ],
+     [
+      "du",
+      "-st",
+      "lernst"
+     ],
+     [
+      "er/sie/es",
+      "-t",
+      "lernt"
+     ],
+     [
+      "wir",
+      "-en",
+      "lernen"
+     ],
+     [
+      "ihr",
+      "-t",
+      "lernt"
+     ],
+     [
+      "Sie/sie",
+      "-en",
+      "lernen"
+     ]
+    ]
+   },
+   "examples": [
+    {
+     "de": "Ich lerne Deutsch.",
+     "en": "I am learning German."
+    },
+    {
+     "de": "Du arbeitest viel.",
+     "en": "You work a lot."
+    }
+   ]
+  },
+  {
+   "level": "A1",
+   "title": "Artikel: der, die, das",
+   "order": 2,
+   "rule": "Every noun has an article: maskulin (der), feminin (die), neutral (das). You must memorise the article with each noun!",
+   "table": {
+    "headers": [
+     "Gender",
+     "Article",
+     "Example"
+    ],
+    "rows": [
+     [
+      "maskulin",
+      "der",
+      "der Mann, der Tisch"
+     ],
+     [
+      "feminin",
+      "die",
+      "die Frau, die Stadt"
+     ],
+     [
+      "neutral",
+      "das",
+      "das Kind, das Haus"
+     ],
+     [
+      "Plural",
+      "die",
+      "die Männer, die Frauen"
+     ]
+    ]
+   },
+   "examples": [
+    {
+     "de": "der Vater, die Mutter, das Kind",
+     "en": "the father, the mother, the child"
+    }
+   ]
+  },
+  {
+   "level": "A1",
+   "title": "Verneinung: nicht and kein",
+   "order": 3,
+   "rule": "'nicht' negates verbs and adjectives. 'kein' negates nouns (= not a / no). kein follows the article pattern.",
+   "table": {
+    "headers": [
+     "Word",
+     "Use",
+     "Example"
+    ],
+    "rows": [
+     [
+      "nicht",
+      "verbs, adj.",
+      "Ich schlafe nicht."
+     ],
+     [
+      "kein/keine/kein",
+      "nouns (indefinite)",
+      "Ich habe keine Zeit."
+     ]
+    ]
+   },
+   "examples": [
+    {
+     "de": "Ich bin nicht müde.",
+     "en": "I am not tired."
+    },
+    {
+     "de": "Er hat kein Geld.",
+     "en": "He has no money."
+    }
+   ]
+  },
+  {
+   "level": "A2",
+   "title": "Nebensätze: weil, obwohl, dass",
+   "order": 4,
+   "rule": "In subordinate clauses the conjugated verb goes to the END. Remember: WEIL and OBWOHL = verb to the end!",
+   "table": {
+    "headers": [
+     "Conjunction",
+     "Meaning",
+     "Verb position"
+    ],
+    "rows": [
+     [
+      "weil",
+      "because",
+      "...weil ich müde BIN."
+     ],
+     [
+      "obwohl",
+      "although",
+      "...obwohl es spät IST."
+     ],
+     [
+      "dass",
+      "that",
+      "...dass du recht HAST."
+     ],
+     [
+      "wenn",
+      "when/if",
+      "...wenn ich Zeit HABE."
+     ]
+    ]
+   },
+   "examples": [
+    {
+     "de": "Ich bleibe zu Hause, weil ich krank bin.",
+     "en": "I stay home because I am sick."
+    },
+    {
+     "de": "Er kommt, obwohl er müde ist.",
+     "en": "He comes although he is tired."
+    }
+   ]
+  },
+  {
+   "level": "A2",
+   "title": "Perfekt: talking about the past",
+   "order": 5,
+   "rule": "Perfekt = haben/sein + Partizip II. Motion verbs and state-change verbs use SEIN. All others use HABEN.",
+   "table": {
+    "headers": [
+     "Helper",
+     "When",
+     "Example"
+    ],
+    "rows": [
+     [
+      "haben",
+      "most verbs",
+      "Ich habe gegessen."
+     ],
+     [
+      "sein",
+      "motion + change",
+      "Ich bin gegangen."
+     ],
+     [
+      "sein",
+      "state change",
+      "Er ist eingeschlafen."
+     ]
+    ]
+   },
+   "examples": [
+    {
+     "de": "Ich habe gestern Sport gemacht.",
+     "en": "I did sports yesterday."
+    },
+    {
+     "de": "Wir sind nach Berlin gefahren.",
+     "en": "We went to Berlin."
+    }
+   ]
+  },
+  {
+   "level": "A2",
+   "title": "Konjunktiv II",
+   "order": 6,
+   "rule": "Konjunktiv II expresses wishes, hypotheses and polite requests. Use würde + Infinitiv OR direct forms: hätte/wäre/könnte.",
+   "table": {
+    "headers": [
+     "Verb",
+     "Konj. II",
+     "Example"
+    ],
+    "rows": [
+     [
+      "haben",
+      "hätte",
+      "Wenn ich Zeit hätte..."
+     ],
+     [
+      "sein",
+      "wäre",
+      "Wenn ich reich wäre..."
+     ],
+     [
+      "können",
+      "könnte",
+      "Könnten Sie helfen?"
+     ],
+     [
+      "+ würde",
+      "würde + Inf.",
+      "Ich würde reisen."
+     ]
+    ]
+   },
+   "examples": [
+    {
+     "de": "Wenn ich Geld hätte, würde ich reisen.",
+     "en": "If I had money, I would travel."
+    },
+    {
+     "de": "Könnten Sie bitte langsamer sprechen?",
+     "en": "Could you please speak more slowly?"
+    }
+   ]
+  },
+  {
+   "level": "A2",
+   "title": "Komparativ and Superlativ",
+   "order": 7,
+   "rule": "Komparativ = adjective + -er (+ als for comparison). Superlativ = am + adjective + -sten. Short adjectives often get umlaut!",
+   "table": {
+    "headers": [
+     "Positiv",
+     "Komparativ",
+     "Superlativ"
+    ],
+    "rows": [
+     [
+      "groß",
+      "größer",
+      "am größten"
+     ],
+     [
+      "klein",
+      "kleiner",
+      "am kleinsten"
+     ],
+     [
+      "alt",
+      "älter",
+      "am ältesten"
+     ],
+     [
+      "gut",
+      "besser",
+      "am besten"
+     ],
+     [
+      "viel",
+      "mehr",
+      "am meisten"
+     ]
+    ]
+   },
+   "examples": [
+    {
+     "de": "Berlin ist größer als München.",
+     "en": "Berlin is bigger than Munich."
+    },
+    {
+     "de": "Das ist das schönste Bild.",
+     "en": "That is the most beautiful picture."
+    }
+   ]
+  },
+  {
+   "level": "A2",
+   "title": "Relativsätze",
+   "order": 8,
+   "rule": "Relative clauses describe a noun more precisely. The relative pronoun matches the gender of the noun it refers to. Verb goes to end!",
+   "table": {
+    "headers": [
+     "Gender",
+     "Nominativ",
+     "Akkusativ",
+     "Dativ"
+    ],
+    "rows": [
+     [
+      "maskulin",
+      "der",
+      "den",
+      "dem"
+     ],
+     [
+      "feminin",
+      "die",
+      "die",
+      "der"
+     ],
+     [
+      "neutral",
+      "das",
+      "das",
+      "dem"
+     ],
+     [
+      "Plural",
+      "die",
+      "die",
+      "denen"
+     ]
+    ]
+   },
+   "examples": [
+    {
+     "de": "Das ist der Mann, der hier wohnt.",
+     "en": "That is the man who lives here."
+    },
+    {
+     "de": "Ich kaufe das Buch, das interessant ist.",
+     "en": "I buy the book that is interesting."
+    }
+   ]
+  }
+ ],
+ "questions": [
+  {
+   "level": "A1",
+   "grammar_topic": "Präsens: regular verbs",
+   "prompt": "Was ist die richtige Form? 'Ich ___ Deutsch.' (lernen)",
+   "explanation": "ich lerne — 1. Person Singular: Stamm + e",
+   "order": 1,
+   "kind": "choice",
+   "options": [
+    {
+     "text": "lerne",
+     "is_correct": true
+    },
+    {
+     "text": "lernt",
+     "is_correct": false
+    },
+    {
+     "text": "lernen",
+     "is_correct": false
+    },
+    {
+     "text": "lernst",
+     "is_correct": false
+    }
+   ]
+  },
+  {
+   "level": "A1",
+   "grammar_topic": "Artikel: der, die, das",
+   "prompt": "Welcher Artikel? '___ Haus ist groß.'",
+   "explanation": "das Haus — neutrum → das",
+   "order": 2,
+   "kind": "choice",
+   "options": [
+    {
+     "text": "Der",
+     "is_correct": false
+    },
+    {
+     "text": "Die",
+     "is_correct": false
+    },
+    {
+     "text": "Das",
+     "is_correct": true
+    },
+    {
+     "text": "Ein",
+     "is_correct": false
+    }
+   ]
+  },
+  {
+   "level": "A1",
+   "grammar_topic": null,
+   "prompt": "Wie sagt man 'I am tired' auf Deutsch?",
+   "explanation": "sein + Adjektiv — Ich BIN müde",
+   "order": 3,
+   "kind": "choice",
+   "options": [
+    {
+     "text": "Ich bin müde.",
+     "is_correct": true
+    },
+    {
+     "text": "Ich habe müde.",
+     "is_correct": false
+    },
+    {
+     "text": "Ich bin schläfrig.",
+     "is_correct": false
+    },
+    {
+     "text": "Ich sein müde.",
+     "is_correct": false
+    }
+   ]
+  },
+  {
+   "level": "A1",
+   "grammar_topic": "Präsens: regular verbs",
+   "prompt": "Was passt? 'Woher ___ du?'",
+   "explanation": "du kommst — 2. Person Singular: Stamm + st",
+   "order": 4,
+   "kind": "choice",
+   "options": [
+    {
+     "text": "kommt",
+     "is_correct": false
+    },
+    {
+     "text": "kommen",
+     "is_correct": false
+    },
+    {
+     "text": "kommst",
+     "is_correct": true
+    },
+    {
+     "text": "bin",
+     "is_correct": false
+    }
+   ]
+  },
+  {
+   "level": "A1",
+   "grammar_topic": "Präsens: regular verbs",
+   "prompt": "Ergänze: 'Er ___ (haben) zwei Kinder.'",
+   "explanation": "er/sie/es hat — 3. Person Singular",
+   "order": 5,
+   "kind": "typed",
+   "accepted_answers": "hat"
+  },
+  {
+   "level": "A1",
+   "grammar_topic": null,
+   "prompt": "Was bedeutet 'das Schlafzimmer'?",
+   "explanation": "Schlaf + Zimmer = sleep + room → bedroom",
+   "order": 6,
+   "kind": "choice",
+   "options": [
+    {
+     "text": "the kitchen",
+     "is_correct": false
+    },
+    {
+     "text": "the bedroom",
+     "is_correct": true
+    },
+    {
+     "text": "the bathroom",
+     "is_correct": false
+    },
+    {
+     "text": "the living room",
+     "is_correct": false
+    }
+   ]
+  },
+  {
+   "level": "A1",
+   "grammar_topic": "Verneinung: nicht and kein",
+   "prompt": "Verneinung: 'Ich habe ___ Zeit.'",
+   "explanation": "Zeit ist feminin (die Zeit) → KEINE Zeit",
+   "order": 7,
+   "kind": "choice",
+   "options": [
+    {
+     "text": "nicht",
+     "is_correct": false
+    },
+    {
+     "text": "keine",
+     "is_correct": true
+    },
+    {
+     "text": "kein",
+     "is_correct": false
+    },
+    {
+     "text": "nein",
+     "is_correct": false
+    }
+   ]
+  },
+  {
+   "level": "A1",
+   "grammar_topic": null,
+   "prompt": "Übersetze: 'Please' auf Deutsch:",
+   "explanation": "bitte = please / you're welcome",
+   "order": 8,
+   "kind": "typed",
+   "accepted_answers": "bitte"
+  },
+  {
+   "level": "A1",
+   "grammar_topic": null,
+   "prompt": "Wieviel Uhr? 'Es ist halb drei.' = ?",
+   "explanation": "halb drei = 30 min vor 3 = 2:30 Uhr",
+   "order": 9,
+   "kind": "choice",
+   "options": [
+    {
+     "text": "2:30",
+     "is_correct": true
+    },
+    {
+     "text": "3:30",
+     "is_correct": false
+    },
+    {
+     "text": "2:15",
+     "is_correct": false
+    },
+    {
+     "text": "3:15",
+     "is_correct": false
+    }
+   ]
+  },
+  {
+   "level": "A1",
+   "grammar_topic": null,
+   "prompt": "Was passt zum Thema 'Essen'?",
+   "explanation": "das Brot = bread — gehört zum Thema Essen",
+   "order": 10,
+   "kind": "choice",
+   "options": [
+    {
+     "text": "das Schlafzimmer",
+     "is_correct": false
+    },
+    {
+     "text": "das Brot",
+     "is_correct": true
+    },
+    {
+     "text": "das Bad",
+     "is_correct": false
+    },
+    {
+     "text": "das Büro",
+     "is_correct": false
+    }
+   ]
+  },
+  {
+   "level": "A1",
+   "grammar_topic": "Artikel: der, die, das",
+   "prompt": "Plural von 'das Kind'?",
+   "explanation": "das Kind → die Kinder (Umlaut + er)",
+   "order": 11,
+   "kind": "choice",
+   "options": [
+    {
+     "text": "die Kinder",
+     "is_correct": true
+    },
+    {
+     "text": "die Kinds",
+     "is_correct": false
+    },
+    {
+     "text": "die Kinde",
+     "is_correct": false
+    },
+    {
+     "text": "die Kinden",
+     "is_correct": false
+    }
+   ]
+  },
+  {
+   "level": "A1",
+   "grammar_topic": "Präsens: regular verbs",
+   "prompt": "Ergänze: '___ (trinken) Sie Kaffee?' (Sie-Form)",
+   "explanation": "Trinken Sie...? — Formelle Frage mit Sie",
+   "order": 12,
+   "kind": "typed",
+   "accepted_answers": "Trinken"
+  },
+  {
+   "level": "A1",
+   "grammar_topic": null,
+   "prompt": "Wie fragt man nach dem Namen?",
+   "explanation": "Wie heißt du? = What's your name?",
+   "order": 13,
+   "kind": "choice",
+   "options": [
+    {
+     "text": "Wie alt bist du?",
+     "is_correct": false
+    },
+    {
+     "text": "Wie heißt du?",
+     "is_correct": true
+    },
+    {
+     "text": "Woher kommst du?",
+     "is_correct": false
+    },
+    {
+     "text": "Was machst du?",
+     "is_correct": false
+    }
+   ]
+  },
+  {
+   "level": "A1",
+   "grammar_topic": null,
+   "prompt": "Imperativ: '___ bitte!' (kommen)",
+   "explanation": "du-Imperativ von kommen: Komm! (kein Endung)",
+   "order": 14,
+   "kind": "choice",
+   "options": [
+    {
+     "text": "Kommt",
+     "is_correct": false
+    },
+    {
+     "text": "Komme",
+     "is_correct": false
+    },
+    {
+     "text": "Komm",
+     "is_correct": true
+    },
+    {
+     "text": "Kommen",
+     "is_correct": false
+    }
+   ]
+  },
+  {
+   "level": "A1",
+   "grammar_topic": null,
+   "prompt": "Welches Wort passt? 'Ich ___ gern Fußball.'",
+   "explanation": "Sport SPIELEN — Fußball spielen (nicht machen)",
+   "order": 15,
+   "kind": "choice",
+   "options": [
+    {
+     "text": "mache",
+     "is_correct": false
+    },
+    {
+     "text": "spiele",
+     "is_correct": true
+    },
+    {
+     "text": "lerne",
+     "is_correct": false
+    },
+    {
+     "text": "arbeite",
+     "is_correct": false
+    }
+   ]
+  },
+  {
+   "level": "A2",
+   "grammar_topic": "Nebensätze: weil, obwohl, dass",
+   "prompt": "Welcher Satz ist korrekt? (weil)",
+   "explanation": "weil = Nebensatz → Verb ans ENDE: weil ich spät schlafe",
+   "order": 1,
+   "kind": "choice",
+   "options": [
+    {
+     "text": "Ich bin müde, weil ich spät schlafe.",
+     "is_correct": true
+    },
+    {
+     "text": "Ich bin müde, weil ich schlafe spät.",
+     "is_correct": false
+    },
+    {
+     "text": "Ich bin müde weil schlafen ich spät.",
+     "is_correct": false
+    },
+    {
+     "text": "Weil müde ich bin, schlafe ich spät.",
+     "is_correct": false
+    }
+   ]
+  },
+  {
+   "level": "A2",
+   "grammar_topic": "Perfekt: talking about the past",
+   "prompt": "Ergänze das Perfekt: 'Ich ___ gestern ins Kino ___.' (gehen)",
+   "explanation": "gehen → sein + gegangen (Bewegungsverb)",
+   "order": 2,
+   "kind": "typed",
+   "accepted_answers": "bin gegangen"
+  },
+  {
+   "level": "A2",
+   "grammar_topic": "Komparativ and Superlativ",
+   "prompt": "Komparativ: 'Berlin ist ___ als München.' (groß)",
+   "explanation": "groß → größer (Umlaut!) + als für Vergleich",
+   "order": 3,
+   "kind": "choice",
+   "options": [
+    {
+     "text": "großer",
+     "is_correct": false
+    },
+    {
+     "text": "größer",
+     "is_correct": true
+    },
+    {
+     "text": "am größten",
+     "is_correct": false
+    },
+    {
+     "text": "mehr groß",
+     "is_correct": false
+    }
+   ]
+  },
+  {
+   "level": "A2",
+   "grammar_topic": "Nebensätze: weil, obwohl, dass",
+   "prompt": "Was bedeutet 'obwohl'?",
+   "explanation": "obwohl = although — Gegensatz, Verb ans Ende!",
+   "order": 4,
+   "kind": "choice",
+   "options": [
+    {
+     "text": "because",
+     "is_correct": false
+    },
+    {
+     "text": "therefore",
+     "is_correct": false
+    },
+    {
+     "text": "although",
+     "is_correct": true
+    },
+    {
+     "text": "so that",
+     "is_correct": false
+    }
+   ]
+  },
+  {
+   "level": "A2",
+   "grammar_topic": "Nebensätze: weil, obwohl, dass",
+   "prompt": "Ergänze mit „so that“: 'Ich lerne Deutsch, ___ ich hier arbeiten kann.'",
+   "explanation": "damit = so that — Nebensatz, Verb ans Ende",
+   "order": 5,
+   "kind": "typed",
+   "accepted_answers": "damit"
+  },
+  {
+   "level": "A2",
+   "grammar_topic": null,
+   "prompt": "Passiv: 'Das Buch ___ von Goethe ___.' (schreiben)",
+   "explanation": "Passiv Präteritum: wurde + Partizip II",
+   "order": 6,
+   "kind": "choice",
+   "options": [
+    {
+     "text": "ist geschrieben",
+     "is_correct": false
+    },
+    {
+     "text": "wurde geschrieben",
+     "is_correct": true
+    },
+    {
+     "text": "wird schreiben",
+     "is_correct": false
+    },
+    {
+     "text": "hat geschrieben",
+     "is_correct": false
+    }
+   ]
+  },
+  {
+   "level": "A2",
+   "grammar_topic": null,
+   "prompt": "Formelle E-Mail: Wie endet man?",
+   "explanation": "Formelle Mails enden mit: Mit freundlichen Grüßen",
+   "order": 7,
+   "kind": "choice",
+   "options": [
+    {
+     "text": "Viele Grüße",
+     "is_correct": false
+    },
+    {
+     "text": "Tschüss",
+     "is_correct": false
+    },
+    {
+     "text": "Mit freundlichen Grüßen",
+     "is_correct": true
+    },
+    {
+     "text": "Liebe Grüße",
+     "is_correct": false
+    }
+   ]
+  },
+  {
+   "level": "A2",
+   "grammar_topic": "Relativsätze",
+   "prompt": "Ergänze den Relativsatz: 'Das ist die Frau, ___ hier arbeitet.'",
+   "explanation": "die Frau → Relativpronomen die (Nominativ, feminin)",
+   "order": 8,
+   "kind": "typed",
+   "accepted_answers": "die"
+  },
+  {
+   "level": "A2",
+   "grammar_topic": "Konjunktiv II",
+   "prompt": "Konjunktiv II: 'Wenn ich Zeit ___, würde ich reisen.' (haben)",
+   "explanation": "Konjunktiv II von haben = hätte",
+   "order": 9,
+   "kind": "choice",
+   "options": [
+    {
+     "text": "habe",
+     "is_correct": false
+    },
+    {
+     "text": "hätte",
+     "is_correct": true
+    },
+    {
+     "text": "hatte",
+     "is_correct": false
+    },
+    {
+     "text": "hat",
+     "is_correct": false
+    }
+   ]
+  },
+  {
+   "level": "A2",
+   "grammar_topic": "Nebensätze: weil, obwohl, dass",
+   "prompt": "Welcher Satz ist ein 'weil'-Satz?",
+   "explanation": "weil = Nebensatz → Verb ans Ende: weil es Sommer IST",
+   "order": 10,
+   "kind": "choice",
+   "options": [
+    {
+     "text": "Ich bin glücklich, denn es ist Sommer.",
+     "is_correct": false
+    },
+    {
+     "text": "Ich bin glücklich, weil es Sommer ist.",
+     "is_correct": true
+    },
+    {
+     "text": "Es ist Sommer, also bin ich glücklich.",
+     "is_correct": false
+    },
+    {
+     "text": "Es ist Sommer, deshalb bin ich glücklich.",
+     "is_correct": false
+    }
+   ]
+  },
+  {
+   "level": "A2",
+   "grammar_topic": "Perfekt: talking about the past",
+   "prompt": "Perfekt: 'Sie ___ lange in Berlin ___.' (wohnen)",
+   "explanation": "wohnen → haben + gewohnt (kein Bewegungsverb)",
+   "order": 11,
+   "kind": "typed",
+   "accepted_answers": "hat gewohnt"
+  },
+  {
+   "level": "A2",
+   "grammar_topic": null,
+   "prompt": "'Als ich jung ___, wohnte ich in Paris.'",
+   "explanation": "als + Präteritum für einmalige Vergangenheit: war",
+   "order": 12,
+   "kind": "choice",
+   "options": [
+    {
+     "text": "bin",
+     "is_correct": false
+    },
+    {
+     "text": "war",
+     "is_correct": true
+    },
+    {
+     "text": "wäre",
+     "is_correct": false
+    },
+    {
+     "text": "bin gewesen",
+     "is_correct": false
+    }
+   ]
+  },
+  {
+   "level": "A2",
+   "grammar_topic": null,
+   "prompt": "Genitiv: 'Das Auto ___ Vaters ist neu.'",
+   "explanation": "Vater ist maskulin → Genitiv = des Vaters",
+   "order": 13,
+   "kind": "choice",
+   "options": [
+    {
+     "text": "des",
+     "is_correct": true
+    },
+    {
+     "text": "dem",
+     "is_correct": false
+    },
+    {
+     "text": "den",
+     "is_correct": false
+    },
+    {
+     "text": "der",
+     "is_correct": false
+    }
+   ]
+  },
+  {
+   "level": "A2",
+   "grammar_topic": "Nebensätze: weil, obwohl, dass",
+   "prompt": "Ergänze mit „when/if“: '___ ich Zeit habe, lese ich gern.'",
+   "explanation": "wenn = Nebensatz → Verb ans Ende, dann Hauptsatz",
+   "order": 14,
+   "kind": "typed",
+   "accepted_answers": "Wenn"
+  },
+  {
+   "level": "A2",
+   "grammar_topic": "Komparativ and Superlativ",
+   "prompt": "Superlativ: 'München ist ___ schön.' (superlative form)",
+   "explanation": "Superlativ: am + Adjektiv + -sten",
+   "order": 15,
+   "kind": "choice",
+   "options": [
+    {
+     "text": "am schönsten",
+     "is_correct": true
+    },
+    {
+     "text": "am schöner",
+     "is_correct": false
+    },
+    {
+     "text": "am schönste",
+     "is_correct": false
+    },
+    {
+     "text": "sehr schönsten",
+     "is_correct": false
+    }
+   ]
+  }
+ ],
+ "speaking": [
+  {
+   "level": "A1",
+   "part": "teil1",
+   "title": "Sich vorstellen",
+   "brief": "Introduce yourself: name, origin, age, job, hobbies.",
+   "prompt": "Bitte stellen Sie sich vor! Erzählen Sie über sich: Ihr Name, Ihr Herkunftsland, Ihren Beruf und Ihre Hobbys.",
+   "minutes": 4,
+   "model_answer": "Hallo! Mein Name ist Maria Santos. Ich komme aus Brasilien, aus São Paulo. Ich bin 29 Jahre alt. Ich arbeite als Grafikdesignerin. Meine Hobbys sind Kochen und Fotografieren. Ich lerne Deutsch, weil ich hier leben und arbeiten möchte.",
+   "questions": [
+    "Wie heißen Sie?",
+    "Woher kommen Sie?",
+    "Wie alt sind Sie?",
+    "Was machen Sie beruflich?",
+    "Was sind Ihre Hobbys?",
+    "Warum lernen Sie Deutsch?"
+   ],
+   "phrases": [
+    "Ich heiße...",
+    "Ich komme aus...",
+    "Ich wohne in...",
+    "Ich bin ... Jahre alt.",
+    "Ich arbeite als...",
+    "Mein Hobby ist..."
+   ],
+   "order": 1
+  },
+  {
+   "level": "A1",
+   "part": "teil2",
+   "title": "W-Fragen: Kurs",
+   "brief": "You want to join a German course. Ask at least 4 questions!",
+   "prompt": "Sie möchten einen Deutschkurs machen. Stellen Sie Ihrem Partner / Ihrer Partnerin mindestens 4 Fragen dazu!",
+   "minutes": 5,
+   "model_answer": "A: Wann beginnt der Kurs? B: Der Kurs beginnt am Montag. A: Was kostet er? B: Er kostet 120 Euro pro Monat. A: Wie oft ist der Kurs? B: Dreimal pro Woche.",
+   "questions": [
+    "Wann beginnt der Kurs?",
+    "Wie lange dauert er?",
+    "Was kostet der Kurs?",
+    "Wo findet der Kurs statt?",
+    "Wie oft in der Woche?",
+    "Was lernt man?"
+   ],
+   "phrases": [
+    "Wann...?",
+    "Wo...?",
+    "Was kostet...?",
+    "Wie oft...?",
+    "Wie lange...?",
+    "Gibt es...?"
+   ],
+   "order": 2
+  },
+  {
+   "level": "A1",
+   "part": "teil3",
+   "title": "Bild: Strand",
+   "brief": "Describe the picture and answer questions about it.",
+   "prompt": "Sie sehen ein Foto: Ein Strand im Sommer. Viele Menschen schwimmen und spielen. Die Sonne scheint. Es ist sehr warm. Beschreiben Sie das Bild!",
+   "minutes": 4,
+   "model_answer": "Auf dem Bild sehe ich einen Strand. Es ist Sommer und die Sonne scheint. Im Vordergrund schwimmen Menschen im Meer. Ich finde den Strand sehr schön, weil es warm ist und man gut entspannen kann.",
+   "questions": [
+    "Was sehen Sie auf dem Bild?",
+    "Was machen die Menschen?",
+    "Wie ist das Wetter?",
+    "Mögen Sie den Strand? Warum?",
+    "Waren Sie schon am Meer?"
+   ],
+   "phrases": [
+    "Auf dem Bild sehe ich...",
+    "Im Vordergrund / Hintergrund...",
+    "Die Menschen machen...",
+    "Ich finde das... weil...",
+    "Es gefällt mir, weil..."
+   ],
+   "order": 3
+  },
+  {
+   "level": "A1",
+   "part": "rolle",
+   "title": "Im Supermarkt",
+   "brief": "Buy groceries. Ask prices, pay, say goodbye.",
+   "prompt": "Sie sind im Supermarkt und möchten Brot, Käse und Äpfel kaufen. Fragen Sie nach den Preisen und bezahlen Sie!",
+   "minutes": 4,
+   "model_answer": "A: Guten Tag! Ich hätte gern Brot und Käse, bitte. B: Gern! Das Brot kostet 2 Euro, der Käse 3,50 Euro. A: Und die Äpfel? B: 1,20 Euro das Kilo. A: Gut. Kann ich mit Karte zahlen? B: Ja, natürlich!",
+   "questions": [
+    "Was hätten Sie gern?",
+    "Was kostet...?",
+    "Gibt es... ?",
+    "Kann ich mit Karte zahlen?",
+    "Das macht zusammen..."
+   ],
+   "phrases": [
+    "Ich hätte gern...",
+    "Was kostet...?",
+    "Das nehme ich.",
+    "Kann ich mit Karte zahlen?",
+    "Vielen Dank! Auf Wiedersehen!"
+   ],
+   "order": 4
+  },
+  {
+   "level": "A2",
+   "part": "teil1",
+   "title": "Meinung: Homeoffice",
+   "brief": "Express and justify your opinion. Use A2 grammar!",
+   "prompt": "Thema: Homeoffice. Arbeiten Sie im Homeoffice? Was sind die Vor- und Nachteile? Was finden Sie besser — Büro oder Homeoffice?",
+   "minutes": 5,
+   "model_answer": "Ich finde Homeoffice sehr praktisch, weil ich flexibler bin und keine Zeit für den Weg verliere. Einerseits ist es ruhiger, andererseits vermisse ich manchmal den Kontakt mit Kollegen. Obwohl Homeoffice bequemer ist, würde ich ab und zu ins Büro gehen.",
+   "questions": [
+    "Arbeiten/lernen Sie im Homeoffice?",
+    "Was sind Vorteile und Nachteile?",
+    "Was finden Sie besser? Warum?",
+    "Haben Sie schon im HO gearbeitet?",
+    "Würden Sie immer so arbeiten wollen?"
+   ],
+   "phrases": [
+    "Ich finde... weil...",
+    "Einerseits... andererseits...",
+    "Ein Vorteil ist...",
+    "Obwohl es... ist...",
+    "Ich würde lieber... weil..."
+   ],
+   "order": 5
+  },
+  {
+   "level": "A2",
+   "part": "teil2",
+   "title": "Gemeinsam planen: Ausflug",
+   "brief": "Plan a day trip together. Suggest, agree, disagree, compromise!",
+   "prompt": "Ihr plant einen Tagesausflug. Kandidat A möchte in die Natur (See, Fahrrad). Kandidat B möchte in die Stadt (Museum, Restaurant). Diskutiert und findet einen Kompromiss!",
+   "minutes": 6,
+   "model_answer": "A: Ich schlage vor, dass wir an einen See fahren, weil das billiger und entspannter ist. B: Hmm, ich finde ein Museum interessanter, aber ich verstehe deinen Punkt. A: Was wenn wir morgens den See besuchen und nachmittags ins Stadtmuseum gehen? B: Das klingt gut! Einverstanden!",
+   "questions": [
+    "Was schlägst du vor?",
+    "Was hältst du von...?",
+    "Wäre ... eine gute Idee?",
+    "Können wir einen Kompromiss finden?",
+    "Einverstanden?"
+   ],
+   "phrases": [
+    "Ich schlage vor...",
+    "Was hältst du von...?",
+    "Das klingt gut!",
+    "Lieber nicht, weil...",
+    "Was wenn wir...?",
+    "Einverstanden!"
+   ],
+   "order": 6
+  },
+  {
+   "level": "A2",
+   "part": "teil3",
+   "title": "Bilder vergleichen: Stadt vs. Dorf",
+   "brief": "Describe and compare two pictures. Give your opinion!",
+   "prompt": "Bild A: Große Stadt — Hochhäuser, viel Verkehr, viele Menschen. Bild B: Kleines Dorf — grüne Felder, ruhig, Natur. Beschreiben und vergleichen Sie!",
+   "minutes": 4,
+   "model_answer": "Auf dem ersten Bild sehe ich eine große Stadt mit vielen Hochhäusern und viel Verkehr. Im Vergleich dazu ist Bild B viel ruhiger — man sieht grüne Felder und wenig Autos. Ich würde lieber im Dorf wohnen, weil es ruhiger und gesünder ist, obwohl die Stadt mehr Möglichkeiten bietet.",
+   "questions": [
+    "Was sehen Sie auf Bild A?",
+    "Was ist auf Bild B anders?",
+    "Was ist ähnlich?",
+    "Wo möchten Sie lieber wohnen?",
+    "Was sind Vor/Nachteile?"
+   ],
+   "phrases": [
+    "Im Vergleich zu...",
+    "Während auf Bild A... zeigt Bild B...",
+    "Bild A ist ... als Bild B.",
+    "Ich würde lieber... weil...",
+    "Obwohl... ist..."
+   ],
+   "order": 7
+  },
+  {
+   "level": "A2",
+   "part": "diskussion",
+   "title": "Diskussion: Umwelt",
+   "brief": "Discuss environment. Use Perfekt and Konjunktiv II!",
+   "prompt": "Was tun Sie für die Umwelt? Was sollte besser sein? Diskutieren Sie über Nachhaltigkeit!",
+   "minutes": 5,
+   "model_answer": "Ich trenne meinen Müll und fahre oft mit dem Fahrrad, weil das umweltfreundlicher ist. Obwohl es manchmal unbequemer ist, finde ich es wichtig. Ich habe schon auf Plastikflaschen verzichtet. Wenn jeder ein bisschen mehr täte, würde es der Umwelt viel besser gehen.",
+   "questions": [
+    "Was tun Sie für die Umwelt?",
+    "Was finden Sie wichtiger: Komfort oder Umwelt?",
+    "Würden Sie ein E-Auto kaufen?",
+    "Was hat die Politik schon getan?",
+    "Was muss noch verbessert werden?"
+   ],
+   "phrases": [
+    "Ich trenne meinen Müll.",
+    "Ich fahre mit dem Fahrrad, weil...",
+    "Wenn jeder...würde...",
+    "Ich habe schon... (Perfekt)",
+    "Das ist wichtig, denn..."
+   ],
+   "order": 8
+  }
+ ]
+}

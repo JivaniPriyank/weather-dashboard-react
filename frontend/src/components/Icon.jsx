@@ -1,0 +1,47 @@
+const PATHS = {
+  today: <path d="M4 11.5 12 5l8 6.5V20a1 1 0 0 1-1 1h-4.5v-5.5h-5V21H5a1 1 0 0 1-1-1z" />,
+  words: <><rect x="3.5" y="6" width="13" height="14" rx="2" /><path d="M7.5 3.5h11a2 2 0 0 1 2 2v12" /></>,
+  practice: <><path d="M4 20h4L19 9l-4-4L4 16z" /><path d="m13.5 6.5 4 4" /></>,
+  speaking: <><rect x="9" y="3" width="6" height="11" rx="3" /><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21" /></>,
+  more: <path d="M4 7h16M4 12h16M4 17h16" />,
+  grammar: <><path d="M5 4.5h9.5a3 3 0 0 1 3 3V20H8a3 3 0 0 1-3-3z" /><path d="M5 17a3 3 0 0 1 3-3h9.5M9 8.5h5" /></>,
+  videos: <><rect x="3" y="5.5" width="18" height="13" rx="2.5" /><path d="m10.5 9.5 4 2.5-4 2.5z" /></>,
+  progress: <path d="M4 20V10M10 20V4M16 20v-7M21 20H3" />,
+  inbox: <><path d="M3.5 13.5 6 5h12l2.5 8.5V19a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1z" /><path d="M3.5 13.5H9l1 2h4l1-2h5.5" /></>,
+  users: <><circle cx="9" cy="8" r="3.5" /><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.8a3.5 3.5 0 0 1 0 6.4M18.5 14.5a6.5 6.5 0 0 1 3 5.5" /></>,
+  classes: <><path d="m12 3 9 4.5-9 4.5-9-4.5z" /><path d="m3 12 9 4.5 9-4.5M3 16.5 12 21l9-4.5" /></>,
+  edit: <path d="M12 20h8.5M16.5 4a2.1 2.1 0 0 1 3 3L8 18.5l-4 1 1-4z" />,
+  say: <><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" /><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" /></>,
+  chevron: <path d="m9.5 6 6 6-6 6" />,
+  check: <path d="m5 12.5 4.5 4.5L19 7.5" />,
+  x: <path d="M6.5 6.5l11 11M17.5 6.5l-11 11" />,
+  play: <path d="M8 5.5v13l10.5-6.5z" fill="currentColor" />,
+  account: <><circle cx="12" cy="8.5" r="4" /><path d="M4 20.5a8 8 0 0 1 16 0" /></>,
+  out: <path d="M14.5 4.5h4a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-4M10 16.5 14.5 12 10 7.5M14.5 12H4" />,
+  upload: <path d="M12 15.5V4M7.5 8.5 12 4l4.5 4.5M4.5 15v4a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1v-4" />,
+  stop: <rect x="6.5" y="6.5" width="11" height="11" rx="2" fill="currentColor" stroke="none" />,
+  plus: <path d="M12 5v14M5 12h14" />,
+  trash: <path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 12.5h9l1-12.5" />,
+  again: <path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.5v4h4" />,
+};
+
+export default function Icon({ name, label }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"
+      strokeLinejoin="round" role={label ? "img" : undefined} aria-label={label || undefined}
+      aria-hidden={label ? undefined : "true"}>
+      {PATHS[name]}
+    </svg>
+  );
+}
+
+export function BrandMark() {
+  return (
+    <svg className="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+      <rect x="1" y="1" width="30" height="30" rx="8" fill="#18203A" />
+      <path d="M1 11.5h30M1 21h30M11.5 1v30M21 1v30" stroke="#fff" strokeOpacity=".14" />
+      <path d="M22.5 11.2a7.4 7.4 0 1 0 1.2 6.1h-6.6" fill="none" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="25.5" cy="25.5" r="2.4" fill="#CF3348" />
+    </svg>
+  );
+}

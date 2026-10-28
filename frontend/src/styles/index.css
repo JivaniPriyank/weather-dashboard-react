@@ -1,0 +1,11 @@
+/* All styles of The German Lab, in this order (later files win when two rules clash).
+   Vite combines them into one file when you run `npm run build`. */
+@import "./base.css";
+@import "./layout.css";
+@import "./components.css";
+@import "./pages/public.css";
+@import "./pages/study.css";
+@import "./pages/speaking.css";
+@import "./pages/teacher.css";
+@import "./pages/content.css";
+@import "./motion.css";

@@ -1,0 +1,73 @@
+from django.urls import path
+
+from . import views_auth as auth
+from . import views_content as content
+from . import views_student as student
+from . import views_teacher as teacher
+
+app_name = "api"
+urlpatterns = [
+    # account
+    path("session/", auth.session, name="session"),
+    path("landing/", auth.landing, name="landing"),
+    path("sign-in/", auth.sign_in, name="sign_in"),
+    path("sign-out/", auth.sign_out, name="sign_out"),
+    path("register/", auth.register, name="register"),
+    path("me/", auth.me, name="me"),
+    path("level/", auth.set_level, name="set_level"),
+    path("password/change/", auth.password_change, name="password_change"),
+    path("password/reset/", auth.password_reset, name="password_reset"),
+    path("password/reset/<str:uidb64>/<str:token>/", auth.password_reset_confirm, name="password_reset_confirm"),
+    # student
+    path("today/", student.today, name="today"),
+    path("progress/", student.progress, name="progress"),
+    path("decks/", student.decks, name="decks"),
+    path("decks/<str:level>/<slug:slug>/", student.deck, name="deck"),
+    path("decks/<str:level>/<slug:slug>/session/", student.study_session, name="study_session"),
+    path("review/", student.review, name="review"),
+    path("practice/", student.practice, name="practice"),
+    path("practice/start/", student.practice_start, name="practice_start"),
+    path("attempts/<int:pk>/", student.attempt, name="attempt"),
+    path("attempts/<int:pk>/answer/", student.attempt_answer, name="attempt_answer"),
+    path("attempts/<int:pk>/results/", student.attempt_results, name="attempt_results"),
+    path("speaking/", student.speaking, name="speaking"),
+    path("speaking/answers/<int:pk>/audio/", student.speaking_audio, name="speaking_audio"),
+    path("speaking/<str:level>/<slug:slug>/", student.speaking_detail, name="speaking_detail"),
+    path("speaking/<str:level>/<slug:slug>/send/", student.speaking_submit, name="speaking_submit"),
+    path("speaking/<str:level>/<slug:slug>/practised/", student.speaking_practised, name="speaking_practised"),
+    path("grammar/", student.grammar, name="grammar"),
+    path("grammar/<str:level>/<slug:slug>/", student.grammar_detail, name="grammar_detail"),
+    path("videos/", student.videos, name="videos"),
+    path("videos/<int:pk>/", student.video_detail, name="video_detail"),
+    path("videos/<int:pk>/stream/", student.video_stream, name="video_stream"),
+    path("videos/<int:pk>/watched/", student.video_watched, name="video_watched"),
+    # teacher
+    path("teacher/overview/", teacher.overview, name="t_overview"),
+    path("teacher/requests/", teacher.requests, name="t_requests"),
+    path("teacher/requests/<int:pk>/decide/", teacher.decide, name="t_decide"),
+    path("teacher/students/", teacher.students, name="t_students"),
+    path("teacher/students/<int:pk>/", teacher.student_detail, name="t_student"),
+    path("teacher/classes/", teacher.classes, name="t_classes"),
+    path("teacher/classes/<int:pk>/", teacher.class_detail, name="t_class"),
+    path("teacher/videos/", teacher.videos, name="t_videos"),
+    path("teacher/videos/new/", teacher.video_create, name="t_video_create"),
+    path("teacher/videos/options/", teacher.video_options, name="t_video_options"),
+    path("teacher/videos/<int:pk>/", teacher.video_detail, name="t_video"),
+    path("teacher/speaking/", teacher.speaking_inbox, name="t_speaking"),
+    path("teacher/speaking/<int:pk>/", teacher.speaking_review, name="t_speaking_review"),
+    # teacher: content
+    path("teacher/content/", content.home, name="c_home"),
+    path("teacher/content/topics/", content.topic_create, name="c_topic_create"),
+    path("teacher/content/topics/<int:pk>/", content.topic_detail, name="c_topic"),
+    path("teacher/content/topics/<int:pk>/words/", content.word_create, name="c_word_create"),
+    path("teacher/content/topics/<int:pk>/import/", content.words_import, name="c_words_import"),
+    path("teacher/content/words/<int:pk>/", content.word_detail, name="c_word"),
+    path("teacher/content/questions/", content.question_create, name="c_question_create"),
+    path("teacher/content/questions/options/", content.question_options, name="c_question_options"),
+    path("teacher/content/questions/<int:pk>/", content.question_detail, name="c_question"),
+    path("teacher/content/grammar/", content.grammar_create, name="c_grammar_create"),
+    path("teacher/content/grammar/<int:pk>/", content.grammar_detail, name="c_grammar"),
+    path("teacher/content/speaking/", content.speaking_create, name="c_speaking_create"),
+    path("teacher/content/speaking/options/", content.speaking_options, name="c_speaking_options"),
+    path("teacher/content/speaking/<int:pk>/", content.speaking_detail, name="c_speaking"),
+]

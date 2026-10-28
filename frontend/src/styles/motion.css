@@ -1,0 +1,18 @@
+/* Motion shared by all pages.
+   - Hover effects live next to each part, only for devices with a mouse.
+   - Here: the animations several parts use, and the switch that turns
+     everything off when the device asks for reduced motion. */
+
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } }
+@keyframes pick { 50% { transform: scale(1.015); } }
+@keyframes right-pop { 0% { transform: scale(.97); } 60% { transform: scale(1.02); } 100% { transform: none; } }
+
+/* ---- respect "reduce motion" ---- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+  .card-stage:hover, .deck:hover, .quick a:hover, .video-card:hover, .btn:hover { transform: none !important; }
+}

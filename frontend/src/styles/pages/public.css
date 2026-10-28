@@ -1,0 +1,47 @@
+/* Public pages: start page, sign in, request access, password reset. */
+
+/* ---------- public pages ---------- */
+.public { min-height: 100vh; display: flex; flex-direction: column; }
+.public-top { display: flex; justify-content: space-between; align-items: center; padding: var(--s4) var(--s5); max-width: 1120px; width: 100%; margin: 0 auto; }
+.public-top nav { display: flex; gap: var(--s2); align-items: center; }
+.auth-wrap { flex: 1; display: grid; place-items: center; padding: var(--s5) var(--s4) var(--s8); }
+.auth-card { width: 100%; max-width: 440px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: var(--s6) var(--s5); box-shadow: var(--shadow-card); }
+.auth-card h1 { font-size: 1.75rem; margin-bottom: var(--s2); }
+.auth-card .form { max-width: none; margin-top: var(--s5); }
+.auth-foot { margin-top: var(--s5); padding-top: var(--s4); border-top: 1px solid var(--line); font-size: 0.95rem; color: var(--ink-soft); }
+
+.hero { max-width: 1120px; width: 100%; margin: 0 auto; padding: var(--s6) var(--s5) var(--s7); display: grid; gap: var(--s7); align-items: center; }
+.hero h1 { font-size: clamp(2.3rem, 1.4rem + 3.6vw, 3.9rem); line-height: 1.02; max-width: 14ch; }
+.hero .lead { margin: var(--s5) 0 var(--s6); }
+@media (min-width: 900px) { .hero { grid-template-columns: 1.05fr 1fr; padding-top: var(--s8); } }
+.hero-board { position: relative; border-radius: var(--radius-lg); border: 1px solid var(--line); padding: var(--s6) var(--s5); box-shadow: var(--shadow-card); transform: rotate(-1.2deg); }
+.hero-board .margin-line { position: absolute; top: 0; bottom: 0; left: 52px; width: 1.5px; background: rgba(207, 51, 72, 0.35); }
+.hero-words { list-style: none; margin: 0; padding: 0 0 0 48px; display: grid; gap: var(--s4); }
+.hero-words li { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s4); flex-wrap: wrap; }
+.hero-words .de { font-size: clamp(1.4rem, 1rem + 1.6vw, 2.1rem); }
+.hero-words .en { color: var(--ink-faint); font-size: 0.95rem; }
+.features { max-width: 1120px; margin: 0 auto; padding: var(--s7) var(--s5); display: grid; gap: var(--s6); border-top: 1px solid var(--line); }
+@media (min-width: 760px) { .features { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1040px) { .features { grid-template-columns: repeat(4, 1fr); } }
+.feature h3 { margin-bottom: var(--s2); }
+.feature p { color: var(--ink-soft); margin: 0; }
+.feature svg { width: 28px; height: 28px; color: var(--royal); margin-bottom: var(--s3); }
+.how { max-width: 1120px; margin: 0 auto; padding: var(--s7) var(--s5) var(--s8); border-top: 1px solid var(--line); }
+.how ol { list-style: none; counter-reset: step; padding: 0; margin: var(--s5) 0 0; display: grid; gap: var(--s5); }
+@media (min-width: 760px) { .how ol { grid-template-columns: repeat(3, 1fr); } }
+.how li { counter-increment: step; padding-left: 52px; position: relative; }
+.how li::before { content: counter(step); position: absolute; left: 0; top: -2px; width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid var(--ink); display: grid; place-items: center; font-family: var(--font-head); font-weight: 700; }
+.how li b { display: block; margin-bottom: 2px; }
+.how li span { color: var(--ink-soft); }
+.public-foot { margin-top: auto; padding: var(--s5); text-align: center; color: var(--ink-faint); font-size: 0.875rem; border-top: 1px solid var(--line); }
+
+/* level choice on the Request access page */
+.level-pick { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: var(--s2); }
+.level-option { position: relative; cursor: pointer; }
+.level-option input { position: absolute; opacity: 0; }
+.level-option span { display: grid; gap: 2px; padding: var(--s3) var(--s4); border: 1.5px solid var(--line-strong); border-radius: var(--radius); background: var(--surface); color: var(--ink-soft); font-size: .9rem; transition: border-color var(--t-fast), background-color var(--t-fast), color var(--t-fast); }
+.level-option b { font-family: var(--font-head); font-size: 1.35rem; color: var(--ink); }
+.level-option input:checked + span { border-color: var(--royal); background: var(--royal-wash); color: var(--royal-deep); }
+.level-option input:checked + span b { color: var(--royal); }
+.level-option input:focus-visible + span { box-shadow: var(--focus); }
+@media (any-hover: hover) { .level-option span:hover { border-color: var(--ink); } }

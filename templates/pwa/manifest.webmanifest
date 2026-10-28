@@ -1,0 +1,17 @@
+{% load static %}{
+  "name": "The German Lab",
+  "short_name": "German Lab",
+  "description": "A1 and A2 German practice: words, quizzes, speaking, grammar and videos.",
+  "start_url": "/today/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F7F8F6",
+  "theme_color": "#F7F8F6",
+  "lang": "en",
+  "categories": ["education"],
+  "icons": [
+    {"src": "{% static 'img/icon-192.png' %}", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "{% static 'img/icon-512.png' %}", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "{% static 'img/icon-maskable-512.png' %}", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}

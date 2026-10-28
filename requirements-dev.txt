@@ -1,0 +1,4 @@
+# Extra packages for the Jupyter notebook
+-r requirements.txt
+jupyter
+pandas

@@ -1,0 +1,108 @@
+/* Base: colours, fonts, spacing, the page itself and grid paper.
+   Idea: German school exercise paper (Karopapier) and fountain-pen ink.
+   der = blue, die = red, das = green, the colour code German classrooms use. */
+
+:root {
+  --paper: #F7F8F6;
+  --surface: #FFFFFF;
+  --ink: #18203A;
+  --ink-soft: #4B556B;
+  --ink-faint: #7A8396;
+  --line: #DDE2EA;
+  --line-strong: #C5CCD8;
+  --grid: rgba(39, 66, 168, 0.075);
+
+  --royal: #2742A8;        /* Königsblau: links, focus, highlights */
+  --royal-deep: #1C3185;
+  --royal-wash: #EAEEFB;
+
+  --der: #2A5BD7;
+  --die: #CF3348;
+  --das: #23845A;
+  --der-wash: #E6EDFC;
+  --die-wash: #FCE8EB;
+  --das-wash: #E2F3EA;
+
+  --good: #1F7A4D;
+  --good-wash: #E3F2E9;
+  --bad: #B8283B;
+  --bad-wash: #FBE9EC;
+  --note: #8A5A00;
+  --note-wash: #FFF4D6;
+
+  --font-ui: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --font-head: "Barlow Semi Condensed", "Barlow", "Segoe UI", system-ui, sans-serif;
+  --font-hand: "Playwrite DE Grund", "Segoe Print", "Comic Neue", cursive;
+
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px;
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 16px;
+  --shadow-card: 0 1px 0 rgba(24, 32, 58, 0.04), 0 8px 24px -12px rgba(24, 32, 58, 0.18);
+  --sidebar: 248px;
+  --tabbar: 64px;
+  --focus: 0 0 0 3px rgba(39, 66, 168, 0.35);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+}
+img, video, iframe { max-width: 100%; display: block; }
+a { color: var(--royal); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { color: var(--royal-deep); text-decoration-thickness: 2px; }
+:focus-visible { outline: none; box-shadow: var(--focus); border-radius: var(--radius-sm); }
+[hidden] { display: none !important; }
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip-link { position: absolute; left: var(--s4); top: -60px; background: var(--ink); color: #fff; padding: var(--s2) var(--s4); border-radius: var(--radius-sm); z-index: 100; }
+.skip-link:focus { top: var(--s4); color: #fff; }
+
+
+/* timing for animations (used by every file) */
+:root {
+  --ease-out: cubic-bezier(.2, .8, .2, 1);
+  --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
+  --t-fast: .16s;
+  --t-med: .24s;
+}
+
+/* ---------- type ---------- */
+h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.35rem); font-weight: 700; }
+h2 { font-size: 1.35rem; font-weight: 700; }
+h3 { font-size: 1.1rem; font-weight: 600; }
+p { margin: 0 0 var(--s3); }
+.lead { font-size: 1.1rem; color: var(--ink-soft); max-width: 60ch; }
+.muted { color: var(--ink-soft); }
+.small { font-size: 0.875rem; }
+.de { font-family: var(--font-hand); font-weight: 400; letter-spacing: 0; }
+.nowrap { white-space: nowrap; }
+
+/* ---------- articles: der / die / das ---------- */
+.art { font-weight: 700; }
+.art-der { color: var(--der); }
+.art-die { color: var(--die); }
+.art-das { color: var(--das); }
+.gender-der { --gender: var(--der); --gender-wash: var(--der-wash); }
+.gender-die { --gender: var(--die); --gender-wash: var(--die-wash); }
+.gender-das { --gender: var(--das); --gender-wash: var(--das-wash); }
+
+/* ---------- grid paper ---------- */
+.paper {
+  background-color: var(--surface);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 22px 22px;
+  background-position: -1px -1px;
+}
+
+
+#root { min-height: 100vh; }

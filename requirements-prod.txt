@@ -1,0 +1,4 @@
+# Extra packages for hosting online with PostgreSQL
+-r requirements.txt
+psycopg[binary]>=3.1,<4
+gunicorn>=22,<24

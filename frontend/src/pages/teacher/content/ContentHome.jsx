@@ -62,11 +62,48 @@ export default function ContentHome() {
   );
 }
 
+// The teacher's own sections, e.g. "Basics of A1".
+function SectionCards({ data, q }) {
+  const level = data.level.code;
+  const shown = data.sections.filter((x) => !q || `${x.title} ${x.description}`.toLowerCase().includes(q));
+  return (
+    <>
+      <p className="muted section-intro">Build your own parts of the course from lessons: text, tables, words, sounds and exercises. Students of {level} find them in their menu.</p>
+      <div className="topic-grid">
+        {shown.map((x) => (
+          <Link key={x.id} className="topic-card section-card" to={`/teacher/content/sections/${x.id}`}>
+            <span className="topic-card-head">
+              <span className="section-card-icon"><Icon name={x.icon} /></span>
+              <span className={`badge ${x.is_visible ? "badge-good" : "badge-note"}`}>{x.is_visible ? "Students can see it" : "Hidden"}</span>
+            </span>
+            <span>
+              <span className="topic-card-name">{x.title}</span>
+              <span className="topic-card-desc">{x.description}</span>
+            </span>
+            <span className="topic-card-words">
+              <span>{x.lessons} lesson{x.lessons === 1 ? "" : "s"}{x.lessons !== x.published ? `, ${x.published} published` : ""}</span>
+            </span>
+            <span className="topic-card-go">Edit lessons<Icon name="chevron" /></span>
+          </Link>
+        ))}
+        {!q && (
+          <Link className="topic-new" to={`/teacher/content/sections/new?level=${level}`}>
+            <Icon name="plus" />New section
+          </Link>
+        )}
+        {q && !shown.length && <Empty title="Nothing found">No section at {level} matches “{q}”.</Empty>}
+      </div>
+    </>
+  );
+}
+
 function TabBody({ tab, data, q }) {
   const level = data.level.code;
   const has = (...texts) => !q || texts.some((t) => (t || "").toLowerCase().includes(q));
 
   const topics = useMemo(() => data.topics.filter((t) => has(t.name, t.description, ...t.preview.map((w) => w.german))), [data, q]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (tab === "sections") return <SectionCards data={data} q={q} />;
 
   if (tab === "words") {
     return (

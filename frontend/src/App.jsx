@@ -24,6 +24,8 @@ import Grammar from "./pages/student/Grammar";
 import GrammarTopic from "./pages/student/GrammarTopic";
 import Videos from "./pages/student/Videos";
 import VideoDetail from "./pages/student/VideoDetail";
+import Section from "./pages/student/Section";
+import Lesson from "./pages/student/Lesson";
 
 // Teacher pages load only when a teacher opens them, so students never download them.
 const teacherPage = (load, name = "default") => lazy(() => load().then((m) => ({ default: m[name] })));
@@ -43,6 +45,9 @@ const TopicNew = teacherPage(() => import("./pages/teacher/content/TopicEdit"), 
 const QuestionEdit = teacherPage(() => import("./pages/teacher/content/QuestionEdit"));
 const GrammarEdit = teacherPage(() => import("./pages/teacher/content/GrammarEdit"));
 const SpeakingEdit = teacherPage(() => import("./pages/teacher/content/SpeakingEdit"));
+const SectionEdit = teacherPage(() => import("./pages/teacher/content/SectionEdit"), "SectionEdit");
+const SectionNew = teacherPage(() => import("./pages/teacher/content/SectionEdit"), "SectionNew");
+const LessonEdit = teacherPage(() => import("./pages/teacher/content/LessonEdit"));
 
 function NotFound() {
   return (
@@ -89,6 +94,8 @@ export default function App() {
           <Route path="grammar/:level/:slug" element={<GrammarTopic />} />
           <Route path="videos" element={<Videos />} />
           <Route path="videos/:id" element={<VideoDetail />} />
+          <Route path="sections/:id" element={<Section />} />
+          <Route path="sections/:sectionId/lessons/:id" element={<Lesson />} />
 
           <Route path="teacher" element={<RequireTeacher />}>
             <Route index element={<Overview />} />
@@ -111,6 +118,9 @@ export default function App() {
             <Route path="content/grammar/:id" element={<GrammarEdit />} />
             <Route path="content/speaking/new" element={<SpeakingEdit />} />
             <Route path="content/speaking/:id" element={<SpeakingEdit />} />
+            <Route path="content/sections/new" element={<SectionNew />} />
+            <Route path="content/sections/:id" element={<SectionEdit />} />
+            <Route path="content/lessons/:id" element={<LessonEdit />} />
           </Route>
         </Route>
       </Route>

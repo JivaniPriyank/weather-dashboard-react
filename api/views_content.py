@@ -11,11 +11,12 @@ from django.shortcuts import get_object_or_404
 from django.utils.text import slugify
 
 from content.models import (
-    GrammarExample, GrammarTopic, Level, QuizOption, QuizQuestion, SpeakingLine, SpeakingTask, Topic,
+    GrammarExample, GrammarTopic, Level, QuizOption, QuizQuestion, Section, SpeakingLine, SpeakingTask, Topic,
     VocabularyItem,
 )
 
 from .utils import body, fail, methods, ok, teacher_required
+from .views_sections import sections_for_level
 
 ARTICLES = {"der", "die", "das", ""}
 MAX_TABLE_COLS = 8
@@ -82,7 +83,7 @@ def _levels():
 def home(request):
     level = Level.objects.filter(code=request.GET.get("level")).first() or Level.objects.first()
     if level is None:
-        return ok({"levels": [], "level": None, "counts": {}, "topics": [], "questions": [], "grammar": [], "speaking": []})
+        return ok({"levels": [], "level": None, "counts": {}, "topics": [], "questions": [], "grammar": [], "speaking": [], "sections": []})
 
     topics = level.topics.annotate(n=Count("items")).prefetch_related("items")
     questions = level.questions.select_related("grammar_topic")
@@ -94,7 +95,10 @@ def home(request):
         "counts": {
             "words": VocabularyItem.objects.filter(topic__level=level).count(),
             "quiz": questions.count(), "grammar": grammar.count(), "speaking": speaking.count(),
+            "sections": level.sections.count(),
         },
+        "sections": sections_for_level(level),
+        "icons": [{"value": v, "label": label} for v, label in Section.IconChoice.choices],
         "topics": [{"id": t.pk, "name": t.name, "description": t.description, "count": t.n,
                     "preview": [{"article": w.article, "german": w.german} for w in list(t.items.all())[:3]]}
                    for t in topics],

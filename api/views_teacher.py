@@ -162,8 +162,29 @@ def student_detail(request, pk):
         "speaking": [{"id": x.pk, "task": s.speaking_task(x.task), "submitted_at": s.dt(x.submitted_at),
                       "reviewed": x.is_reviewed, "total_score": x.total_score, "max_score": x.max_score} for x in speaking],
         "videos": [{"title": v.video.title, "watched_at": s.dt(v.watched_at)} for v in views],
+        "sections": _section_progress(student, level),
         "classrooms": _classrooms(),
     })
+
+
+def _section_progress(student, level):
+    """Each of the teacher's sections at this level: which published lessons the student finished."""
+    from content.models import Section
+    from learning.models import LessonProgress
+
+    done = {p.lesson_id: p for p in LessonProgress.objects.filter(user=student, lesson__section__level=level)}
+    rows = []
+    for sec in Section.objects.filter(level=level).prefetch_related("lessons"):
+        lessons = [x for x in sec.lessons.all() if x.is_published]
+        if not lessons:
+            continue
+        rows.append({"id": sec.pk, "title": sec.title, "is_visible": sec.is_visible,
+                     "done": sum(1 for x in lessons if x.pk in done), "count": len(lessons),
+                     "lessons": [{"id": x.pk, "title": x.title,
+                                  "done_at": s.dt(done[x.pk].done_at) if x.pk in done else None,
+                                  "score": done[x.pk].score if x.pk in done else None,
+                                  "total": done[x.pk].total if x.pk in done else None} for x in lessons]})
+    return rows
 
 
 # ---------------- classes ----------------

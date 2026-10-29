@@ -6,7 +6,7 @@ import { useSession } from "../../lib/session";
 
 export default function More() {
   useTitle("More");
-  const { user } = useSession();
+  const { user, sections = [] } = useSession();
   const signOut = useSignOut();
   return (
     <>
@@ -25,6 +25,7 @@ export default function More() {
         <RowLink to="/grammar" icon="grammar" title="Grammar" />
         <RowLink to="/videos" icon="videos" title="Videos" />
         {!user.is_teacher && <RowLink to="/progress" icon="progress" title="Progress" />}
+        {sections.map((x) => <RowLink key={x.id} to={`/sections/${x.id}`} icon={x.icon} title={x.title} sub={user.is_teacher ? "Your section" : "From your teacher"} />)}
         <RowLink to="/account" icon="account" title="Your account" sub={user.email} />
       </ul>
       <button className="btn btn-secondary btn-block mt-5" type="button" onClick={signOut}><Icon name="out" />Sign out</button>

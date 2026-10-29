@@ -8,7 +8,7 @@ import { useApi, useTitle } from "../../lib/hooks";
 import { useReloadWhileOpen } from "../../lib/live";
 import { formatDate, plural } from "../../lib/speech";
 
-const ACTIVITY_ICON = { words: "words", quiz: "practice", speaking: "speaking", answer: "speaking", video: "videos" };
+const ACTIVITY_ICON = { words: "words", quiz: "practice", speaking: "speaking", answer: "speaking", video: "videos", lesson: "star" };
 
 export default function StudentDetail() {
   const { id } = useParams();
@@ -96,7 +96,7 @@ function Detail({ d, reload, setData, setLevel }) {
                       <span className="row-title">{e.title}</span>
                       <span className="row-sub">{[e.sub, formatDate(e.at, true)].filter(Boolean).join(" · ")}</span>
                     </span>
-                    {e.kind === "quiz" && <span className={`badge ${scoreClass(e.score, e.total)}`}>{e.score}/{e.total}</span>}
+                    {(e.kind === "quiz" || (e.kind === "lesson" && e.total)) && <span className={`badge ${scoreClass(e.score, e.total)}`}>{e.score}/{e.total}</span>}
                   </>
                 );
                 return e.answer_id
@@ -130,6 +130,30 @@ function Detail({ d, reload, setData, setLevel }) {
             </div>
           ) : <p className="muted">Hasn't studied any {d.level.code} word decks yet.</p>}
           <p className="muted small mt-2">A word counts as learned for good once {st.full_name.split(" ")[0]} has known it several times over a few days.</p>
+
+          {d.sections?.length > 0 && (
+            <>
+              <h2 className="mt-6 mb-4">{d.level.code} lessons from your sections</h2>
+              {d.sections.map((sec) => (
+                <div key={sec.id} className="student-section">
+                  <div className="student-section-head">
+                    <b>{sec.title}</b>
+                    <span className="muted small">{sec.done} of {sec.count} done{sec.is_visible ? "" : " · hidden from students"}</span>
+                  </div>
+                  <ul className="list">
+                    {sec.lessons.map((l) => (
+                      <li className="row" key={l.id}>
+                        <span className={`lesson-dot${l.done_at ? " is-done" : ""}`}>{l.done_at ? <Icon name="check" label="Done" /> : null}</span>
+                        <span className="row-main"><span className="row-title" lang="de">{l.title}</span>
+                          <span className="row-sub">{l.done_at ? `Done ${formatDate(l.done_at, true)}` : "Not done yet"}</span></span>
+                        {l.total ? <span className={`badge ${scoreClass(l.score, l.total)}`}>{l.score}/{l.total}</span> : null}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </>
+          )}
 
           <h2 className="mt-6 mb-4">{d.level.code} quiz results</h2>
           {d.attempts.length ? (

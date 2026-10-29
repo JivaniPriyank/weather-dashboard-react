@@ -235,6 +235,53 @@ class SpeakingLine(models.Model):
         return self.text
 
 
+class Section(models.Model):
+    """A course part the teacher builds, e.g. 'Basics of A1': an ordered list of lessons.
+    Students of that level find it in their menu under 'From your teacher'."""
+
+    class IconChoice(models.TextChoices):
+        STAR = "star", "Star"
+        BOOK = "book", "Book"
+        CHAT = "chat", "Speech bubble"
+        HEADPHONES = "headphones", "Headphones"
+        BULB = "bulb", "Light bulb"
+        FLAG = "flag", "Flag"
+        GLOBE = "globe", "Globe"
+        PENCIL = "pencil", "Pencil"
+
+    level = models.ForeignKey(Level, on_delete=models.PROTECT, related_name="sections")
+    title = models.CharField(max_length=80)
+    description = models.CharField(max_length=200, blank=True)
+    icon = models.CharField(max_length=12, choices=IconChoice.choices, default=IconChoice.STAR)
+    is_visible = models.BooleanField(default=True, help_text="Students only see the section when this is on.")
+    order = models.PositiveSmallIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["level__order", "order", "id"]
+
+    def __str__(self):
+        return f"{self.title} ({self.level})"
+
+
+class Lesson(models.Model):
+    """One page of a section, built from blocks (text, table, words, exercises…).
+    The blocks are stored as a list of dicts; content/blocks.py checks their shape."""
+
+    section = models.ForeignKey(Section, on_delete=models.CASCADE, related_name="lessons")
+    title = models.CharField(max_length=120)
+    blocks = models.JSONField(default=list, blank=True)
+    is_published = models.BooleanField(default=False, help_text="Draft lessons stay hidden from students.")
+    order = models.PositiveSmallIntegerField(default=0)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["order", "id"]
+
+    def __str__(self):
+        return self.title
+
+
 ALLOWED_VIDEO_EXTENSIONS = ["mp4", "webm", "m4v", "mov"]
 
 

@@ -11,7 +11,7 @@ from django.utils import timezone
 
 from content.models import Level, QuizQuestion, Video, VocabularyItem
 
-from .models import CardReview, QuizAnswer, QuizAttempt, SpeakingPractice, VideoView
+from .models import CardReview, LessonProgress, QuizAnswer, QuizAttempt, SpeakingPractice, VideoView
 
 
 # ---------- levels ----------
@@ -140,6 +140,7 @@ def _activity(user):
         (QuizAnswer.objects.filter(attempt__user=user), "answered_at"),
         (SpeakingPractice.objects.filter(user=user), "practised_at"),
         (VideoView.objects.filter(user=user), "watched_at"),
+        (LessonProgress.objects.filter(user=user), "done_at"),
     )
 
 
@@ -210,12 +211,14 @@ def student_summary(user, level=None):
     words_total = VocabularyItem.objects.all()
     speaking = SpeakingPractice.objects.filter(user=user)
     videos = VideoView.objects.filter(user=user, watched_at__isnull=False)
+    lessons = LessonProgress.objects.filter(user=user)
     if level:
         reviews = reviews.filter(item__topic__level=level)
         attempts = attempts.filter(level=level)
         words_total = words_total.filter(topic__level=level)
         speaking = speaking.filter(task__level=level)
         videos = videos.filter(video__level=level)
+        lessons = lessons.filter(lesson__section__level=level)
     words = reviews.aggregate(seen=Count("id"), learned=Count("id", filter=Q(box__gte=4)))
     answers = QuizAnswer.objects.filter(attempt__in=attempts).aggregate(
         n=Count("id"), right=Count("id", filter=Q(is_correct=True)))
@@ -228,6 +231,7 @@ def student_summary(user, level=None):
         "quiz_accuracy": round(answers["right"] / answers["n"] * 100) if answers["n"] else None,
         "speaking_done": speaking.values("task").distinct().count(),
         "videos_watched": videos.count(),
+        "lessons_done": lessons.count(),
         "streak": streak(user, dates),
         # The latest practice day is usually among the recent dates; only look further back if not.
         "last_active": max(dates) if dates else last_active(user),
@@ -342,5 +346,12 @@ def student_activity(user, level=None, limit=15):
             events.append({"kind": "video", "at": v.watched_at, "title": f"Watched video: {v.video.title}", "sub": ""})
         else:
             events.append({"kind": "video", "at": v.first_opened_at, "title": f"Opened video: {v.video.title}", "sub": "Not finished"})
+    lessons = LessonProgress.objects.filter(user=user)
+    if level:
+        lessons = lessons.filter(lesson__section__level=level)
+    for p in lessons.select_related("lesson", "lesson__section")[:limit]:
+        events.append({"kind": "lesson", "at": p.done_at, "title": f"Finished lesson: {p.lesson.title}",
+                       "sub": p.lesson.section.title + (f" · {p.score} of {p.total} right" if p.total else ""),
+                       **({"score": p.score, "total": p.total} if p.total else {})})
     events.sort(key=lambda e: e["at"], reverse=True)
     return events[:limit]

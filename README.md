@@ -90,13 +90,15 @@ germanlab-react/
 │   └── spa.py                   serves the built React app for every page address
 ├── accounts/ content/ learning/ the database models and learning logic (same as before)
 ├── static/app/                  the built React app (made by `npm run build`)
-├── tests/                       91 automated API tests
+├── tests/                       101 automated API tests
 └── notebooks/                   Jupyter notebook (progress tables, CSV word import)
 ```
 
 **How a page loads:** the browser opens e.g. `/words`; Django sends the React app; React asks `/api/decks/` for the data and draws the page. Every rule (who may see what, quiz marking, scores) is checked in Python on the server; React only displays.
 
 **Content** (`/teacher/content`) is where you edit everything students learn: word lists (each word saves itself when you leave the row, and you can paste many words at once), quiz questions with a live preview, grammar topics with an editable table, and speaking tasks. Django's built-in admin (`/admin/`) is still there as an advanced editor, for example to add a new level.
+
+**Your sections** (the last tab of Content) are parts of the course you build yourself, like "Basics of A1": a section has lessons, and a lesson is built from blocks (text, table, word list, tip box, sound tiles, sound rules, spelling example, three kinds of exercises, "spell your name", a video, a speaking task). Lessons start as drafts; students of that level see a section in their menu under "From your teacher" once it has a published lesson. When a student has answered every exercise of a lesson it counts as done, and you see it on their student page. The section "Basics of A1" (the alphabet, the sounds and a practice lesson, from *A Concrete Guide to German A1*, used with permission) is added by `python manage.py migrate`; on a new database run `python manage.py add_alphabet_lessons` after `seed_content`.
 
 ---
 
@@ -116,7 +118,7 @@ germanlab-react/
 python manage.py test tests --settings=config.settings.test
 ```
 
-91 tests cover sign-in and CSRF protection, limits on sign-in, registration and password-reset attempts, request access and approval, teacher-only access, flashcard rules, quiz marking (answers are never sent to the browser before you answer), speaking answers (one per task, file checks, who can listen, scoring, deletion 3 days after feedback), video uploads and private streaming, classes, students, password reset, the content editor (teacher only, word import, question rules, grammar tables, speaking tasks, deleting a question while students are in a quiz), that the admin's "View on site" links open the right page, the production security headers, the "practise my mistakes" quiz, the progress calendar and grammar-topic scores, that pages stay fast as students practise more (no extra database queries per quiz or word), and that every page address serves the app.
+101 tests cover sign-in and CSRF protection, limits on sign-in, registration and password-reset attempts, request access and approval, teacher-only access, flashcard rules, quiz marking (answers are never sent to the browser before you answer), speaking answers (one per task, file checks, who can listen, scoring, deletion 3 days after feedback), video uploads and private streaming, classes, students, password reset, the content editor (teacher only, word import, question rules, grammar tables, speaking tasks, deleting a question while students are in a quiz), that the admin's "View on site" links open the right page, the production security headers, the "practise my mistakes" quiz, the progress calendar and grammar-topic scores, that pages stay fast as students practise more (no extra database queries per quiz or word), and that every page address serves the app, and the teacher's sections (block checks, drafts, levels, scores).
 
 ---
 

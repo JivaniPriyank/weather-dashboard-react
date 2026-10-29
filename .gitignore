@@ -16,3 +16,5 @@ build/
 .vscode/
 .DS_Store
 Thumbs.db
+# Uploaded videos and students' speaking recordings: private, never in Git
+media/

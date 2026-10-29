@@ -30,26 +30,10 @@ export function useSignOut() {
   };
 }
 
-// When the level changes on a page that belongs to one level (an A2 speaking task,
-// an A1 word deck, a quiz…), go to that section's main page for the new level.
-const CONTENT_TABS = { topics: "words", questions: "quiz", grammar: "grammar", speaking: "speaking" };
-export function pageForLevel(pathname, search, code) {
-  const parts = pathname.split("/").filter(Boolean);
-  if (["words", "speaking", "grammar"].includes(parts[0]) && parts.length > 1) return `/${parts[0]}`;
-  if (parts[0] === "practice" && parts.length > 1) return "/practice";
-  if (parts[0] === "teacher" && parts[1] === "content") {
-    const tab = parts[2] ? CONTENT_TABS[parts[2]] : new URLSearchParams(search).get("tab");
-    return `/teacher/content?level=${code}${tab ? `&tab=${tab}` : ""}`;
-  }
-  if (parts[0] === "teacher" && parts[1] === "students" && parts[2]) return `/teacher/students/${parts[2]}?level=${code}`;
-  return null; // list pages simply reload for the new level
-}
-
 function LevelSwitch() {
-  const { levels, current_level, setSession } = useSession();
+  const { user, levels, current_level, setSession } = useSession();
   const toast = useToast();
   const navigate = useNavigate();
-  const { pathname, search } = useLocation();
   if (!levels || !levels.length) return null;
   if (levels.length === 1) {
     // A student whose course is A1 only sees A1: there's nothing to switch to.
@@ -64,8 +48,8 @@ function LevelSwitch() {
     try {
       const data = await api("/level/", { method: "POST", body: { level: code } });
       setSession(data);
-      const target = pageForLevel(pathname, search, data.current_level.code);
-      if (target) navigate(target);
+      // A1 and A2 are separate courses: switching always starts on the home page.
+      navigate(user.is_teacher ? "/teacher" : "/today");
       toast(`You're now studying ${data.current_level.code} (${data.current_level.name}).`);
     } catch (e) {
       toast(e.message, "error");
@@ -87,11 +71,11 @@ function Count({ n, label }) {
   return <span className="count" aria-label={label ? `${n} ${label}` : undefined}>{n}</span>;
 }
 
-const STUDENT_MORE = ["/grammar", "/videos", "/progress", "/account", "/more"];
+const STUDENT_MORE = ["/grammar", "/videos", "/progress", "/account", "/more", "/sections"];
 const TEACHER_MORE = ["/teacher/content", "/teacher/classes", "/teacher/videos", "/grammar", "/videos", "/account", "/more", "/words", "/practice", "/speaking"];
 
 export function AppLayout() {
-  const { user, counts } = useSession();
+  const { user, counts, sections = [] } = useSession();
   const { pathname } = useLocation();
   const signOut = useSignOut();
   const t = user.is_teacher;
@@ -129,6 +113,10 @@ export function AppLayout() {
           <NavLink to="/grammar"><Icon name="grammar" />Grammar</NavLink>
           <NavLink to="/videos"><Icon name="videos" />Videos</NavLink>
           {!t && <NavLink to="/progress"><Icon name="progress" />Progress</NavLink>}
+          {sections.length > 0 && <span className="nav-label">{t ? "Your sections" : "From your teacher"}</span>}
+          {sections.map((x) => (
+            <NavLink key={x.id} to={`/sections/${x.id}`}><Icon name={x.icon} />{x.title}</NavLink>
+          ))}
         </nav>
         <div className="sidebar-foot">
           <Link className="who" to="/account">

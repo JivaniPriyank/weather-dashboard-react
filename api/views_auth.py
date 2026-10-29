@@ -34,7 +34,10 @@ def session_payload(request):
             "pending_requests": AccessRequest.objects.filter(status=AccessRequest.Status.PENDING).count(),
             "speaking_waiting": SpeakingSubmission.objects.filter(reviewed_at__isnull=True).count(),
         }
-    return {"user": s.user(u), "levels": levels, "current_level": s.level(current_level(u)), "counts": counts}
+    from .views_sections import menu_sections
+
+    return {"user": s.user(u), "levels": levels, "current_level": s.level(current_level(u)), "counts": counts,
+            "sections": menu_sections(u) if u.is_approved else []}
 
 
 @ensure_csrf_cookie

@@ -143,6 +143,21 @@ class VideoView(models.Model):
         constraints = [models.UniqueConstraint(fields=["user", "video"], name="one_view_per_user_video")]
 
 
+class LessonProgress(models.Model):
+    """A lesson from one of the teacher's sections that a student marked as done,
+    with their best score on its exercises (0 of 0 when it has none)."""
+
+    user = models.ForeignKey(USER, on_delete=models.CASCADE, related_name="lesson_progress")
+    lesson = models.ForeignKey("content.Lesson", on_delete=models.CASCADE, related_name="progress")
+    done_at = models.DateTimeField(default=timezone.now)
+    score = models.PositiveSmallIntegerField(default=0)
+    total = models.PositiveSmallIntegerField(default=0)
+
+    class Meta:
+        ordering = ["-done_at"]
+        constraints = [models.UniqueConstraint(fields=["user", "lesson"], name="one_progress_per_user_lesson")]
+
+
 def speaking_upload_path(instance, filename):
     ext = (filename.rsplit(".", 1)[-1] if "." in filename else "webm").lower()[:5]
     # Random name: the student's name or email never appears in the file path.

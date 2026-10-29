@@ -2,6 +2,7 @@ from django.urls import path
 
 from . import views_auth as auth
 from . import views_content as content
+from . import views_sections as sections
 from . import views_student as student
 from . import views_teacher as teacher
 
@@ -41,6 +42,9 @@ urlpatterns = [
     path("videos/<int:pk>/", student.video_detail, name="video_detail"),
     path("videos/<int:pk>/stream/", student.video_stream, name="video_stream"),
     path("videos/<int:pk>/watched/", student.video_watched, name="video_watched"),
+    path("sections/<int:pk>/", sections.student_section, name="section"),
+    path("lessons/<int:pk>/", sections.student_lesson, name="lesson"),
+    path("lessons/<int:pk>/done/", sections.lesson_done, name="lesson_done"),
     # teacher
     path("teacher/overview/", teacher.overview, name="t_overview"),
     path("teacher/requests/", teacher.requests, name="t_requests"),
@@ -70,4 +74,9 @@ urlpatterns = [
     path("teacher/content/speaking/", content.speaking_create, name="c_speaking_create"),
     path("teacher/content/speaking/options/", content.speaking_options, name="c_speaking_options"),
     path("teacher/content/speaking/<int:pk>/", content.speaking_detail, name="c_speaking"),
+    path("teacher/content/sections/", sections.sections, name="c_sections"),
+    path("teacher/content/sections/<int:pk>/", sections.section_detail, name="c_section"),
+    path("teacher/content/sections/<int:pk>/lessons/", sections.lesson_create, name="c_lesson_create"),
+    path("teacher/content/sections/<int:pk>/order/", sections.lessons_order, name="c_lessons_order"),
+    path("teacher/content/lessons/<int:pk>/", sections.lesson_detail, name="c_lesson"),
 ]

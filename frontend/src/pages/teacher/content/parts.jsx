@@ -7,6 +7,7 @@ export const TABS = [
   { id: "quiz", label: "Quiz questions", add: "New question", to: "/teacher/content/questions/new" },
   { id: "grammar", label: "Grammar", add: "New grammar topic", to: "/teacher/content/grammar/new" },
   { id: "speaking", label: "Speaking tasks", add: "New speaking task", to: "/teacher/content/speaking/new" },
+  { id: "sections", label: "Your sections", add: "New section", to: "/teacher/content/sections/new" },
 ];
 
 export const ARTICLES = [

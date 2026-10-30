@@ -5,7 +5,7 @@ from django.core.management import call_command
 
 from content.blocks import clean_blocks, exercise_count
 from content.lesson_library import SECTION_TITLE
-from content.models import Lesson, Section, SpeakingTask
+from content.models import Lesson, Section, SpeakingTask, Topic
 from learning.models import LessonProgress
 
 from .test_api_accounts import ApiCase
@@ -139,3 +139,73 @@ class StudentSectionTests(ApiCase):
         self.assertEqual(self.get(f"/lessons/{self.practice.pk}/").status_code, 404)
         self.client.force_login(self.teacher)  # the teacher can preview anything
         self.assertEqual(self.get(f"/lessons/{draft.pk}/").status_code, 200)
+
+
+class A1CourseTests(ApiCase):
+    """Dhruv's Lektion 1 and 2, the new blocks, and the section's goals, word list and homework."""
+
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
+        call_command("add_alphabet_lessons", stdout=io.StringIO())
+        call_command("add_a1_course", stdout=io.StringIO())
+
+    def test_installed_once_with_words_and_basics_hidden(self):
+        out = io.StringIO()
+        call_command("add_a1_course", stdout=out)
+        self.assertIn("nothing changed", out.getvalue())
+        l1 = Section.objects.get(title__startswith="Lektion 1")
+        l2 = Section.objects.get(title__startswith="Lektion 2")
+        self.assertEqual((l1.topic.items.count(), l2.topic.items.count()), (20, 20))
+        self.assertEqual(len(l2.goals), 4)
+        self.assertFalse(Section.objects.get(title=SECTION_TITLE).is_visible)
+        for lesson in Lesson.objects.filter(section__in=[l1, l2]):
+            blocks, errors = clean_blocks(lesson.blocks)
+            self.assertEqual(errors, {}, lesson.title)
+            self.assertEqual(blocks, lesson.blocks, lesson.title)
+        uebungen = l2.lessons.get(title="Übungen")
+        self.assertEqual(exercise_count(uebungen.blocks), 14)
+        blank = uebungen.blocks[0]["items"][1]
+        self.assertEqual(blank["answer"], "Viertel")  # the slide's answer key says "fünf" (3:05)
+
+    def test_student_sees_goals_words_and_homework(self):
+        self.client.force_login(self.student)
+        l2 = Section.objects.get(title__startswith="Lektion 2")
+        self.assertIn(l2.title, [x["title"] for x in self.get("/session/").json()["sections"]])
+        d = self.get(f"/sections/{l2.pk}/").json()["section"]
+        self.assertEqual(d["topic"]["count"], 20)
+        self.assertIn("weekly schedule", d["homework"])
+        self.assertEqual(d["goals"][3]["title"], "Telling time")
+
+    def test_teacher_edits_goals_words_homework(self):
+        self.client.force_login(self.teacher)
+        sec = Section.objects.get(title__startswith="Lektion 1")
+        a2_topic = Topic.objects.filter(level=self.a2).first()
+        r = self.patch(f"/teacher/content/sections/{sec.pk}/", {"topic": a2_topic.pk})
+        self.assertIn("topic", r.json()["errors"])
+        r = self.patch(f"/teacher/content/sections/{sec.pk}/", {"goals": [{"title": "", "text": "x"}]})
+        self.assertIn("goals", r.json()["errors"])
+        r = self.patch(f"/teacher/content/sections/{sec.pk}/", {"homework": "Neu", "topic": "", "goals": []})
+        self.assertEqual(r.status_code, 200)
+        sec.refresh_from_db()
+        self.assertEqual((sec.homework, sec.topic, sec.goals), ("Neu", None, []))
+        self.assertEqual(sec.title, "Lektion 1: Alphabet & Aussprache")  # untouched fields stay
+
+    def test_new_blocks_are_checked(self):
+        blocks, errors = clean_blocks([
+            {"type": "blanks", "items": [{"before": "21 =", "after": ".", "answer": "einundzwanzig"}]},
+            {"type": "listen_type", "items": [{"say": "zwölf", "answer": "12"}]},
+            {"type": "choice", "items": [{"clock": "07:30", "options": ["halb acht", "halb sieben"], "answer": 0}]},
+            {"type": "mistakes", "items": [{"wrong": "zwanzigeins", "right": "einundzwanzig"}]},
+            {"type": "clock"}, {"type": "number_builder"},
+        ])
+        self.assertEqual(errors, {})
+        self.assertEqual(exercise_count(blocks), 3)
+        _, errors = clean_blocks([
+            {"type": "blanks", "items": [{"before": "21 =", "answer": ""}]},
+            {"type": "listen_type", "items": [{"say": "zwölf"}]},
+            {"type": "choice", "items": [{"clock": "7.30", "options": ["a", "b"], "answer": 0}]},
+            {"type": "mistakes", "items": [{"wrong": "x"}]},
+        ])
+        self.assertEqual(set(errors), {"block-0", "block-1", "block-2", "block-3"})
+        self.assertIn("HH:MM", errors["block-2"][0])

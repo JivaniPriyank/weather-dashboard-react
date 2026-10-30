@@ -6,11 +6,53 @@ import { Link } from "react-router-dom";
 import Icon from "../Icon";
 import { canSpeak, say } from "../../lib/speech";
 
+// Letter names as the teacher's lesson 1 writes them (Haus = Ha-Ah-Uh-Es).
 export const LETTER_NAMES = {
-  A: "ah", B: "beh", C: "tseh", D: "deh", E: "eh", F: "eff", G: "geh", H: "hah", I: "ih", J: "yott", K: "kah",
-  L: "ell", M: "emm", N: "enn", O: "oh", P: "peh", Q: "kuh", R: "err", S: "ess", T: "teh", U: "uh", V: "fau",
-  W: "weh", X: "iks", Y: "ypsilon", Z: "tsett", Ä: "ä", Ö: "ö", Ü: "ü", ß: "ess-tsett",
+  A: "Ah", B: "Beh", C: "Tseh", D: "Deh", E: "Eh", F: "Ef", G: "Geh", H: "Ha", I: "Ih", J: "Yot", K: "Kah",
+  L: "El", M: "Em", N: "En", O: "Oh", P: "Peh", Q: "Ku", R: "Er", S: "Es", T: "Teh", U: "Uh", V: "Fau",
+  W: "Veh", X: "Iks", Y: "Ypsilon", Z: "Tset", Ä: "Ä", Ö: "Ö", Ü: "Ü", ß: "Eszett",
 };
+
+// ---------------- numbers and clock times in German ----------------
+const UNITS = ["null", "eins", "zwei", "drei", "vier", "fünf", "sechs", "sieben", "acht", "neun", "zehn", "elf", "zwölf",
+  "dreizehn", "vierzehn", "fünfzehn", "sechzehn", "siebzehn", "achtzehn", "neunzehn", "zwanzig"];
+const TENS = { 20: "zwanzig", 30: "dreißig", 40: "vierzig", 50: "fünfzig", 60: "sechzig", 70: "siebzig", 80: "achtzig", 90: "neunzig" };
+export function numberWord(n) {
+  if (n <= 20) return UNITS[n];
+  if (n === 100) return "hundert";
+  const one = n % 10, ten = n - one;
+  return one ? `${one === 1 ? "ein" : UNITS[one]}und${TENS[ten]}` : TENS[ten];
+}
+const hourWord = (h) => { const r = h % 12 || 12; return r === 1 ? "eins" : UNITS[r]; };
+export function formalTime(h, m) {
+  return `Es ist ${h === 1 ? "ein" : numberWord(h)} Uhr${m ? ` ${numberWord(m)}` : ""}.`;
+}
+export function informalTime(h, m) {
+  const next = h + 1;
+  if (m === 0) return `Es ist ${(h % 12 || 12) === 1 ? "ein" : UNITS[h % 12 || 12]} Uhr.`;
+  if (m === 15) return `Es ist Viertel nach ${hourWord(h)}.`;
+  if (m === 30) return `Es ist halb ${hourWord(next)}.`;
+  if (m === 45) return `Es ist Viertel vor ${hourWord(next)}.`;
+  if (m === 25) return `Es ist fünf vor halb ${hourWord(next)}.`;
+  if (m === 35) return `Es ist fünf nach halb ${hourWord(next)}.`;
+  if (m < 30) return `Es ist ${numberWord(m)} nach ${hourWord(h)}.`;
+  return `Es ist ${numberWord(60 - m)} vor ${hourWord(next)}.`;
+}
+
+function ClockFace({ h, m, size = 180 }) {
+  const pad = (x) => String(x).padStart(2, "0");
+  return (
+    <svg className="lsn-clock" width={size} height={size} viewBox="0 0 100 100" role="img" aria-label={`A clock showing ${pad(h)}:${pad(m)}`}>
+      <circle cx="50" cy="50" r="47" fill="#fff" stroke="currentColor" strokeWidth="2.5" />
+      {Array.from({ length: 12 }, (_, i) => (
+        <line key={i} x1="50" y1="7" x2="50" y2={i % 3 ? 12 : 15} stroke="currentColor" strokeWidth={i % 3 ? 1.5 : 2.5} transform={`rotate(${i * 30} 50 50)`} />
+      ))}
+      <line x1="50" y1="50" x2="50" y2="27" stroke="currentColor" strokeWidth="4" strokeLinecap="round" transform={`rotate(${(h % 12) * 30 + m * 0.5} 50 50)`} />
+      <line x1="50" y1="50" x2="50" y2="14" stroke="var(--royal)" strokeWidth="2.5" strokeLinecap="round" transform={`rotate(${m * 6} 50 50)`} />
+      <circle cx="50" cy="50" r="3" fill="currentColor" />
+    </svg>
+  );
+}
 
 // "H. A. U. S." is read slowly, letter by letter, by the browser's German voice.
 const spelled = (word) => word.toUpperCase().split("").filter((c) => LETTER_NAMES[c]).join(". ") + ".";
@@ -143,6 +185,70 @@ function SpellName() {
   );
 }
 
+function Mistakes({ b }) {
+  return (
+    <ul className="lsn-mistakes">
+      {b.items.map((x, i) => (
+        <li key={i}>
+          <span className="lsn-wrong"><Icon name="x" /><span>{x.wrong}</span></span>
+          <span className="lsn-right"><Icon name="check" /><span>{x.right}</span></span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+// Pick the ones and the tens: the German word builds itself (ein + und + zwanzig).
+function NumberBuilder() {
+  const [one, setOne] = useState(1);
+  const [ten, setTen] = useState(20);
+  const word = numberWord(ten + one);
+  const choose = (o, t) => { setOne(o); setTen(t); say(numberWord(t + o)); };
+  return (
+    <div className="lsn-card lsn-builder">
+      <div className="lsn-builder-row"><span className="lsn-builder-label">Ones</span>
+        <div className="lsn-pick-row">{[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
+          <button key={n} type="button" className="lsn-pick" aria-pressed={one === n} onClick={() => choose(n, ten)}>{n}</button>))}</div>
+      </div>
+      <div className="lsn-builder-row"><span className="lsn-builder-label">Tens</span>
+        <div className="lsn-pick-row">{[20, 30, 40, 50, 60, 70, 80, 90].map((n) => (
+          <button key={n} type="button" className="lsn-pick" aria-pressed={ten === n} onClick={() => choose(one, n)}>{n}</button>))}</div>
+      </div>
+      <div className="lsn-builder-result" aria-live="polite">
+        <Play text={word} label={`Listen: ${word}`} />
+        <b className="lsn-builder-number">{ten + one}</b>
+        <span className="muted" aria-hidden="true">=</span>
+        <span lang="de"><span className="lsn-part-one">{one === 1 ? "ein" : UNITS[one]}</span> + <b>und</b> + <span className="lsn-part-ten">{TENS[ten]}</span> = <b className="lsn-builder-word">{word}</b></span>
+      </div>
+    </div>
+  );
+}
+
+// Move the clock and see (and hear) the formal and the informal time.
+function ClockExplorer() {
+  const [t, setT] = useState(17 * 60 + 30);
+  const v = ((t % 1440) + 1440) % 1440;
+  const h = Math.floor(v / 60), m = v % 60;
+  const pad = (x) => String(x).padStart(2, "0");
+  const formal = formalTime(h, m), informal = informalTime(h, m);
+  return (
+    <div className="lsn-card lsn-clock-box">
+      <ClockFace h={h} m={m} />
+      <div className="lsn-clock-side">
+        <b className="lsn-digital">{pad(h)}:{pad(m)}</b>
+        <div className="lsn-pick-row">
+          <button type="button" className="lsn-pick" onClick={() => setT(t - 60)}>− 1 h</button>
+          <button type="button" className="lsn-pick" onClick={() => setT(t - 5)}>− 5 min</button>
+          <button type="button" className="lsn-pick" onClick={() => setT(t + 5)}>+ 5 min</button>
+          <button type="button" className="lsn-pick" onClick={() => setT(t + 60)}>+ 1 h</button>
+        </div>
+        <div className="lsn-time lsn-time-formal" aria-live="polite"><Play text={formal} label="Listen to the formal time" /><span><small>Formal</small><b lang="de">{formal}</b></span></div>
+        <div className="lsn-time lsn-time-informal" aria-live="polite"><Play text={informal} label="Listen to the informal time" /><span><small>Informal</small><b lang="de">{informal}</b></span></div>
+      </div>
+    </div>
+  );
+}
+
 // ---------------- exercises ----------------
 // One question at a time, with a "Next" button and a short result at the end.
 function useSteps(count, onResult) {
@@ -183,6 +289,7 @@ function Choice({ b, onResult }) {
     <div className="lsn-exercise">
       {b.items.length > 1 && <Progress step={s.step} count={b.items.length} />}
       <div className="lsn-question">
+        {item.clock && <ClockFace h={+item.clock.slice(0, 2)} m={+item.clock.slice(3, 5)} size={150} />}
         {item.say && <Play big text={item.say} label="Play" />}
         {item.prompt && <p className="lsn-prompt" lang="de">{item.prompt}</p>}
       </div>
@@ -236,6 +343,76 @@ function SpellWord({ b, onResult }) {
         <Feedback ok={result}><span lang="de">{result ? word : `It was ${word}: ${lettersOf(word).join(" · ")}`}</span></Feedback>
       )}
     </form>
+  );
+}
+
+// Type the missing word; several right answers can be separated by | (e.g. "-en|en").
+const norm = (t) => t.replace(/[\u2018\u2019']/g, "").trim().replace(/\s+/g, " ").toLowerCase();
+const accepted = (given, answer) => answer.split("|").some((a) => norm(a) === norm(given));
+
+function Blanks({ b, onResult }) {
+  const [values, setValues] = useState({});
+  const [checked, setChecked] = useState({});
+  const right = b.items.filter((it, i) => checked[i] && accepted(values[i] || "", it.answer)).length;
+  const answered = Object.keys(checked).length;
+  useEffect(() => { onResult(right, answered); }, [right, answered]); // eslint-disable-line react-hooks/exhaustive-deps
+  const check = (i) => { if (!(values[i] || "").trim() || checked[i]) return; setChecked({ ...checked, [i]: true }); };
+  return (
+    <div className="lsn-exercise">
+      <Rich text={b.intro} className="lsn-intro" />
+      <ol className="lsn-blanks">
+        {b.items.map((it, i) => {
+          const ok = checked[i] && accepted(values[i] || "", it.answer);
+          const state = !checked[i] ? "" : ok ? "is-right" : "is-wrong";
+          return (
+            <li key={i} className={state}>
+              <form className="lsn-blank-line" onSubmit={(e) => { e.preventDefault(); check(i); }} noValidate>
+                <span lang="de">{it.before}</span>
+                <input type="text" lang="de" autoComplete="off" autoCapitalize="off" spellCheck={false} aria-label={`Sentence ${i + 1}: the missing word`}
+                  value={values[i] || ""} readOnly={!!checked[i]} onChange={(e) => setValues({ ...values, [i]: e.target.value })} />
+                <span lang="de">{it.after}</span>
+                {!checked[i] && <button className="btn btn-secondary btn-small" type="submit">Check</button>}
+                {checked[i] && (ok ? <span className="lsn-mark-right"><Icon name="check" label="Right" /></span>
+                  : <span className="lsn-blank-fix">Not quite: <b lang="de">{it.answer.split("|")[0]}</b></span>)}
+              </form>
+            </li>
+          );
+        })}
+      </ol>
+      {answered === b.items.length && <Done right={right} count={b.items.length} onAgain={() => { setValues({}); setChecked({}); }} />}
+    </div>
+  );
+}
+
+// Hear something (e.g. a number) and type the answer (e.g. the digits).
+function ListenType({ b, onResult }) {
+  const [values, setValues] = useState({});
+  const [checked, setChecked] = useState({});
+  const right = b.items.filter((it, i) => checked[i] && accepted(values[i] || "", it.answer)).length;
+  const answered = Object.keys(checked).length;
+  useEffect(() => { onResult(right, answered); }, [right, answered]); // eslint-disable-line react-hooks/exhaustive-deps
+  return (
+    <div className="lsn-exercise">
+      <Rich text={b.intro} className="lsn-intro" />
+      <div className="lsn-listen-grid">
+        {b.items.map((it, i) => {
+          const ok = checked[i] && accepted(values[i] || "", it.answer);
+          const state = !checked[i] ? "" : ok ? "is-right" : "is-wrong";
+          return (
+            <form key={i} className={`lsn-listen ${state}`} noValidate
+              onSubmit={(e) => { e.preventDefault(); if ((values[i] || "").trim() && !checked[i]) { setChecked({ ...checked, [i]: true }); if (!accepted(values[i], it.answer)) say(it.say); } }}>
+              <Play text={it.say} label={`Play number ${i + 1}`} />
+              <input type="text" inputMode={/^\d+$/.test(it.answer) ? "numeric" : "text"} autoComplete="off" aria-label={`Answer ${i + 1}`}
+                value={values[i] || ""} readOnly={!!checked[i]} onChange={(e) => setValues({ ...values, [i]: e.target.value })} />
+              {!checked[i] ? <button className="btn btn-secondary btn-small" type="submit">OK</button>
+                : ok ? <span className="lsn-mark-right"><Icon name="check" label="Right" /></span>
+                : <span className="lsn-blank-fix"><b>{it.answer.split("|")[0]}</b></span>}
+            </form>
+          );
+        })}
+      </div>
+      {answered === b.items.length && <Done right={right} count={b.items.length} onAgain={() => { setValues({}); setChecked({}); }} />}
+    </div>
   );
 }
 
@@ -302,6 +479,11 @@ export default function Blocks({ blocks, onResult }) {
       case "choice": body = <Choice b={b} onResult={report} />; break;
       case "spell_word": body = <SpellWord b={b} onResult={report} />; break;
       case "gap": body = <Gap b={b} onResult={report} />; break;
+      case "blanks": body = <Blanks b={b} onResult={report} />; break;
+      case "listen_type": body = <ListenType b={b} onResult={report} />; break;
+      case "mistakes": body = <Mistakes b={b} />; break;
+      case "number_builder": body = <NumberBuilder />; break;
+      case "clock": body = <ClockExplorer />; break;
       case "video": body = (
         <Link className="lsn-link-card" to={`/videos/${b.video.id}`}>
           <span className="lsn-link-icon"><Icon name="videos" /></span>
@@ -318,7 +500,7 @@ export default function Blocks({ blocks, onResult }) {
       ); break;
       default: return null;
     }
-    const exercise = ["choice", "spell_word", "gap"].includes(b.type);
+    const exercise = ["choice", "spell_word", "gap", "blanks", "listen_type"].includes(b.type);
     return (
       <section key={i} className={`lsn-block lsn-block-${b.type}${exercise ? " lsn-is-exercise" : ""}`}>
         {b.heading && <h2 className="lsn-heading">{b.heading}</h2>}

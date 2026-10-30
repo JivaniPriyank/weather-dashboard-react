@@ -18,10 +18,12 @@ LABELS = {
     "text": "Text", "tip": "Tip box", "table": "Table", "words": "Word list", "tiles": "Sound tiles",
     "sounds": "Sound rules", "spell_demo": "Spelling example", "choice": "Choose the answer",
     "spell_word": "Hear the spelling, write the word", "gap": "Fill the gap", "video": "Video",
-    "speaking": "Speaking task", "spell_name": "Spell your name",
+    "speaking": "Speaking task", "spell_name": "Spell your name", "mistakes": "Common mistakes",
+    "number_builder": "Number builder", "clock": "Clock", "blanks": "Fill in the blanks",
+    "listen_type": "Hear it, type it",
 }
 # Blocks whose items the student answers: they make up the lesson's score.
-EXERCISES = {"choice", "spell_word", "gap"}
+EXERCISES = {"choice", "spell_word", "gap", "blanks", "listen_type"}
 
 
 class BlockError(Exception):
@@ -126,8 +128,6 @@ def _choice(b):
     for n, it in enumerate(_dicts(b.get("items"), "question"), 1):
         prompt = _s(it.get("prompt"), f"Question {n}", 300)
         say = _s(it.get("say"), f"What question {n} plays aloud", 120)
-        if not prompt and not say:
-            raise BlockError(f"Question {n} needs a question, something to play aloud, or both.")
         raw = _list(it.get("options"), "answer option", limit=6)
         options = [_s(o, "An answer", 200) for o in raw]
         if not all(options):
@@ -140,9 +140,20 @@ def _choice(b):
             answer = -1
         if not 0 <= answer < len(options):
             raise BlockError(f"Mark the right answer of question {n}.")
-        items.append({"prompt": prompt, "say": say, "options": options, "answer": answer,
+        clock = _s(it.get("clock"), f"The clock time of question {n}", 5)
+        if clock and not _is_time(clock):
+            raise BlockError(f"Question {n}: write the clock time as HH:MM, e.g. 07:30.")
+        if not prompt and not say and not clock:
+            raise BlockError(f"Question {n} needs a question, something to play aloud, or a clock time.")
+        items.append({"prompt": prompt, "say": say, "clock": clock, "options": options, "answer": answer,
                       "explain": _s(it.get("explain"), f"The explanation of question {n}", 300)})
     return {"items": items}
+
+
+def _is_time(text):
+    parts = text.split(":")
+    return (len(parts) == 2 and all(p.isdigit() and len(p) == 2 for p in parts)
+            and int(parts[0]) < 24 and int(parts[1]) < 60)
 
 
 def _spell_word(b):
@@ -173,6 +184,49 @@ def _gap(b):
     return {"intro": _s(b.get("intro"), "The introduction", 600), "choices": choices, "items": items}
 
 
+def _mistakes(b):
+    items = []
+    for it in _dicts(b.get("items"), "mistake"):
+        wrong, right = _s(it.get("wrong"), "A mistake", 200), _s(it.get("right"), "The correction", 200)
+        if wrong or right:
+            if not wrong or not right:
+                raise BlockError("Every mistake needs the wrong version and the right one.")
+            items.append({"wrong": wrong, "right": right})
+    if not items:
+        raise BlockError("Add at least one mistake.")
+    return {"items": items}
+
+
+def _blanks(b):
+    items = []
+    for n, it in enumerate(_dicts(b.get("items"), "sentence"), 1):
+        before, after = _s(it.get("before"), f"Sentence {n}", 200), _s(it.get("after"), f"Sentence {n}", 200)
+        answer = _s(it.get("answer"), f"The answer of sentence {n}", 120)
+        if not (before or after or answer):
+            continue
+        if not answer:
+            raise BlockError(f"Sentence {n} needs its answer.")
+        if not before and not after:
+            raise BlockError(f"Sentence {n} needs text before or after the blank.")
+        items.append({"before": before, "after": after, "answer": answer})
+    if not items:
+        raise BlockError("Add at least one sentence.")
+    return {"intro": _s(b.get("intro"), "The introduction", 600), "items": items}
+
+
+def _listen_type(b):
+    items = []
+    for n, it in enumerate(_dicts(b.get("items"), "item"), 1):
+        say, answer = _s(it.get("say"), f"What item {n} plays aloud", 120), _s(it.get("answer"), f"The answer of item {n}", 120)
+        if say or answer:
+            if not say or not answer:
+                raise BlockError(f"Item {n} needs what it plays aloud and the answer.")
+            items.append({"say": say, "answer": answer})
+    if not items:
+        raise BlockError("Add at least one item.")
+    return {"intro": _s(b.get("intro"), "The introduction", 600), "items": items}
+
+
 def _ref(name):
     def clean(b):
         try:
@@ -191,7 +245,16 @@ CLEANERS = {
     "text": _text, "tip": _text, "table": _table, "words": _words, "tiles": _tiles, "sounds": _sounds,
     "spell_demo": _spell_demo, "choice": _choice, "spell_word": _spell_word, "gap": _gap,
     "video": _ref("video_id"), "speaking": _ref("task_id"), "spell_name": _nothing,
+    "mistakes": _mistakes, "number_builder": _nothing, "clock": _nothing, "blanks": _blanks,
+    "listen_type": _listen_type,
 }
+
+
+def answer_ok(given, accepted):
+    """A typed answer is right if it matches one of the accepted answers (separated by |),
+    ignoring capitals, extra spaces and quotes."""
+    norm = lambda t: " ".join(str(t).replace("'", "").replace("‘", "").replace("’", "").split()).lower()
+    return norm(given) in {norm(a) for a in str(accepted).split("|") if a.strip()}
 
 
 def clean_blocks(raw):

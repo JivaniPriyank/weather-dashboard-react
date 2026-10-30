@@ -254,6 +254,12 @@ class Section(models.Model):
     description = models.CharField(max_length=200, blank=True)
     icon = models.CharField(max_length=12, choices=IconChoice.choices, default=IconChoice.STAR)
     is_visible = models.BooleanField(default=True, help_text="Students only see the section when this is on.")
+    goals = models.JSONField(default=list, blank=True, help_text='What students learn: [{"title": "...", "text": "..."}]')
+    topic = models.ForeignKey(
+        Topic, null=True, blank=True, on_delete=models.SET_NULL, related_name="sections",
+        help_text="The section's word list, practised in Words.",
+    )
+    homework = models.TextField(blank=True)
     order = models.PositiveSmallIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 

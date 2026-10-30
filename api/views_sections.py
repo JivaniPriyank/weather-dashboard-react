@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404
 from django.utils import timezone
 
 from content import blocks as B
-from content.models import Lesson, Level, Section, SpeakingTask, Video
+from content.models import Lesson, Level, Section, SpeakingTask, Topic, Video
 from learning import services
 from learning.models import LessonProgress
 
@@ -42,6 +42,17 @@ def _section_card(sec):
     return {"id": sec.pk, "title": sec.title, "description": sec.description, "icon": sec.icon,
             "level": sec.level.code, "is_visible": sec.is_visible,
             "lessons": getattr(sec, "n_lessons", None), "published": getattr(sec, "n_published", None)}
+
+
+def _topic_link(topic):
+    if topic is None:
+        return None
+    return {"id": topic.pk, "name": topic.name, "level": topic.level.code, "slug": topic.slug, "count": topic.items.count()}
+
+
+def _section_extras(sec):
+    """Goals, word list and homework: what the section page shows around its lessons."""
+    return {"goals": sec.goals or [], "homework": sec.homework, "topic": _topic_link(sec.topic)}
 
 
 def _lesson_row(lesson):
@@ -76,17 +87,40 @@ def _section_fields(data, errors):
     icon = str(data.get("icon") or Section.IconChoice.STAR)
     if icon not in Section.IconChoice.values:
         errors.setdefault("icon", []).append("Choose one of the icons.")
+    goals = []
+    raw_goals = data.get("goals") if isinstance(data.get("goals"), list) else []
+    for g in raw_goals[:8]:
+        if isinstance(g, dict) and (str(g.get("title") or "").strip() or str(g.get("text") or "").strip()):
+            title, text = str(g.get("title") or "").strip()[:80], str(g.get("text") or "").strip()[:200]
+            if not title:
+                errors.setdefault("goals", []).append("Every goal needs a short title.")
+                break
+            goals.append({"title": title, "text": text})
+    topic = None
+    topic_id = data.get("topic")
+    if topic_id not in (None, ""):
+        topic = Topic.objects.filter(pk=topic_id).select_related("level").first()
+        if topic is None or (level and topic.level_id != level.pk):
+            errors.setdefault("topic", []).append(f"Choose a word list of level {level.code if level else ''}.".replace("  ", " "))
+            topic = None
     return {
         "level": level,
         "title": _text(data, "title", "The name", 80, errors),
         "description": _text(data, "description", "The description", 200, errors, required=False),
         "icon": icon,
         "is_visible": bool(data.get("is_visible", True)),
+        "goals": goals,
+        "topic": topic,
+        "homework": _text(data, "homework", "The homework", 2000, errors, required=False),
     }
 
 
 def _section_detail(sec):
-    return {**_section_card(sec), "lessons": [_lesson_row(x) for x in sec.lessons.all()]}
+    return {**_section_card(sec), **_section_extras(sec), "lessons": [_lesson_row(x) for x in sec.lessons.all()]}
+
+
+def _topics(level):
+    return [{"id": t.pk, "name": t.name} for t in Topic.objects.filter(level=level)]
 
 
 @teacher_required
@@ -115,13 +149,15 @@ def section_detail(request, pk):
     if request.method == "PATCH":
         data = body(request)
         errors = {}
-        fields = _section_fields({**_section_card(sec), **data}, errors)
+        current = {**_section_card(sec), **_section_extras(sec)}
+        current["topic"] = sec.topic_id
+        fields = _section_fields({**current, **data}, errors)
         if errors:
             return fail("Some details need fixing.", errors=errors)
         for k, v in fields.items():
             setattr(sec, k, v)
         sec.save()
-    return ok({"section": _section_detail(sec), "levels": _levels(), "icons": ICONS})
+    return ok({"section": _section_detail(sec), "levels": _levels(), "icons": ICONS, "topics": _topics(sec.level)})
 
 
 @teacher_required
@@ -256,7 +292,7 @@ def student_section(request, pk):
              "score": done[x.pk].score if x.pk in done else None,
              "total": done[x.pk].total if x.pk in done else None} for x in lessons]
     return ok({"section": {"id": sec.pk, "title": sec.title, "description": sec.description, "icon": sec.icon,
-                           "level": sec.level.code}, "lessons": rows, "done": len(done)})
+                           "level": sec.level.code, **_section_extras(sec)}, "lessons": rows, "done": len(done)})
 
 
 def _student_lesson(request, pk):

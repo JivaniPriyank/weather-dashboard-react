@@ -19,11 +19,9 @@ if exist ".git\index.lock" (
 )
 
 set "MSG=%*"
-if "%MSG%"=="" (
-  for /f %%i in ('powershell -NoProfile -Command "Get-Date -Format 'yyyy-MM-dd HH:mm'"') do set "STAMP=%%i"
-  for /f "tokens=2" %%i in ('powershell -NoProfile -Command "Get-Date -Format 'yyyy-MM-dd HH:mm'"') do set "STAMP=%STAMP% %%i"
-  set "MSG=Backup %STAMP%"
-)
+if not "%MSG%"=="" goto have_message
+for /f "delims=" %%i in ('powershell -NoProfile -Command "Get-Date -Format 'yyyy-MM-dd HH:mm'"') do set "MSG=Backup %%i"
+:have_message
 
 echo.
 echo Saving your changes...

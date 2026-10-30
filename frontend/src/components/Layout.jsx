@@ -11,7 +11,7 @@ export function Brand() {
   const { user } = useSession();
   return (
     <Link className="brand" to={user ? (user.is_teacher ? "/teacher" : "/today") : "/"}>
-      <BrandMark /><span>The German Lab</span>
+      <BrandMark /><span className="brand-text"><span>The German Lab</span><span className="brand-by">by Sneha</span></span>
     </Link>
   );
 }

@@ -22,7 +22,12 @@ const KINDS = [
   { type: "tiles", label: "Sound tiles", hint: "Big letters or sounds to tap and hear.", make: () => ({ intro: "", items: [{ big: "", small: "", say: "", note: "" }] }) },
   { type: "sounds", label: "Sound rules", hint: "A rule per line with example words to hear.", make: () => ({ intro: "", rows: [{ label: "", rule: "", words: [] }] }) },
   { type: "spell_demo", label: "Spelling example", hint: "A word spelled letter by letter.", make: () => ({ intro: "", word: "" }) },
-  { type: "choice", label: "Choose the answer", hint: "Questions with 2–6 answers. Can play a sound first.", exercise: true, make: () => ({ items: [{ prompt: "", say: "", options: ["", ""], answer: 0, explain: "" }] }) },
+  { type: "mistakes", label: "Common mistakes", hint: "Wrong ✗ and right ✓, side by side.", make: () => ({ items: [{ wrong: "", right: "" }] }) },
+  { type: "number_builder", label: "Number builder", hint: "Students pick ones and tens and see the German word (21–99).", make: () => ({}) },
+  { type: "clock", label: "Clock", hint: "A clock students move; it says the formal and informal time.", make: () => ({}) },
+  { type: "choice", label: "Choose the answer", hint: "Questions with 2–6 answers. Can play a sound or show a clock first.", exercise: true, make: () => ({ items: [{ prompt: "", say: "", clock: "", options: ["", ""], answer: 0, explain: "" }] }) },
+  { type: "blanks", label: "Fill in the blanks", hint: "Sentences with one missing word that students type.", exercise: true, make: () => ({ intro: "", items: [{ before: "", after: "", answer: "" }] }) },
+  { type: "listen_type", label: "Hear it, type it", hint: "Students hear a word or number and type the answer.", exercise: true, make: () => ({ intro: "", items: [{ say: "", answer: "" }] }) },
   { type: "spell_word", label: "Hear the spelling, write the word", hint: "Students hear the letters and type the word.", exercise: true, make: () => ({ items: [{ word: "" }] }) },
   { type: "gap", label: "Fill the gap", hint: "Words with a gap and 2–4 choices, e.g. ei or ie.", exercise: true, make: () => ({ intro: "", choices: ["", ""], items: [{ text: "", answer: "" }] }) },
   { type: "spell_name", label: "Spell your name", hint: "Students type their name and see how to spell it.", make: () => ({}) },
@@ -306,6 +311,36 @@ function BlockFields({ b, options, onChange }) {
       );
     case "gap":
       return <GapFields b={b} onChange={onChange} />;
+    case "mistakes":
+      return <Rows rows={b.items} itemLabel="Mistake" addLabel="Add a mistake" blank={{ wrong: "", right: "" }} onChange={(items) => onChange({ items })}
+        columns={[{ key: "wrong", label: "✗ Wrong", placeholder: "Saying 'zwanzigeins' for 21" }, { key: "right", label: "✓ Right", placeholder: "einundzwanzig: ones first, joined by 'und'" }]} />;
+    case "number_builder":
+      return <p className="muted">Students choose the ones (1–9) and the tens (20–90) and hear and see the German number, e.g. ein + und + zwanzig = einundzwanzig. Nothing to fill in.</p>;
+    case "clock":
+      return <p className="muted">Students move a clock in 5-minute or 1-hour steps and hear the formal time (Es ist siebzehn Uhr dreißig) and the informal time (Es ist halb sechs). Nothing to fill in.</p>;
+    case "blanks":
+      return (
+        <>
+          <TextArea label="Introduction (optional)" rows={2} value={b.intro} onChange={(intro) => onChange({ intro })} />
+          <Rows rows={b.items} itemLabel="Sentence" addLabel="Add a sentence" blank={{ before: "", after: "", answer: "" }} onChange={(items) => onChange({ items })}
+            columns={[
+              { key: "before", label: "Text before the blank", lang: "de", placeholder: "3:15 = Es ist" },
+              { key: "answer", label: "Right answer (alternatives with |)", lang: "de", placeholder: "Viertel", width: "0.8fr" },
+              { key: "after", label: "Text after the blank", lang: "de", placeholder: "nach drei.", width: "0.8fr" },
+            ]} />
+        </>
+      );
+    case "listen_type":
+      return (
+        <>
+          <TextArea label="Introduction (optional)" rows={2} value={b.intro} onChange={(intro) => onChange({ intro })} />
+          <Rows rows={b.items} itemLabel="Item" addLabel="Add an item" blank={{ say: "", answer: "" }} onChange={(items) => onChange({ items })}
+            columns={[
+              { key: "say", label: "Students hear", lang: "de", placeholder: "einundzwanzig" },
+              { key: "answer", label: "They type (alternatives with |)", placeholder: "21" },
+            ]} />
+        </>
+      );
     case "spell_name":
       return <p className="muted">Students type their name, see each letter's German name, and read the sentence „Ich heiße … Ich buchstabiere: …“. Nothing to fill in.</p>;
     case "video":
@@ -388,6 +423,7 @@ function ChoiceFields({ b, onChange }) {
               {it.say && <button className="icon-btn" type="button" aria-label="Listen" onClick={() => say(it.say)}><Icon name="say" /></button>}
             </div>
             <Input label="Question (optional if it plays a sound)" lang="de" value={it.prompt} placeholder="Wir ___ aus Indien." onChange={(prompt) => setItem(i, { prompt })} />
+            <Input label="Show a clock (optional, HH:MM)" value={it.clock} maxLength={5} placeholder="07:30" onChange={(clock) => setItem(i, { clock })} />
           </div>
           <span className="field-label">Answers: choose the right one</span>
           <div className="choice-options">
@@ -411,7 +447,7 @@ function ChoiceFields({ b, onChange }) {
           )}
         </fieldset>
       ))}
-      <div><button className="btn-dashed" type="button" onClick={() => onChange({ items: [...b.items, { prompt: "", say: "", options: ["", ""], answer: 0, explain: "" }] })}><Icon name="plus" />Add a question</button></div>
+      <div><button className="btn-dashed" type="button" onClick={() => onChange({ items: [...b.items, { prompt: "", say: "", clock: "", options: ["", ""], answer: 0, explain: "" }] })}><Icon name="plus" />Add a question</button></div>
     </div>
   );
 }

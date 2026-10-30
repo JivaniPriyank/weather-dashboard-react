@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import Icon from "../../components/Icon";
+import { Rich } from "../../components/lesson/Blocks";
 import { Async, Empty, Meter } from "../../components/ui";
 import { useApi, useTitle } from "../../lib/hooks";
 
@@ -19,6 +20,13 @@ export default function Section() {
               {section.description && <p className="muted">{section.description}</p>}
             </div>
           </div>
+          {section.goals?.length > 0 && (
+            <ol className="lsn-goals" aria-label="What you'll learn">
+              {section.goals.map((g, i) => (
+                <li key={i}><span className="lsn-goal-num">{i + 1}</span><b>{g.title}</b>{g.text && <span className="muted">{g.text}</span>}</li>
+              ))}
+            </ol>
+          )}
           {lessons.length > 0 && (
             <div className="lsn-section-progress">
               <span>{done} of {lessons.length} lesson{lessons.length === 1 ? "" : "s"} done</span>
@@ -45,6 +53,23 @@ export default function Section() {
             </ol>
           ) : (
             <Empty title="No lessons yet">Your teacher is still preparing this section.</Empty>
+          )}
+          {(section.topic || section.homework) && (
+            <div className="lsn-extras">
+              {section.topic && (
+                <Link className="lsn-extra" to={`/words/${section.topic.level}/${section.topic.slug}`}>
+                  <span className="lsn-extra-icon">{section.topic.count}</span>
+                  <span><b>New words of this lesson</b><span className="muted small" lang="de">{section.topic.name} · practise them in Words</span></span>
+                  <Icon name="chevron" />
+                </Link>
+              )}
+              {section.homework && (
+                <details className="lsn-extra lsn-homework">
+                  <summary><span className="lsn-extra-icon lsn-extra-hw" aria-hidden="true"><Icon name="pencil" /></span><b>Homework</b></summary>
+                  <Rich text={section.homework} />
+                </details>
+              )}
+            </div>
           )}
         </div>
       )}

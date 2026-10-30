@@ -27,8 +27,8 @@ function IconPicker({ value, onChange }) {
 }
 
 // The name, level, icon, description and visibility of a section.
-function SettingsFields({ form, setForm, errors, showVisible }) {
-  const ids = { title: useId(), description: useId(), visible: useId() };
+function SettingsFields({ form, setForm, errors, showVisible, topics }) {
+  const ids = { title: useId(), description: useId(), visible: useId(), topic: useId(), homework: useId() };
   return (
     <>
       <div className={`field${errors.title ? " has-error" : ""}`}>
@@ -45,6 +45,26 @@ function SettingsFields({ form, setForm, errors, showVisible }) {
           onChange={(e) => setForm({ ...form, description: e.target.value })} />
         <FieldError errors={errors} name="description" />
       </div>
+      {topics && (
+        <>
+          <GoalsField goals={form.goals} errors={errors} onChange={(goals) => setForm({ ...form, goals })} />
+          <div className={`field${errors.topic ? " has-error" : ""}`}>
+            <label htmlFor={ids.topic}>Word list of this section</label>
+            <select id={ids.topic} value={form.topic ?? ""} onChange={(e) => setForm({ ...form, topic: e.target.value ? Number(e.target.value) : "" })}>
+              <option value="">None</option>
+              {topics.map((t) => <option key={t.id} value={t.id}>{t.name}</option>)}
+            </select>
+            <p className="help">Students find a link to it on the section page. Make lists under Content → Words.</p>
+            <FieldError errors={errors} name="topic" />
+          </div>
+          <div className={`field${errors.homework ? " has-error" : ""}`}>
+            <label htmlFor={ids.homework}>Homework <span className="muted">(optional)</span></label>
+            <textarea id={ids.homework} rows={4} value={form.homework || ""} onChange={(e) => setForm({ ...form, homework: e.target.value })} />
+            <p className="help">A blank line starts a new paragraph.</p>
+            <FieldError errors={errors} name="homework" />
+          </div>
+        </>
+      )}
       {showVisible && (
         <label className="check" htmlFor={ids.visible}>
           <input id={ids.visible} type="checkbox" checked={form.is_visible} onChange={(e) => setForm({ ...form, is_visible: e.target.checked })} />
@@ -52,6 +72,26 @@ function SettingsFields({ form, setForm, errors, showVisible }) {
         </label>
       )}
     </>
+  );
+}
+
+// "What you'll learn": up to 8 short goals, each a title and one line.
+function GoalsField({ goals = [], errors, onChange }) {
+  const set = (i, k, v) => onChange(goals.map((g, j) => (j === i ? { ...g, [k]: v } : g)));
+  return (
+    <fieldset className="field goals-edit">
+      <legend>Learning goals <span className="muted">(optional)</span></legend>
+      {goals.map((g, i) => (
+        <div className="goal-edit" key={i}>
+          <span className="goal-edit-num">{i + 1}</span>
+          <input type="text" aria-label={`Goal ${i + 1}: title`} placeholder="Numbers 0–100" value={g.title} maxLength={80} onChange={(e) => set(i, "title", e.target.value)} />
+          <input type="text" aria-label={`Goal ${i + 1}: description`} placeholder="Count and combine numbers" value={g.text} maxLength={200} onChange={(e) => set(i, "text", e.target.value)} />
+          <button className="icon-btn icon-btn-bad" type="button" aria-label={`Remove goal ${i + 1}`} onClick={() => onChange(goals.filter((_, j) => j !== i))}><Icon name="x" /></button>
+        </div>
+      ))}
+      {goals.length < 8 && <div><button className="btn-dashed" type="button" onClick={() => onChange([...goals, { title: "", text: "" }])}><Icon name="plus" />Add a goal</button></div>}
+      <FieldError errors={errors} name="goals" />
+    </fieldset>
   );
 }
 
@@ -102,11 +142,14 @@ export function SectionEdit() {
 }
 
 function SectionPage({ data, setData }) {
-  const { section } = data;
+  const { section, topics } = data;
   const navigate = useNavigate();
   const toast = useToast();
   const newId = useId();
-  const [form, setForm] = useState({ title: section.title, description: section.description, icon: section.icon, level: section.level, is_visible: section.is_visible });
+  const [form, setForm] = useState({
+    title: section.title, description: section.description, icon: section.icon, level: section.level, is_visible: section.is_visible,
+    goals: section.goals || [], homework: section.homework || "", topic: section.topic?.id ?? "",
+  });
   const [errors, setErrors] = useState({});
   const [busy, setBusy] = useState(false);
   const [newTitle, setNewTitle] = useState("");
@@ -208,7 +251,7 @@ function SectionPage({ data, setData }) {
 
         <form className="panel editor-stack section-settings" onSubmit={saveSettings} noValidate>
           <h2>Section settings</h2>
-          <SettingsFields form={form} setForm={setForm} errors={errors} showVisible />
+          <SettingsFields form={form} setForm={setForm} errors={errors} showVisible topics={topics} />
           <div className="actions">
             <button className="btn btn-primary" type="submit" aria-disabled={busy}>{busy ? "Saving…" : "Save"}</button>
             <Link className="btn btn-secondary" to={`/sections/${section.id}`}>Preview as student</Link>

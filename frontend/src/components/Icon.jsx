@@ -48,13 +48,35 @@ export default function Icon({ name, label }) {
   );
 }
 
-export function BrandMark() {
+// The German Lab logo: a flask with two speech bubbles and a German-flag drop,
+// redrawn as a vector from the logo on the teacher's lesson slides.
+export function BrandMark({ className = "brand-mark" }) {
   return (
-    <svg className="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
-      <rect x="1" y="1" width="30" height="30" rx="8" fill="#18203A" />
-      <path d="M1 11.5h30M1 21h30M11.5 1v30M21 1v30" stroke="#fff" strokeOpacity=".14" />
-      <path d="M22.5 11.2a7.4 7.4 0 1 0 1.2 6.1h-6.6" fill="none" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx="25.5" cy="25.5" r="2.4" fill="#CF3348" />
+    <svg className={className} viewBox="-1 1.5 66 66" aria-hidden="true">
+      <defs>
+        <clipPath id="glm-body"><circle cx="18" cy="51.5" r="9.6" /></clipPath>
+        <clipPath id="glm-flag"><circle cx="22.5" cy="55.5" r="3.4" /></clipPath>
+      </defs>
+      <circle cx="46.5" cy="25" r="9" fill="#35C2BC" />
+      <path d="M40.5 30.5 L37.5 37 L45 32.6 Z" fill="#35C2BC" />
+      <path d="M42.5 22.5h8M42.5 26h8M42.5 29.5h5" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" fill="none" opacity=".9" />
+      <circle cx="31" cy="14.5" r="11" fill="#1F3A70" />
+      <path d="M24.2 22.5 L22 29.5 L30 24.8 Z" fill="#1F3A70" />
+      <path d="M24.5 14.5v0M27 12.5v4M29.5 10v9M32 12v5M34.5 9.5v10M37 13v3" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" fill="none" />
+      <circle cx="19" cy="32" r="2" fill="#1F3A70" />
+      <circle cx="22.6" cy="29" r="1.3" fill="#1F3A70" />
+      <path d="M14 35.5h8M15 35.5v7.2a11 11 0 1 0 6 0v-7.2" fill="#fff" stroke="#1F3A70" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+      <g clipPath="url(#glm-body)"><path d="M6 50.5q3-2.6 6 0t6 0t6 0t6 0V64H6Z" fill="#1F3A70" /></g>
+      <circle cx="16.4" cy="46" r="1.1" fill="#1F3A70" />
+      <circle cx="19.6" cy="43.6" r=".8" fill="#1F3A70" />
+      <circle cx="12.8" cy="54.2" r="1.3" fill="#fff" />
+      <circle cx="15.6" cy="57.6" r="1" fill="#F4C430" />
+      <circle cx="12.6" cy="58.6" r=".8" fill="#fff" opacity=".8" />
+      <g clipPath="url(#glm-flag)">
+        <rect x="19" y="52" width="7" height="2.4" fill="#111" />
+        <rect x="19" y="54.3" width="7" height="2.4" fill="#DD2B1C" />
+        <rect x="19" y="56.6" width="7" height="2.4" fill="#FFCE00" />
+      </g>
     </svg>
   );
 }

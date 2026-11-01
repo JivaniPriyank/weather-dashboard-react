@@ -7,14 +7,14 @@ function Navbar() {
   const [query, setQuery] = useState('')
   
   // Runs when the form is sent (Enter pressed in the search box)
-    function handleSubmit(event) {
-    event.preventDefault()                 // stop the browser from reloading the page
+     function handleSubmit(event) {
+    event.preventDefault()             // don't reload the page
 
-    const city = query.trim()              // clean up: remove spaces at the start and end
+    const city = query.trim()          // remove extra spaces
 
-    if (city === '') {                     // nothing (or only spaces) typed?
+    if (!city) {                       // empty text is "falsy" → nothing to search
       console.log('Please type a city first')
-      return                               // stop here, don't search
+      return                           // stop here
     }
 
     console.log('Searching for:', city)

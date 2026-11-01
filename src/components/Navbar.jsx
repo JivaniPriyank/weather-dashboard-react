@@ -1,8 +1,7 @@
 import { CloudSun, Search, LocateFixed } from 'lucide-react'
 import './Navbar.css'
 import { useState } from 'react'
-function Navbar() {
-  
+function Navbar({ onSearch }) {  
     // Memory box for the text typed in the search box (starts empty)
   const [query, setQuery] = useState('')
   

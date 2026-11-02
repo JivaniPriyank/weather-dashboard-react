@@ -1,0 +1,26 @@
+.loading-indicator {
+  position: fixed;              /* float above the page, don't push anything */
+  top: 104px;                   /* just under the navbar */
+  left: 50%;
+  transform: translateX(-50%);  /* exactly centered */
+  z-index: 10;                  /* on top of the cards */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  font-size: 13px;
+  color: var(--color-ink);
+}
+
+.loading-spinner {
+  color: var(--color-accent);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

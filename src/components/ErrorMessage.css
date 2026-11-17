@@ -1,0 +1,12 @@
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  padding: 14px 18px;
+  background: #fdf0ef;          /* very light red */
+  border: 1px solid #f4c7c3;    /* soft red border */
+  border-radius: 14px;
+  color: #b3261e;               /* dark red text */
+  font-size: 14px;
+}

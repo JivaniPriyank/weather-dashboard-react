@@ -1,0 +1,43 @@
+.recent-searches {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;            /* many buttons → go to the next line */
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.recent-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 4px;
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.recent-chip {
+  padding: 6px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  font-size: 12px;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.recent-chip:hover {
+  background: var(--color-surface);
+  border-color: var(--color-accent-soft);
+}
+
+.recent-chip:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.recent-chip.active {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-white);
+}

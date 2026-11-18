@@ -32,3 +32,27 @@ export async function getForecast(city) {
 
   return response.json()
 }
+
+// NEW: asks for the current weather at an exact spot on the map (latitude + longitude)
+export async function getCurrentWeatherByCoords(lat, lon) {
+  const url = `${BASE_URL}/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
+  const response = await fetch(url)
+
+  if (!response.ok) {
+    throw new Error(`Weather request failed: ${response.status} ${response.statusText}`)
+  }
+
+  return response.json()
+}
+
+// NEW: asks for the 5-day forecast at an exact spot on the map
+export async function getForecastByCoords(lat, lon) {
+  const url = `${BASE_URL}/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
+  const response = await fetch(url)
+
+  if (!response.ok) {
+    throw new Error(`Forecast request failed: ${response.status} ${response.statusText}`)
+  }
+
+  return response.json()
+}

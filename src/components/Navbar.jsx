@@ -30,7 +30,20 @@ function Navbar({ onSearch }) {             // onSearch = App's "change the city
       console.log('Sorry, this browser cannot find your location')
       return
     }
-    console.log('This browser can find your location 📍')
+
+    // Ask the browser: "Where am I?" (it shows a pop-up asking for permission)
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        // ✅ Plan A: you said "Allow"
+        const lat = position.coords.latitude
+        const lon = position.coords.longitude
+        console.log('You are here:', lat, lon)
+      },
+      (error) => {
+        // ❌ Plan B: you said "Block", or the location couldn't be found
+        console.log('Could not get your location:', error.message)
+      }
+    )
   }
 
   return (

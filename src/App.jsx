@@ -2,12 +2,17 @@ import { useState, useEffect } from 'react'
 import Navbar from './components/Navbar.jsx'
 import LoadingIndicator from './components/LoadingIndicator.jsx'
 import ErrorMessage from './components/ErrorMessage.jsx'
+import RecentSearches from './components/RecentSearches.jsx'
 import LocationHeader from './components/LocationHeader.jsx'
 import CurrentWeather from './components/CurrentWeather.jsx'
 import HourlyForecast from './components/HourlyForecast.jsx'
 import DailyForecast from './components/DailyForecast.jsx'
-import { getCurrentWeather, getForecast } from './api/weather.js'
-import RecentSearches from './components/RecentSearches.jsx'
+import {
+  getCurrentWeather,
+  getForecast,
+  getCurrentWeatherByCoords,
+  getForecastByCoords,
+} from './api/weather.js'
 import './App.css'
 
 const HISTORY_KEY = 'searchHistory'   // the name of our page in the browser's notebook
@@ -39,36 +44,66 @@ function toFriendlyMessage(error, city) {
 // Reads the saved cities from the browser's notebook (or an empty list)
 function loadHistory() {
   try {
-    const saved = localStorage.getItem(HISTORY_KEY)   // text, or null if nothing saved yet
-    return saved ? JSON.parse(saved) : []             // unpack the text back into a list
+    const saved = localStorage.getItem(HISTORY_KEY)
+    return saved ? JSON.parse(saved) : []
   } catch {
-    return []                                         // notebook broken or blocked → start empty
+    return []
   }
 }
 
 function App() {
-  const [city, setCity] = useState('Berlin')
+  // Where to show the weather: either { city: 'Paris' } or { lat: 51.4, lon: 6.7 }
+  const [place, setPlace] = useState({ city: 'Berlin' })   // Berlin = the backup plan 🛟
   const [condition, setCondition] = useState('clouds')
   const [weather, setWeather] = useState(null)
   const [forecast, setForecast] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const [history, setHistory] = useState(loadHistory)   // last searched cities, read once at the start
+  const [history, setHistory] = useState(loadHistory)
+
+  // Typed a city or clicked a Recent button → show that city
+  function showCity(name) {
+    setPlace({ city: name })
+  }
+
+  // Location found → show that exact spot on the map
+  function showSpot(lat, lon) {
+    setPlace({ lat: lat, lon: lon })
+  }
+
+  // When the page opens: try to find where the user is (only once)
+  useEffect(() => {
+    if (!('geolocation' in navigator)) return        // no location tool → stay on Berlin
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        showSpot(position.coords.latitude, position.coords.longitude)   // ✅ found you
+      },
+      (error) => {
+        console.log('Location not available, showing Berlin:', error.message)   // ❌ stay on Berlin
+      }
+    )
+  }, [])
 
   // Every time the history changes, write it into the notebook
   useEffect(() => {
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(history))   // pack the list into text
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(history))
   }, [history])
 
+  // Every time the place changes, load its weather
   useEffect(() => {
     async function loadWeather() {
       setLoading(true)
       setError(null)
       try {
-        const [current, forecastData] = await Promise.all([
-          getCurrentWeather(city),
-          getForecast(city),
-        ])
+        // A city name? Ask by name. Otherwise ask by coordinates.
+        const [current, forecastData] = place.city
+          ? await Promise.all([getCurrentWeather(place.city), getForecast(place.city)])
+          : await Promise.all([
+              getCurrentWeatherByCoords(place.lat, place.lon),
+              getForecastByCoords(place.lat, place.lon),
+            ])
+
         setWeather(current)
         setForecast(forecastData)
         setCondition(toBackdrop(current.weather[0].main))
@@ -82,18 +117,18 @@ function App() {
         })
       } catch (error) {
         console.error('Could not load the weather:', error.message)
-        setError(toFriendlyMessage(error, city))
+        setError(toFriendlyMessage(error, place.city || 'your location'))
       } finally {
         setLoading(false)
       }
     }
 
     loadWeather()
-  }, [city])
+  }, [place])
 
   return (
     <>
-      <Navbar onSearch={setCity} />
+      <Navbar onSearch={showCity} onLocate={showSpot} />
       {loading && <LoadingIndicator />}
       <main className="page">
         {error && <ErrorMessage message={error} />}
@@ -101,7 +136,7 @@ function App() {
         <RecentSearches
           cities={history}
           currentCity={weather ? weather.name : null}
-          onSelect={setCity}
+          onSelect={showCity}
         />
         <CurrentWeather condition={condition} weather={weather} forecast={forecast} />
         <div className="forecasts">

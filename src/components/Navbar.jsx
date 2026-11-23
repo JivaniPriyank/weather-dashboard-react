@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { CloudSun, Search, LocateFixed } from 'lucide-react'
-import { getCurrentWeatherByCoords } from '../api/weather.js'
 import './Navbar.css'
 
-function Navbar({ onSearch }) {             // onSearch = App's "change the city" button
+function Navbar({ onSearch, onLocate }) {   // two remote-control buttons from App 📺
   // Memory box for the text typed in the search box (starts empty)
   const [query, setQuery] = useState('')
 
@@ -32,23 +31,14 @@ function Navbar({ onSearch }) {             // onSearch = App's "change the city
       return
     }
 
-    // Ask the browser: "Where am I?" (it shows a pop-up asking for permission)
+    // Ask the browser: "Where am I?"
     navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        // ✅ Plan A: you said "Allow"
-        const lat = position.coords.latitude
-        const lon = position.coords.longitude
-
-        // TEST: ask the weather website about this exact spot
-        try {
-          const data = await getCurrentWeatherByCoords(lat, lon)
-          console.log('You are in:', data.name, '—', Math.round(data.main.temp) + '°')
-        } catch (error) {
-          console.log('Could not load the weather for your location:', error.message)
-        }
+      (position) => {
+        // ✅ Plan A: found you → tell App to show this spot
+        onLocate(position.coords.latitude, position.coords.longitude)
       },
       (error) => {
-        // ❌ Plan B: you said "Block", or the location couldn't be found
+        // ❌ Plan B: blocked, or the location couldn't be found
         console.log('Could not get your location:', error.message)
       }
     )
